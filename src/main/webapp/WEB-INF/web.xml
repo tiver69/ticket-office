@@ -24,6 +24,20 @@
     </servlet-mapping>
 
     <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>ticketoffice.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding_type</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>LocalizationFilter</filter-name>
         <filter-class>ticketoffice.filter.LocalizationFilter</filter-class>
         <init-param>

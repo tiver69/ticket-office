@@ -10,6 +10,8 @@ public class CommandFactory {
     private CommandFactory() {
         commandMap = new HashMap<>();
         commandMap.put("main", new MainPageCommand());
+        commandMap.put("registration", new RegistrationPageCommand());
+        commandMap.put("signup", new SignUpCommand());
     }
 
     private static class SingletonDaoFactory {

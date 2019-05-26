@@ -7,9 +7,12 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Home Page</title>
 </head>
 <body>
      <h1><fmt:message key="home.greeting" /></h1>
+     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/registration'" >
+         <fmt:message key="home.registration"/>
+     </button>
 </body>
 </html>

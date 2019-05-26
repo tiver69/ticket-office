@@ -28,8 +28,8 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T>, AutoCloseabl
             LOG.info("Create item successful");
             return 1;
         } catch (SQLIntegrityConstraintViolationException e) {
-            LOG.error("Create item fails", e);
-            throw new IllegalArgumentException("Item with such id already exists!");
+            LOG.error("Create item fails: " + e.getMessage());
+//            throw new IllegalArgumentException(e.getMessage());
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             e.printStackTrace();
@@ -69,6 +69,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T>, AutoCloseabl
             parameters.setParameters(statement);
             updateItem = statement.executeUpdate();
             LOG.info(updateItem + " Item was updated");
+        } catch (SQLIntegrityConstraintViolationException e) {
+            LOG.error("Update item fails: " + e.getMessage());
+//            throw new IllegalArgumentException(e.getMessage());
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             e.printStackTrace();
