@@ -14,7 +14,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private static Logger LOG = Logger.getLogger(DispatcherServlet.class);
 
-    private static final String JSP_PATH = "/WEB-INF/jsp/%s";
+    private static final String JSP_PATH = "/jsp/%s.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request,
@@ -26,7 +26,7 @@ public class DispatcherServlet extends HttpServlet {
         Command command = CommandFactory.getInstance().getCommand(action);
         String page = command.execute(request);
 
-        LOG.info("Forward to " + page + " page after /" + action + " request");
+        LOG.info("Forward to " + page + ".jsp page after /" + action + " request");
         request.getRequestDispatcher(String.format(JSP_PATH, page))
                 .forward(request, response);
     }
