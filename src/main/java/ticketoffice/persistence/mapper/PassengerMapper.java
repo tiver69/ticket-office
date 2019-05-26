@@ -1,5 +1,6 @@
 package ticketoffice.persistence.mapper;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import ticketoffice.model.Passenger;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
@@ -25,7 +26,7 @@ public class PassengerMapper implements Mapper<Passenger> {
             passenger.setLastName(resultSet.getString("last_name"));
             passenger.setFirstName(resultSet.getString("first_name"));
             passenger.setLogin(resultSet.getString("login"));
-            passenger.setPassword("");
+            passenger.setPassword(resultSet.getString("password"));
         }
         return passenger;
     }
@@ -47,7 +48,9 @@ public class PassengerMapper implements Mapper<Passenger> {
         passenger.setFirstName(request.getParameter("firstName"));
         passenger.setLastName(request.getParameter("lastName"));
         passenger.setLogin(request.getParameter("login"));
-        passenger.setPassword(request.getParameter("password")); //ADD HASH HERE
+        passenger.setPassword(
+                DigestUtils.md5Hex(
+                request.getParameter("password")));
 
         return passenger;
     }

@@ -2,10 +2,8 @@ package ticketoffice.persistence.dao.impl.jdbc;
 
 import org.apache.log4j.Logger;
 import ticketoffice.model.Passenger;
-import ticketoffice.model.Ticket;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
 import ticketoffice.persistence.mapper.PassengerMapper;
-import ticketoffice.persistence.mapper.TicketMapper;
 
 import java.sql.Connection;
 import java.util.List;
@@ -19,6 +17,7 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
     private String DELETE = "DELETE FROM passengers WHERE id=?";
     private String UPDATE = "UPDATE passengers SET last_name=?, first_name=?, " +
             "login=?, password=? WHERE id=?";
+    private String GET_BY_LOGIN = "SELECT * FROM passengers WHERE login = ?";
 
 
     public PassengerDaoImpl(Connection connection) {
@@ -65,6 +64,13 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
     @Override
     public List<Passenger> getAll() {
         return getAll(GET_ALL, statement -> {
+        });
+    }
+
+    @Override
+    public Passenger getByLogin(String login) {
+        return getById(GET_BY_LOGIN, statement -> {
+            statement.setString(1, login);
         });
     }
 }

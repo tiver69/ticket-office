@@ -22,9 +22,8 @@ public class SignUpCommand implements Command {
                 passenger.getLastName(),
                 passenger.getLogin()));
 
-
         if (passengerService.registerPassenger(passenger))
-        return "login";
+            return "login";
         else return "registration";
     }
 

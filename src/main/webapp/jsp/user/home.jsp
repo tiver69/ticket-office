@@ -10,12 +10,9 @@
 <meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Home Page</title>
 </head>
 <body>
-     <h1><fmt:message key="home.greeting" /></h1>
-     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/login'" >
-         <fmt:message key="home.login"/>
-     </button>
-     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/registration'" >
-         <fmt:message key="home.registration"/>
+     <h1><fmt:message key="user.home.greeting" /> <c:out value="${userId}"/></h1>
+     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/logout'" >
+         <fmt:message key="user.home.logout"/>
      </button>
 </body>
 </html>
