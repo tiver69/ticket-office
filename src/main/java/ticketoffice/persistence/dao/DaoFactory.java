@@ -1,11 +1,12 @@
 package ticketoffice.persistence.dao;
 
-import ticketoffice.model.Passenger;
 import ticketoffice.persistence.ConnectionPool;
 import ticketoffice.persistence.dao.impl.jdbc.PassengerDaoImpl;
+import ticketoffice.persistence.dao.impl.jdbc.PassengerRoleDaoImpl;
 import ticketoffice.persistence.dao.impl.jdbc.TicketDaoImpl;
 import ticketoffice.persistence.dao.impl.jdbc.TrainDaoImpl;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
+import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 import ticketoffice.persistence.dao.interfaces.TrainDao;
 
@@ -34,6 +35,11 @@ public class DaoFactory {
 
     public PassengerDao getPassengerDao(){
         return new PassengerDaoImpl(
+                ConnectionPool.getInstance().getConnection());
+    }
+
+    public PassengerRoleDao getPassengerRoleDao(){
+        return new PassengerRoleDaoImpl(
                 ConnectionPool.getInstance().getConnection());
     }
 }

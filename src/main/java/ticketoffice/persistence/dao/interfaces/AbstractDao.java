@@ -2,7 +2,7 @@ package ticketoffice.persistence.dao.interfaces;
 
 import java.util.List;
 
-public interface AbstractDao<T> {
+public interface AbstractDao<T> extends AutoCloseable {
 
     int create(T entity);
 

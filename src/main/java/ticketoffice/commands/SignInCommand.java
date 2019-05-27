@@ -1,24 +1,25 @@
 package ticketoffice.commands;
 
+import ticketoffice.facade.UserFacade;
 import org.apache.log4j.Logger;
-import ticketoffice.service.PassengerService;
+import ticketoffice.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class SignInCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(SignInCommand.class);
-    private PassengerService passengerService = new PassengerService();
+    private UserFacade userFacade = new UserFacade();
 
     @Override
     public String execute(HttpServletRequest request) {
         String login = request.getParameter("login");
         LOG.info(String.format("Get login request from %s", login));
 
-        int userId = passengerService.loginPassenger(
+        UserDto user = userFacade.loadUser(
                 login, request.getParameter("password"));
-        if (userId != 0) {
-            request.getSession().setAttribute("userId",userId);
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
             LOG.info("Successful sign in from " + login);
             return "/user/home";
         }

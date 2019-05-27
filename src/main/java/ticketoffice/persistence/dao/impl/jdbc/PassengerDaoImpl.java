@@ -2,10 +2,14 @@ package ticketoffice.persistence.dao.impl.jdbc;
 
 import org.apache.log4j.Logger;
 import ticketoffice.model.Passenger;
+import ticketoffice.model.PassengerRole;
+import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
+import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 import ticketoffice.persistence.mapper.PassengerMapper;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements PassengerDao {
@@ -72,5 +76,29 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
         return getById(GET_BY_LOGIN, statement -> {
             statement.setString(1, login);
         });
+    }
+
+    @Override
+    public int createUser(Passenger passenger) {
+        try {
+            connection.setAutoCommit(false);
+            int passengerCommit = this.create(passenger);
+            Passenger newPassenger = getByLogin(passenger.getLogin());
+
+            PassengerRole passengerRole = new PassengerRole();
+            passengerRole.setPassenger(newPassenger);
+            passengerRole.setRole(Role.USER);
+            PassengerRoleDao passengerRoleDao = new PassengerRoleDaoImpl(connection);
+            int passengerRoleCommit = passengerRoleDao.create(passengerRole);
+
+            if (passengerRoleCommit + passengerCommit != 2) {
+                connection.rollback();
+                return 0;
+            }
+            connection.commit();
+        } catch (SQLException e){
+            LOG.error(e.getMessage());
+        }
+        return 1;
     }
 }

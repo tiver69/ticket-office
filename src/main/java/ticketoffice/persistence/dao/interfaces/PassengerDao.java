@@ -5,4 +5,6 @@ import ticketoffice.model.Passenger;
 public interface PassengerDao extends AbstractDao<Passenger> {
 
     Passenger getByLogin(String login);
+
+    int createUser(Passenger passenger);
 }

@@ -9,10 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDaoImpl<T> implements AbstractDao<T>, AutoCloseable {
+public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     protected static Logger LOG = Logger.getLogger(AbstractDaoImpl.class);
-    private Connection connection;
+    protected Connection connection;
     private Mapper mapper;
 
     public AbstractDaoImpl(Connection connection, Mapper mapper) {
