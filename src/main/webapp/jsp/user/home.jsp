@@ -12,7 +12,7 @@
 <body>
      <h1><fmt:message key="home.greeting" />, <c:out value="${user.getRoles()}"/>
      <c:out value="${user.getPassenger().getId()}"/></h1>
-     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/logout'" >
+     <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/user/logout'" >
          <fmt:message key="user.home.logout"/>
      </button>
 </body>

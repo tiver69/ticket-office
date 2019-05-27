@@ -16,9 +16,9 @@ public class CommandFactory {
         commandMap.put("signup", new SignUpCommand());
         commandMap.put("login", new LoginPageCommand());
         commandMap.put("signin", new SignInCommand());
-        commandMap.put("logout", new LogOutCommand());
 
         commandMap.put("user/home", new UserMainPageCommand());
+        commandMap.put("user/logout", new LogOutCommand());
     }
 
     private static class SingletonDaoFactory {
@@ -30,6 +30,6 @@ public class CommandFactory {
     }
 
     public Command getCommand(String action) {
-        return commandMap.getOrDefault(action, new UnknownPageCommand());
+        return commandMap.getOrDefault(action, new NotFoundPageCommand());
     }
 }

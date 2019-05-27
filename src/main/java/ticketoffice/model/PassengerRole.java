@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import ticketoffice.model.enums.Role;
 
-import java.util.Objects;
-
 @Getter
 @Setter
 @ToString

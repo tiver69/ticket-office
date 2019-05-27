@@ -4,9 +4,9 @@ import ticketoffice.commands.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class UnknownPageCommand implements Command {
+public class NotFoundPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        return "unknown-page";
+        return "/error/404";
     }
 }

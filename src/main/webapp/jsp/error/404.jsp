@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>
-        <fmt:message key="unknown.message" />
+        <fmt:message key="404.message" />
     </h1>
 </body>
 </html>
