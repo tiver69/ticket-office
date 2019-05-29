@@ -1,10 +1,14 @@
 package ticketoffice.filter;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class LocalizationFilter implements Filter {
+
+    private static Logger LOG = Logger.getLogger(LocalizationFilter.class);
 
     private static final String LOCALE = "locale";
     private static final String BUNDLE = "bundle";
@@ -31,6 +35,8 @@ public class LocalizationFilter implements Filter {
 
         httpRequest.getSession().setAttribute(LOCALE, locale);
         httpRequest.getSession().setAttribute(BUNDLE, defaultBundle);
+
+        LOG.info("Set locale to " + locale);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

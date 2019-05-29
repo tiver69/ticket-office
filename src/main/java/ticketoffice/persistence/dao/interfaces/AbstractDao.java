@@ -1,12 +1,13 @@
 package ticketoffice.persistence.dao.interfaces;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AbstractDao<T> {
+public interface AbstractDao<T> extends AutoCloseable {
 
     int create(T entity);
 
-    T getById(int id);
+    Optional<T> getById(int id);
 
     boolean delete(int id);
 

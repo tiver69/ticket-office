@@ -19,6 +19,15 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
+        doGetAndPost(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGetAndPost(request, response);
+    }
+
+    private void doGetAndPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getRequestURI()
                 .substring(request.getContextPath().length())
                 .replaceAll("/page/", "");
@@ -26,8 +35,16 @@ public class DispatcherServlet extends HttpServlet {
         Command command = CommandFactory.getInstance().getCommand(action);
         String page = command.execute(request);
 
-        LOG.info("Forward to " + page + ".jsp page after /" + action + " request");
-        request.getRequestDispatcher(String.format(JSP_PATH, page))
-                .forward(request, response);
+        if (page.startsWith("redirect/")){
+            String redirectUrl = request.getContextPath()+ "/page/" + page.replace("redirect/", "");
+            LOG.info("Redirect to " + redirectUrl
+                    + " page after /" + action + " request");
+            response.sendRedirect(redirectUrl);
+        }
+        else {
+            LOG.info("Forward to " + page + ".jsp page after /" + action + " request");
+            request.getRequestDispatcher(String.format(JSP_PATH, page))
+                    .forward(request, response);
+        }
     }
 }

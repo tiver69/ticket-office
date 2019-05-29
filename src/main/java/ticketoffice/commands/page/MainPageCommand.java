@@ -1,4 +1,6 @@
-package ticketoffice.commands;
+package ticketoffice.commands.page;
+
+import ticketoffice.commands.Command;
 
 import javax.servlet.http.HttpServletRequest;
 

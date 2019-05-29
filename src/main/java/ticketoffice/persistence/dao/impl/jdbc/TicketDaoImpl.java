@@ -7,6 +7,7 @@ import ticketoffice.persistence.mapper.TicketMapper;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao {
 
@@ -38,7 +39,7 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
     }
 
     @Override
-    public Ticket getById(int id) {
+    public Optional<Ticket> getById(int id) {
         return getById(GET_BY_ID, statement -> {
             statement.setInt(1, id);
         });

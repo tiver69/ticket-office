@@ -44,12 +44,14 @@ public class TicketMapper implements Mapper<Ticket> {
 
     @Override
     public ArrayList<Ticket> extractItemList(ResultSet resultSet) throws SQLException {
-        ArrayList<Ticket> trainList = new ArrayList<>();
+        ArrayList<Ticket> ticketList = new ArrayList<>();
         while (resultSet.next()) {
-            Ticket ticket
-                    = ticketDao.getById(resultSet.getInt("id"));
-            trainList.add(ticket);
+            ticketDao.getById(resultSet.getInt("id"))
+                    .map(ticketList::add);
+//            Ticket ticket
+//                    = ticketDao.getById(resultSet.getInt("id")).get();
+//            ticketList.add(ticket);
         }
-        return trainList;
+        return ticketList;
     }
 }

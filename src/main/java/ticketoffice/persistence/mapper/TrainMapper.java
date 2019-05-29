@@ -31,9 +31,11 @@ public class TrainMapper implements Mapper<Train> {
     public ArrayList<Train> extractItemList(ResultSet resultSet) throws SQLException {
         ArrayList<Train> trainList = new ArrayList<>();
         while (resultSet.next()) {
-            Train train
-                    = trainDao.getById(resultSet.getInt("id"));
-            trainList.add(train);
+            trainDao.getById(resultSet.getInt("id"))
+                    .map(trainList::add);
+//            Train train
+//                    = trainDao.getById(resultSet.getInt("id"));
+//            trainList.add(train);
         }
         return trainList;
     }
