@@ -8,6 +8,7 @@ import ticketoffice.persistence.mapper.Mapper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
@@ -37,12 +38,12 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         return 0;
     }
 
-    public T getById(String sql, PreparedParameters parameters) {
-        T item = null;
+    public Optional<T> getById(String sql, PreparedParameters parameters) {
+        Optional<T> item = Optional.empty();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             parameters.setParameters(statement);
             ResultSet resultSet = statement.executeQuery();
-            item = (T) mapper.extractItem(resultSet);
+            item = Optional.of ((T) mapper.extractItem(resultSet));
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             e.printStackTrace();

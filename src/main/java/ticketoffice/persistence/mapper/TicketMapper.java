@@ -46,9 +46,11 @@ public class TicketMapper implements Mapper<Ticket> {
     public ArrayList<Ticket> extractItemList(ResultSet resultSet) throws SQLException {
         ArrayList<Ticket> ticketList = new ArrayList<>();
         while (resultSet.next()) {
-            Ticket ticket
-                    = ticketDao.getById(resultSet.getInt("id"));
-            ticketList.add(ticket);
+            ticketDao.getById(resultSet.getInt("id"))
+                    .map(ticketList::add);
+//            Ticket ticket
+//                    = ticketDao.getById(resultSet.getInt("id")).get();
+//            ticketList.add(ticket);
         }
         return ticketList;
     }

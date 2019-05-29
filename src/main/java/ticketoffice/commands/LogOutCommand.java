@@ -11,10 +11,11 @@ public class LogOutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         LOG.info(String.format("User %s successfully logout",
-                request.getSession().getAttribute("userId")));
+                request.getSession().getAttribute("user")));
 
         request.getSession().removeAttribute("user");
-        return "index";
+        request.getSession().invalidate();
+        return "redirect/main";
     }
 
 }

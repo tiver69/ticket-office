@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import ticketoffice.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 public class SignInCommand implements Command {
 
@@ -16,12 +17,12 @@ public class SignInCommand implements Command {
         String login = request.getParameter("login");
         LOG.info(String.format("Get login request from %s", login));
 
-        UserDto user = userFacade.loadUser(
+        Optional<UserDto> user = userFacade.loadUser(
                 login, request.getParameter("password"));
-        if (user != null) {
-            request.getSession().setAttribute("user", user);
+        if (user.isPresent()) {
+            request.getSession().setAttribute("user", user.get());
             LOG.info("Successful sign in from " + login);
-            return "/user/home";
+            return "redirect/user/home";
         }
 
         LOG.info("Fail to sign in " + login);

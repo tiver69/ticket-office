@@ -36,9 +36,11 @@ public class PassengerRoleMapper implements Mapper<PassengerRole> {
     public ArrayList<PassengerRole> extractItemList(ResultSet resultSet) throws SQLException {
         ArrayList<PassengerRole> passengerRoleList = new ArrayList<>();
         while (resultSet.next()) {
-            PassengerRole passengerRole
-                    = passengerRoleDao.getById(resultSet.getInt("id"));
-            passengerRoleList.add(passengerRole);
+            passengerRoleDao.getById(resultSet.getInt("id"))
+                    .map(passengerRoleList::add);
+//            PassengerRole passengerRole
+//                    = passengerRoleDao.getById(resultSet.getInt("id"));
+//            passengerRoleList.add(passengerRole);
         }
         return passengerRoleList;
     }

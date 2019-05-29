@@ -7,6 +7,7 @@ import ticketoffice.persistence.mapper.TrainMapper;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public class TrainDaoImpl extends AbstractDaoImpl<Train> implements TrainDao {
 
@@ -36,7 +37,7 @@ public class TrainDaoImpl extends AbstractDaoImpl<Train> implements TrainDao {
     }
 
     @Override
-    public Train getById(int id) {
+    public Optional<Train> getById(int id) {
         return getById(GET_BY_ID, statement -> {
             statement.setInt(1, id);
         });

@@ -23,7 +23,7 @@ public class SignUpCommand implements Command {
                 passenger.getLogin()));
 
         if (passengerService.registerPassenger(passenger))
-            return "login";
+            return "redirect/login";
         else return "registration";
     }
 

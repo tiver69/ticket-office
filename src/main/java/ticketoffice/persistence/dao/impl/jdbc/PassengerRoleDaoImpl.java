@@ -7,6 +7,7 @@ import ticketoffice.persistence.mapper.PassengerRoleMapper;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public class PassengerRoleDaoImpl extends AbstractDaoImpl<PassengerRole> implements PassengerRoleDao {
 
@@ -35,7 +36,7 @@ public class PassengerRoleDaoImpl extends AbstractDaoImpl<PassengerRole> impleme
     }
 
     @Override
-    public PassengerRole getById(int id) {
+    public Optional<PassengerRole> getById(int id) {
         return getById(GET_BY_ID, statement -> {
             statement.setInt(1, id);
         });

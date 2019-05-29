@@ -35,9 +35,11 @@ public class PassengerMapper implements Mapper<Passenger> {
     public ArrayList<Passenger> extractItemList(ResultSet resultSet) throws SQLException {
         ArrayList<Passenger> trainList = new ArrayList<>();
         while (resultSet.next()) {
-            Passenger passenger
-                    = passengerDao.getById(resultSet.getInt("id"));
-            trainList.add(passenger);
+            passengerDao.getById(resultSet.getInt("id"))
+                    .map(trainList::add);
+//            Passenger passenger
+//                    = passengerDao.getById(resultSet.getInt("id"));
+//            trainList.add(passenger);
         }
         return trainList;
     }

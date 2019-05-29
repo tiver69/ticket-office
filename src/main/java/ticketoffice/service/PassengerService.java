@@ -2,10 +2,10 @@ package ticketoffice.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import ticketoffice.model.Passenger;
-import ticketoffice.model.PassengerRole;
-import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
+
+import java.util.Optional;
 
 public class PassengerService {
 
@@ -15,15 +15,16 @@ public class PassengerService {
         }
     }
 
-    public Passenger loginPassenger(String login, String password) {
+    public Optional<Passenger> loginPassenger(String login, String password) {
         try (PassengerDao passengerDaoImpl = DaoFactory.getInstance().getPassengerDao()) {
-            Passenger passenger = passengerDaoImpl.getByLogin(login);
+            Optional<Passenger> passenger = passengerDaoImpl.getByLogin(login);
             String passwordHash = DigestUtils.md5Hex(password);
-            if (passenger.getPassword().equals(passwordHash)) {
-                passenger.setPassword("");
+            if (passenger.isPresent() &&
+                    passenger.get().getPassword().equals(passwordHash)) {
+                passenger.get().setPassword("");
                 return passenger;
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

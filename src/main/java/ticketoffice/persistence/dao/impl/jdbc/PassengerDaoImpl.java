@@ -11,6 +11,7 @@ import ticketoffice.persistence.mapper.PassengerMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements PassengerDao {
 
@@ -41,7 +42,7 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
     }
 
     @Override
-    public Passenger getById(int id) {
+    public Optional<Passenger> getById(int id) {
         return getById(GET_BY_ID, statement -> {
             statement.setInt(1, id);
         });
@@ -72,7 +73,7 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
     }
 
     @Override
-    public Passenger getByLogin(String login) {
+    public Optional<Passenger> getByLogin(String login) {
         return getById(GET_BY_LOGIN, statement -> {
             statement.setString(1, login);
         });
@@ -83,21 +84,25 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
         try {
             connection.setAutoCommit(false);
             int passengerCommit = this.create(passenger);
-            Passenger newPassenger = getByLogin(passenger.getLogin());
 
-            PassengerRole passengerRole = new PassengerRole();
-            passengerRole.setPassenger(newPassenger);
-            passengerRole.setRole(Role.USER);
+            if (!getByLogin(passenger.getLogin()).isPresent()){
+                connection.rollback();
+                return 0;
+            }
+            Passenger newPassenger = getByLogin(passenger.getLogin()).get();
+            PassengerRole passengerRole = new PassengerRole(0, newPassenger, Role.USER);
+//            passengerRole.setPassenger(newPassenger);
+//            passengerRole.setRole(Role.USER);
             PassengerRoleDao passengerRoleDao = new PassengerRoleDaoImpl(connection);
-            int passengerRoleCommit = passengerRoleDao.create(passengerRole);
 
-            if (passengerRoleCommit + passengerCommit != 2) {
+            if (passengerRoleDao.create(passengerRole) != 1) {
                 connection.rollback();
                 return 0;
             }
             connection.commit();
         } catch (SQLException e){
             LOG.error(e.getMessage());
+            return 0;
         }
         return 1;
     }

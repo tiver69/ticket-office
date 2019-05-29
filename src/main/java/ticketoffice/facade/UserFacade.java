@@ -5,19 +5,21 @@ import ticketoffice.model.Passenger;
 import ticketoffice.service.PassengerRoleService;
 import ticketoffice.service.PassengerService;
 
-public class UserFacade {
-    PassengerService passengerService = new PassengerService();
-    PassengerRoleService passengerRoleService = new PassengerRoleService();
+import java.util.Optional;
 
-    public UserDto loadUser(String login, String password){
+public class UserFacade {
+    private PassengerService passengerService = new PassengerService();
+    private PassengerRoleService passengerRoleService = new PassengerRoleService();
+
+    public Optional<UserDto> loadUser(String login, String password){
         UserDto user = null;
-        Passenger passenger;
+        Optional<Passenger> passenger;
         if ((passenger = passengerService.loginPassenger(login, password))
-                != null){
+                .isPresent()){
             user = new UserDto();
-            user.setPassenger(passenger);
-            user.setRoles(passengerRoleService.getRolesByPassengerId(passenger.getId()));
+            user.setPassenger(passenger.get());
+            user.setRoles(passengerRoleService.getRolesByPassengerId(passenger.get().getId()));
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 }
