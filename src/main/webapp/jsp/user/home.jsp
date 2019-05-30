@@ -15,5 +15,25 @@
      <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/user/logout'" >
          <fmt:message key="user.home.logout"/>
      </button>
+
+     <form action="findTrain" method="post">
+              <fmt:message key="home.booking.departure"/>
+              <select name="departureStation">
+                  <c:forEach items="${stations}" var="station">
+                      <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
+                  </c:forEach>
+              </select>
+              ===>
+              <fmt:message key="home.booking.destination"/>
+              <select name="destinationStation">
+                  <c:forEach items="${stations}" var="station">
+                      <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
+                  </c:forEach>
+              </select>
+              <br />
+              <fmt:message key="home.booking.date"/>: <input type="date" name="departureDate" required="required"></input>
+
+             <input type="submit" value=<fmt:message key="home.booking"/> />
+          </form>
 </body>
 </html>

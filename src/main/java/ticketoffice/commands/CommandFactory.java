@@ -19,6 +19,7 @@ public class CommandFactory {
 
         commandMap.put("user/home", new UserMainPageCommand());
         commandMap.put("user/logout", new LogOutCommand());
+        commandMap.put("user/findTrain", new FindTrainCommand());
     }
 
     private static class SingletonDaoFactory {
