@@ -1,8 +1,6 @@
 package ticketoffice.commands;
 
-import org.apache.log4j.Logger;
 import ticketoffice.facade.TrainInfoFacade;
-import ticketoffice.service.TrainService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;

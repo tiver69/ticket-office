@@ -4,6 +4,7 @@ import ticketoffice.dto.TrainInfoDto;
 import ticketoffice.model.Train;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
+import ticketoffice.service.TrainCoachService;
 import ticketoffice.service.TrainService;
 import ticketoffice.service.TrainStationService;
 import ticketoffice.service.utils.TimeDateUtil;
@@ -16,13 +17,15 @@ public class TrainInfoFacade {
 
     private TrainService trainService = new TrainService();
     private TrainStationService trainStationService = new TrainStationService();
+    private TrainCoachService trainCoachService = new TrainCoachService();
+    private PlacesInfoFacade placesInfoFacade = new PlacesInfoFacade();
 
     public List<TrainInfoDto> getRequestTrainInformation
             (int departureStationId, int destinationStationId, Date departureDate) {
 
-        List<Train> requestTrainList =
-                trainService.findTrain(departureStationId, destinationStationId, departureDate);
         List<TrainInfoDto> trainInfoDtoList = new ArrayList<>();
+        List<Train> requestTrainList =
+                trainService.findTrainInDirection(departureStationId, destinationStationId, departureDate);
 
         requestTrainList.forEach(train -> {
             TrainInfoDto trainInfoDto = new TrainInfoDto();
@@ -53,6 +56,9 @@ public class TrainInfoFacade {
 
             trainInfoDto.setDuration(
                     TimeDateUtil.getTimeDiff(trainInfoDto.getDepartureTime(), trainInfoDto.getArrivalTime()));
+
+            trainInfoDto.setCoachPlacesInfo(
+                    placesInfoFacade.getTrainPlacesInformation(train.getId()));
 
             trainInfoDtoList.add(trainInfoDto);
         });

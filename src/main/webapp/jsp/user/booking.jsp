@@ -23,6 +23,22 @@
                <td><c:out value="${trainInformation.getArrivalTime()}"/></td>
 
                <td><c:out value="${trainInformation.getDuration()}"/></td>
+               <td>
+                    <table>
+                        <c:forEach items="${trainInformation.getCoachPlacesInfo()}" var="coachType">
+                        <tr>
+                            <td><c:out value="${coachType.getCoachType().getName()}"/></td>
+                            <td> (<c:out value="${coachType.getQuantity()}"/>): </td>
+                            <td>
+                            <c:out value="${coachType.getAvailablePlaces()}"/>
+                            /
+                            <c:out value="${coachType.getTotalPlaces()}"/>
+                            </td>
+                        </tr>
+                        </c:forEach>
+                     </table>
+               </td>
+
              </tr>
             </c:forEach>
      </table>

@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ticketoffice.model.Station;
-import ticketoffice.model.Ticket;
 import ticketoffice.model.Train;
 
 import java.sql.Time;
-import java.time.LocalTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,4 +21,6 @@ public class TrainInfoDto {
     private Time arrivalTime;
 
     private Time duration;
+
+    private List<CoachPlacesInfoDto> coachPlacesInfo;
 }

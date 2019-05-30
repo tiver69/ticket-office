@@ -14,7 +14,7 @@ public class TrainService {
 
     private static Logger LOG = Logger.getLogger(TrainService.class);
 
-    public List<Train> findTrain(int departureStationId, int destinationStationId, Date departureDate){
+    public List<Train> findTrainInDirection(int departureStationId, int destinationStationId, Date departureDate){
         List<Train> resultTrains;
         try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()){
             resultTrains = trainDao.getTrainInDirection(departureStationId, destinationStationId);

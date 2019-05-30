@@ -1,5 +1,6 @@
 package ticketoffice.persistence.dao;
 
+import ticketoffice.model.TrainCoach;
 import ticketoffice.model.TrainStation;
 import ticketoffice.persistence.ConnectionPool;
 import ticketoffice.persistence.dao.impl.jdbc.*;
@@ -46,5 +47,17 @@ public class DaoFactory {
     public TrainStationDao getTrainStationDao(){
         return new TrainStationDaoImpl(
                 ConnectionPool.getInstance().getConnection());
+    }
+
+    public TrainCoachDao getTrainCoachDao(){
+        return new TrainCoachDaoImpl(
+                ConnectionPool.getInstance().getConnection()
+        );
+    }
+
+    public CoachTypeDao getCoachTypeDao(){
+        return new CoachTypeDaoImpl(
+                ConnectionPool.getInstance().getConnection()
+        );
     }
 }
