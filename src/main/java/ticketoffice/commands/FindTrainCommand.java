@@ -16,7 +16,7 @@ public class FindTrainCommand implements Command {
         Date date = Date.valueOf(request.getParameter("departureDate"));
 
         request.setAttribute("trainsInformation",
-                trainInfoFacade.getRequestTrainInformation(departureStation, destinationStation,date));
+                trainInfoFacade.getRequestTrainInformation(departureStation, destinationStation, date));
         return "user/booking";
     }
 

@@ -6,6 +6,7 @@ import ticketoffice.persistence.dao.interfaces.TicketDao;
 import ticketoffice.persistence.mapper.TicketMapper;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
     private String DELETE = "DELETE FROM tickets WHERE id=?";
     private String UPDATE = "UPDATE tickets SET passenger_id=?, departure_station_id=?, " +
             "destination_station_id=?, departure_date=?, coach_id=?, place=? WHERE id=?";
-
+    private String GET_BY_COACH_ID_AND_DATE = "SELECT * FROM tickets WHERE coach_id=? AND departure_date=?";
 
     public TicketDaoImpl(Connection connection) {
         super(connection, new TicketMapper());
@@ -70,4 +71,13 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
         return getAll(GET_ALL, statement -> {
         });
     }
+
+    @Override
+    public List<Ticket> getTicketsByCoachIdAndDate(int coachId, Date date){
+        return getAll(GET_BY_COACH_ID_AND_DATE, statement -> {
+            statement.setInt(1, coachId);
+            statement.setDate(2, new Date(date.getTime()+24*60*60*1000));
+        });
+    }
+
 }

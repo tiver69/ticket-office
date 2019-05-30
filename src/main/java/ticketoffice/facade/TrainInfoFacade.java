@@ -58,7 +58,7 @@ public class TrainInfoFacade {
                     TimeDateUtil.getTimeDiff(trainInfoDto.getDepartureTime(), trainInfoDto.getArrivalTime()));
 
             trainInfoDto.setCoachPlacesInfo(
-                    placesInfoFacade.getTrainPlacesInformation(train.getId()));
+                    placesInfoFacade.getTrainPlacesInformation(train.getId(), departureDate));
 
             trainInfoDtoList.add(trainInfoDto);
         });
