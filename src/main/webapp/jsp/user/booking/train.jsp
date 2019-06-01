@@ -9,9 +9,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Booking Page</title>
 </head>
-<body>
-
+<script type="text/javascript">
+  function loadRequest()
+  {
+    var currentCoach = ${pageContext.request.getParameter("currentCoach")};
+    if (currentCoach == 0) {
+        window.location.href = "trainDetail?currentCoach=1&selectedTrainId=${pageContext.request.getParameter("selectedTrainId")}&departureStationHidden=${pageContext.request.getParameter("departureStationHidden")}&destinationStationHidden=${pageContext.request.getParameter("destinationStationHidden")}&departureDateHidden=${pageContext.request.getParameter("departureDateHidden")}";
+    }
+  }
+</script>
+<body onload="loadRequest()">
     <h1><fmt:message key="booking.train.message" /></h1>
+
+    <button type="button" onclick="window.location.href='/user/home'" >
+        <fmt:message key="booking.ticket.button.return"/>
+    </button>
+
     <table>
              <tr>
                  <th><fmt:message key="booking.button"/></th>
@@ -46,7 +59,7 @@
                  </c:when>
                  <c:otherwise>
                      <li>
-                     <a href="trainDetail?currentCoach=${i}&selectedTrainId=${pageContext.request.getParameter("selectedTrainId")}&departureStationHidden=${pageContext.request.getParameter("departureStationHidden")}&destinationStationHidden=${pageContext.request.getParameter("destinationStationHidden")}&departureDateHidden=${pageContext.request.getParameter("departureDateHidden")}">${i}</a>
+                     <a href="trainDetail?currentCoach=${i}&${pageContext.request.getQueryString()}">${i}</a>
                      </li>
                  </c:otherwise>
              </c:choose>
@@ -74,7 +87,7 @@
                  </c:when>
                  <c:otherwise>
                     <div>
-                        <a href=""><c:out value="${i}"/></a>
+                        <a href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}"><c:out value="${i}"/></a>
                     </div>
                  </c:otherwise>
              </c:choose>

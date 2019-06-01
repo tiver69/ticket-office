@@ -33,7 +33,7 @@
 </script>
 </head>
 <body onload="loadRequest()">
-    <form action="findTrain" method="post">
+    <form action="findTrain" method="get">
         <fmt:message key="home.booking.departure"/>
         <select onchange="onDepartureChange(this);" id="departureStationSelectItem" name="departureStation">
             <c:forEach items="${stations}" var="station">
@@ -55,13 +55,19 @@
         <input type="submit" value=<fmt:message key="home.booking"/> />
      </form>
 
+     <button type="button" onclick="history.go(-1)" >
+         <fmt:message key="booking.ticket.button.return"/>
+     </button>
+
      <h1><fmt:message key="booking.message" /></h1>
-     <form action="trainDetail" method="post">
+     <form action="trainDetail" method="get">
 
      <input id="departureHidden" name="departureStationHidden" type="hidden"/>
      <input id="destinationHidden" name="destinationStationHidden" type="hidden"/>
      <input id="dateHidden" name="departureDateHidden" type="hidden"
         value="${pageContext.request.getParameter("departureDate")}"/>
+     <input name="currentCoach" type="hidden"
+        value="0"/>
 
      <table>
          <tr>

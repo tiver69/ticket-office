@@ -24,7 +24,7 @@ public class CoachDisplayFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 
-        int currentCoach = servletRequest.getParameter("currentCoach") == null ?
+        int currentCoach = Integer.parseInt(servletRequest.getParameter("currentCoach")) == 0 ?
                 currentCoachDefault :
                 Integer.parseInt(servletRequest.getParameter("currentCoach"));
 

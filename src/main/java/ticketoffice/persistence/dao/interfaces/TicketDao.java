@@ -9,4 +9,6 @@ public interface TicketDao extends AbstractDao<Ticket> {
 
     List<Ticket> getTicketsByCoachIdAndDate(int coachId, Date date);
 
+    List<Ticket> getTicketsByPassengerId(int passengerId);
+
 }

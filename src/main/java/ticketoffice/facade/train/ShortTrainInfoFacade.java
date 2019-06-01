@@ -33,15 +33,10 @@ public class ShortTrainInfoFacade {
 
             shortTrainInfoDto.setTrain(train);
 
+            shortTrainInfoDto.setDepartureTime(trainStationService.getDepartureTime(departureStationId, train.getId()));
+            shortTrainInfoDto.setArrivalTime(trainStationService.getArrivalTime(destinationStationId, train.getId()));
+
             try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
-                trainStationDao.getByTrainIdAndStationId(
-                        departureStationId, train.getId()).ifPresent(trainStation -> {
-                    shortTrainInfoDto.setDepartureTime(trainStation.getDepartureTime());
-                });
-                trainStationDao.getByTrainIdAndStationId(
-                        destinationStationId, train.getId()).ifPresent(trainStation -> {
-                    shortTrainInfoDto.setArrivalTime(trainStation.getArrivalTime());
-                });
 
                 trainStationDao.getByTrainIdAndOrder(train.getId(), 0)
                         .ifPresent(trainStation -> {

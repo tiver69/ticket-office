@@ -37,16 +37,10 @@ public class FullTrainInfoFacade {
         }
         fullTrainInfoDto.setTrain(requestTrain);
 
-        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
-            trainStationDao.getByTrainIdAndStationId(
-                    departureStationId, requestTrainId).ifPresent(trainStation -> {
-                fullTrainInfoDto.setDepartureTime(trainStation.getDepartureTime());
-            });
-            trainStationDao.getByTrainIdAndStationId(
-                    destinationStationId, requestTrainId).ifPresent(trainStation -> {
-                fullTrainInfoDto.setArrivalTime(trainStation.getArrivalTime());
-            });
+        fullTrainInfoDto.setDepartureTime(trainStationService.getDepartureTime(departureStationId, requestTrainId));
+        fullTrainInfoDto.setArrivalTime(trainStationService.getArrivalTime(destinationStationId, requestTrainId));
 
+        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             trainStationDao.getByTrainIdAndOrder(requestTrainId, 0)
                     .ifPresent(trainStation -> {
                         trainStationService.fillTrainStation(trainStation);

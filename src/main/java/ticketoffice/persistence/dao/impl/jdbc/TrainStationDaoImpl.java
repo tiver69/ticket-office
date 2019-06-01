@@ -1,11 +1,8 @@
 package ticketoffice.persistence.dao.impl.jdbc;
 
 import org.apache.log4j.Logger;
-import ticketoffice.model.Station;
 import ticketoffice.model.TrainStation;
-import ticketoffice.persistence.dao.interfaces.StationDao;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
-import ticketoffice.persistence.mapper.StationMapper;
 import ticketoffice.persistence.mapper.TrainStationMapper;
 
 import java.sql.Connection;
@@ -23,6 +20,7 @@ public class TrainStationDaoImpl extends AbstractDaoImpl<TrainStation> implement
     private String UPDATE_BY_TRAIN_AND_STATION_ID = "UPDATE train_stations SET name=? WHERE station_id = ? AND train_id = ?";
     private String GET_BY_TRAIN_ID_AND_ORDER = "SELECT * FROM train_stations WHERE train_id=? AND train_stations.order=?";
     private String GET_LAST_ROOT_STATION_BY_TRAIN_ID = "SELECT * FROM train_stations WHERE train_id=? ORDER BY train_stations.order DESC LIMIT 1";
+    private String GET_FULL_ROOT_BY_TRAIN_ID = "SELECT * FROM train_stations WHERE train_id=? ORDER BY train_stations.order";
 
     public TrainStationDaoImpl(Connection connection) {
         super(connection, new TrainStationMapper());
@@ -71,7 +69,7 @@ public class TrainStationDaoImpl extends AbstractDaoImpl<TrainStation> implement
     }
 
     @Override
-    public Optional<TrainStation> getByTrainIdAndOrder(int trainId, int order){
+    public Optional<TrainStation> getByTrainIdAndOrder(int trainId, int order) {
         return getById(GET_BY_TRAIN_ID_AND_ORDER, statement -> {
             statement.setInt(1, trainId);
             statement.setInt(2, order);
@@ -79,10 +77,16 @@ public class TrainStationDaoImpl extends AbstractDaoImpl<TrainStation> implement
     }
 
     @Override
-    public Optional<TrainStation> getLastRootByTrainId(int trainId){
+    public Optional<TrainStation> getLastRootByTrainId(int trainId) {
         return getById(GET_LAST_ROOT_STATION_BY_TRAIN_ID, statement -> {
             statement.setInt(1, trainId);
         });
     }
 
+    @Override
+    public List<TrainStation> getFullRootByTrainId(int trainId) {
+        return getAll(GET_FULL_ROOT_BY_TRAIN_ID, statement -> {
+            statement.setInt(1, trainId);
+        });
+    }
 }

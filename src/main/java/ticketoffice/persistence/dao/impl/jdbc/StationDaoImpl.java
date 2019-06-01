@@ -16,7 +16,7 @@ public class StationDaoImpl extends AbstractDaoImpl<Station> implements StationD
 
     private String INSERT = "INSERT INTO stations (id,name) VALUES (?,?)";
     private String GET_BY_ID = "SELECT * FROM stations WHERE id = ?";
-    private String GET_ALL = "SELECT * FROM stations";
+    private String GET_ALL = "SELECT * FROM stations ORDER BY name";
     private String DELETE = "DELETE FROM stations WHERE id=?";
     private String UPDATE = "UPDATE stations SET name=? WHERE id=?";
 

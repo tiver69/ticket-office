@@ -13,13 +13,14 @@ import java.util.Optional;
 public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao {
 
     private String INSERT = "INSERT INTO tickets (id,passenger_id, departure_station_id,destination_station_id," +
-            "departure_date,coach_id,place) VALUES (?,?,?,?,?,?,?);";
+            "departure_date,coach_id,place,price) VALUES (?,?,?,?,?,?,?,?)";
     private String GET_BY_ID = "SELECT * FROM tickets WHERE id = ?";
     private String GET_ALL = "SELECT * FROM tickets";
     private String DELETE = "DELETE FROM tickets WHERE id=?";
     private String UPDATE = "UPDATE tickets SET passenger_id=?, departure_station_id=?, " +
-            "destination_station_id=?, departure_date=?, coach_id=?, place=? WHERE id=?";
+            "destination_station_id=?, departure_date=?, coach_id=?, place=?, price=? WHERE id=?";
     private String GET_BY_COACH_ID_AND_DATE = "SELECT * FROM tickets WHERE coach_id=? AND departure_date=?";
+    private String GET_BY_PASSENGER_ID = "SELECT * FROM tickets WHERE passenger_id=?";
 
     public TicketDaoImpl(Connection connection) {
         super(connection, new TicketMapper());
@@ -33,9 +34,10 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
             statement.setInt(2, ticket.getPassenger().getId());
             statement.setInt(3, ticket.getDepartureStation().getId());
             statement.setInt(4, ticket.getDestinationStation().getId());
-            statement.setDate(5, ticket.getDate());
+            statement.setDate(5, new Date(ticket.getDate().getTime() + 24 * 60 * 60 * 1000));
             statement.setInt(6, ticket.getTrainCoach().getId());
-            statement.setInt(7,ticket.getPlace());
+            statement.setInt(7, ticket.getPlace());
+            statement.setInt(8, ticket.getPrice());
         });
     }
 
@@ -59,10 +61,11 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
             statement.setInt(1, ticket.getPassenger().getId());
             statement.setInt(2, ticket.getDepartureStation().getId());
             statement.setInt(3, ticket.getDestinationStation().getId());
-            statement.setDate(4, ticket.getDate());
+            statement.setDate(4, new Date(ticket.getDate().getTime() + 24 * 60 * 60 * 1000));
             statement.setInt(5, ticket.getTrainCoach().getId());
-            statement.setInt(6,ticket.getPlace());
-            statement.setInt(7, ticket.getId());
+            statement.setInt(6, ticket.getPlace());
+            statement.setInt(7, ticket.getPrice());
+            statement.setInt(8, ticket.getId());
         });
     }
 
@@ -73,10 +76,17 @@ public class TicketDaoImpl extends AbstractDaoImpl<Ticket> implements TicketDao 
     }
 
     @Override
-    public List<Ticket> getTicketsByCoachIdAndDate(int coachId, Date date){
+    public List<Ticket> getTicketsByCoachIdAndDate(int coachId, Date date) {
         return getAll(GET_BY_COACH_ID_AND_DATE, statement -> {
             statement.setInt(1, coachId);
-            statement.setDate(2, new Date(date.getTime()+24*60*60*1000));
+            statement.setDate(2, new Date(date.getTime() + 24 * 60 * 60 * 1000));
+        });
+    }
+
+    @Override
+    public List<Ticket> getTicketsByPassengerId(int passengerId) {
+        return getAll(GET_BY_PASSENGER_ID, statement -> {
+            statement.setInt(1, passengerId);
         });
     }
 

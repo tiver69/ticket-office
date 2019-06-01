@@ -2,7 +2,6 @@ package ticketoffice.facade.coach;
 
 import org.apache.log4j.Logger;
 import ticketoffice.dto.coach.TrainCoachPlacesInfoDto;
-import ticketoffice.model.Ticket;
 import ticketoffice.model.TrainCoach;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
@@ -44,7 +43,7 @@ public class TrainCoachPlacesInfoFacade {
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
             trainCoachList = trainCoachDao.getByTrainId(trainId);
             trainCoachList.forEach(trainCoach -> {
-                trainCoachService.fillTrainCoach(trainCoach);
+                trainCoachService.fillTrainCoachType(trainCoach);
             });
         }
 
