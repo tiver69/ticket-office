@@ -1,12 +1,10 @@
 package ticketoffice.service.utils;
 
+import ticketoffice.dto.coach.TrainCoachPlacesInfoDto;
 import ticketoffice.model.CoachType;
 import ticketoffice.model.TrainCoach;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TrainCoachUtil {
 
@@ -20,6 +18,11 @@ public class TrainCoachUtil {
             grouped.get(trainCoach.getCoachType()).add(trainCoach);
         });
         return grouped;
+    }
+
+    public static void sortByCoachNumber(List<TrainCoachPlacesInfoDto> trainCoachPlacesInfoDtoList){
+        trainCoachPlacesInfoDtoList.sort(
+                Comparator.comparingInt(o -> o.getTrainCoach().getNumber()));
     }
 
 }

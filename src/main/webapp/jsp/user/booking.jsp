@@ -8,10 +8,61 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Booking Page</title>
+<script type="text/javascript">
+  function loadRequest()
+  {
+    var departureStationId = ${pageContext.request.getParameter("departureStation")};
+    var destinationStationId = ${pageContext.request.getParameter("destinationStation")};
+    document.getElementById('departureStationSelectItem').value = departureStationId;
+        document.getElementById('departureHidden').value = departureStationId;
+    document.getElementById('destinationStationSelectItem').value = destinationStationId;
+    document.getElementById('destinationHidden').value = destinationStationId;
+  }
+  function onDestinationChange(sel)
+  {
+    document.getElementById('destinationHidden').value = sel.value;
+  }
+  function onDepartureChange(sel)
+  {
+    document.getElementById('departureHidden').value = sel.value;
+  }
+  function onDateChange(sel)
+  {
+    document.getElementById('dateHidden').value = sel.value;
+  }
+</script>
 </head>
-<body>
+<body onload="loadRequest()">
+    <form action="findTrain" method="post">
+        <fmt:message key="home.booking.departure"/>
+        <select onchange="onDepartureChange(this);" id="departureStationSelectItem" name="departureStation">
+            <c:forEach items="${stations}" var="station">
+                <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
+            </c:forEach>
+        </select>
+        ===>
+        <fmt:message key="home.booking.destination"/>
+        <select onchange="onDestinationChange(this);" id="destinationStationSelectItem" name="destinationStation">
+            <c:forEach items="${stations}" var="station">
+                <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
+            </c:forEach>
+        </select>
+        <br />
+        <fmt:message key="home.booking.date"/>: <input id="departureDateItem" type="date" name="departureDate"
+            required="required" value="${pageContext.request.getParameter("departureDate")}"
+            onchange="onDateChange(this);"/>
+
+        <input type="submit" value=<fmt:message key="home.booking"/> />
+     </form>
+
      <h1><fmt:message key="booking.message" /></h1>
      <form action="trainDetail" method="post">
+
+     <input id="departureHidden" name="departureStationHidden" type="hidden"/>
+     <input id="destinationHidden" name="destinationStationHidden" type="hidden"/>
+     <input id="dateHidden" name="departureDateHidden" type="hidden"
+        value="${pageContext.request.getParameter("departureDate")}"/>
+
      <table>
          <tr>
              <th><fmt:message key="booking.button"/></th>
@@ -37,7 +88,7 @@
             <td><c:out value="${trainInformation.getDuration()}"/></td>
             <td>
                  <table>
-                     <c:forEach items="${trainInformation.getCoachPlacesInfo()}" var="coachType">
+                     <c:forEach items="${trainInformation.getCoachTypePlacesInfoDtoList()}" var="coachType">
                      <tr>
                          <td><c:out value="${coachType.getCoachType().getName()}"/></td>
                          <td> (<c:out value="${coachType.getQuantity()}"/>): </td>

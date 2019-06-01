@@ -1,7 +1,7 @@
 package ticketoffice.service.utils;
 
 import org.apache.log4j.Logger;
-import ticketoffice.facade.TrainInfoFacade;
+import ticketoffice.facade.train.ShortTrainInfoFacade;
 
 import java.sql.Time;
 import java.text.DateFormat;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeDateUtil {
 
-    private static Logger LOG = Logger.getLogger(TrainInfoFacade.class);
+    private static Logger LOG = Logger.getLogger(ShortTrainInfoFacade.class);
 
     private static String YEAR_FORMAT = "YYYY";
     private static String FIRST_JANUARY = "-01-01";

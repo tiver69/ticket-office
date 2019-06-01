@@ -1,8 +1,8 @@
 package ticketoffice.commands;
 
-import ticketoffice.facade.UserFacade;
 import org.apache.log4j.Logger;
 import ticketoffice.dto.UserDto;
+import ticketoffice.facade.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -21,11 +21,9 @@ public class SignInCommand implements Command {
                 login, request.getParameter("password"));
         if (user.isPresent()) {
             request.getSession().setAttribute("user", user.get());
-            LOG.info("Successful sign in from " + login);
             return "redirect/user/home";
         }
 
-        LOG.info("Fail to sign in " + login);
         return "login";
     }
 }

@@ -1,6 +1,8 @@
-package ticketoffice.facade;
+package ticketoffice.facade.coach;
 
-import ticketoffice.dto.CoachPlacesInfoDto;
+import org.apache.log4j.Logger;
+import ticketoffice.dto.coach.CoachTypePlacesInfoDto;
+import ticketoffice.facade.train.FullTrainInfoFacade;
 import ticketoffice.model.CoachType;
 import ticketoffice.model.TrainCoach;
 import ticketoffice.persistence.dao.DaoFactory;
@@ -15,28 +17,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PlacesInfoFacade {
+public class CoachTypePlacesInfoFacade {
 
+    private static Logger LOG = Logger.getLogger(CoachTypePlacesInfoFacade.class);
     private TrainCoachService trainCoachService = new TrainCoachService();
 
-    private CoachPlacesInfoDto getCoachPlacesInformation(List<TrainCoach> trainCoachList, Date departureDate) {
-        CoachPlacesInfoDto coachPlacesInfoDto = new CoachPlacesInfoDto();
-        coachPlacesInfoDto.setCoachType(trainCoachList.get(0).getCoachType());
-        coachPlacesInfoDto.setQuantity(trainCoachList.size());
-        coachPlacesInfoDto.setTotalPlaces(
+    private CoachTypePlacesInfoDto getCoachTypePlacesInformation(List<TrainCoach> trainCoachList, Date departureDate) {
+        CoachTypePlacesInfoDto coachTypePlacesInfoDto = new CoachTypePlacesInfoDto();
+        coachTypePlacesInfoDto.setCoachType(trainCoachList.get(0).getCoachType());
+        coachTypePlacesInfoDto.setQuantity(trainCoachList.size());
+        coachTypePlacesInfoDto.setTotalPlaces(
                 CoachUtil.countTotalPlacesForCoachType(trainCoachList));
         try(TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()){
             int occupiedPlace =
             trainCoachList.stream()
                     .mapToInt(trainCoach -> ticketDao.getTicketsByCoachIdAndDate(trainCoach.getId(), departureDate).size())
                     .sum();
-            coachPlacesInfoDto.setAvailablePlaces(coachPlacesInfoDto.getTotalPlaces() - occupiedPlace);
+            coachTypePlacesInfoDto.setAvailablePlaces(coachTypePlacesInfoDto.getTotalPlaces() - occupiedPlace);
+            LOG.debug(String.format("Found %d tickets in %s coachType for %s",
+                    occupiedPlace, trainCoachList.get(0).getCoachType(),
+                    departureDate.toString()));
         }
-        return coachPlacesInfoDto;
+
+        return coachTypePlacesInfoDto;
     }
 
 
-    public List<CoachPlacesInfoDto> getTrainPlacesInformation(int trainId, Date departureDate) {
+    public List<CoachTypePlacesInfoDto> getTrainPlacesInformation(int trainId, Date departureDate) {
 
         Map<CoachType, List<TrainCoach>> coachTypeMap;
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
@@ -47,13 +54,14 @@ public class PlacesInfoFacade {
             coachTypeMap = TrainCoachUtil.groupByCoachType(trainCoachList);
         }
 
-        List<CoachPlacesInfoDto> trainPlacesInfoList = new ArrayList<>();
+        List<CoachTypePlacesInfoDto> trainPlacesInfoList = new ArrayList<>();
         coachTypeMap.keySet().forEach(key -> {
-            ;
             trainPlacesInfoList.add(
-                    getCoachPlacesInformation(coachTypeMap.get(key), departureDate));
+                    getCoachTypePlacesInformation(coachTypeMap.get(key), departureDate));
         });
 
+        LOG.info(String.format("Prepare information about %d coach types in train#%d",
+                trainPlacesInfoList.size(), trainId));
         return trainPlacesInfoList;
     }
 }

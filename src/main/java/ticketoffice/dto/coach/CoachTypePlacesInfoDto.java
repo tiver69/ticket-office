@@ -1,4 +1,4 @@
-package ticketoffice.dto;
+package ticketoffice.dto.coach;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import ticketoffice.model.CoachType;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CoachPlacesInfoDto {
+public class CoachTypePlacesInfoDto {
 
     private CoachType coachType;
     private int quantity;

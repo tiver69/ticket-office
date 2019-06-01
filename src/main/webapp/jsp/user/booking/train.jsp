@@ -10,6 +10,78 @@
 <meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Booking Page</title>
 </head>
 <body>
-    <h1><fmt:message key="booking.train.message" /> <c:out value="${selectedTrainId}"/></h1>
+
+    <h1><fmt:message key="booking.train.message" /></h1>
+    <table>
+             <tr>
+                 <th><fmt:message key="booking.button"/></th>
+                 <th><fmt:message key="booking.th2"/></th>
+                 <th> </th>
+                 <th><fmt:message key="booking.th4"/></th>
+                 <th><fmt:message key="booking.th5"/></th>
+                 <th><fmt:message key="booking.th6"/></th>
+             </tr>
+
+              <tr>
+                <td>
+                <c:out value="${trainInformation.getTrain().getId()}"/>
+                </td>
+
+                <td><c:out value="${trainInformation.getFirstRootStation().getName()}"/></td>
+                <td><c:out value="${trainInformation.getLastRootStation().getName()}"/></td>
+
+                <td><c:out value="${trainInformation.getDepartureTime()}"/></td>
+                <td><c:out value="${trainInformation.getArrivalTime()}"/></td>
+
+                <td><c:out value="${trainInformation.getDuration()}"/></td>
+              </tr>
+         </table>
+
+         <c:forEach begin="1" end="6" var="i">
+             <c:choose>
+                 <c:when test="${currentCoach eq i}">
+                     <li>
+                        <a>${i} <span>(current)</span></a>
+                     </li>
+                 </c:when>
+                 <c:otherwise>
+                     <li>
+                     <a href="trainDetail?currentCoach=${i}&selectedTrainId=${pageContext.request.getParameter("selectedTrainId")}&departureStationHidden=${pageContext.request.getParameter("departureStationHidden")}&destinationStationHidden=${pageContext.request.getParameter("destinationStationHidden")}&departureDateHidden=${pageContext.request.getParameter("departureDateHidden")}">${i}</a>
+                     </li>
+                 </c:otherwise>
+             </c:choose>
+         </c:forEach>
+
+         <table>
+            <c:forEach items="${trainInformation.getTrainCoachPlacesInfoDtoList()}" var="trainCoach">
+            <tr>
+                <td><c:out value="${trainCoach.getTrainCoach().getNumber()}"/></td>
+                <td><c:out value="${trainCoach.getTrainCoach().getCoachType().getName()}"/></td>
+                <td>
+                <c:out value="${trainCoach.getBookedPlaceList().size()}"/>
+                /
+                <c:out value="${trainCoach.getTrainCoach().getCoachType().getPlaces()}"/>
+                </td>
+            </tr>
+            <tr>
+            <td>
+            <c:forEach begin="1" end="${trainCoach.getTrainCoach().getCoachType().getPlaces()}" var="i">
+            <c:choose>
+                 <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
+                     <div>
+                        <c:out value="${i}"/>(nope)
+                     </div>
+                 </c:when>
+                 <c:otherwise>
+                    <div>
+                        <a href=""><c:out value="${i}"/></a>
+                    </div>
+                 </c:otherwise>
+             </c:choose>
+            </c:forEach>
+            </td>
+            </tr>
+            </c:forEach>
+         </table>
 </body>
 </html>

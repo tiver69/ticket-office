@@ -14,14 +14,14 @@ public class TrainService {
 
     private static Logger LOG = Logger.getLogger(TrainService.class);
 
-    public List<Train> findTrainInDirection(int departureStationId, int destinationStationId, Date departureDate){
+    public List<Train> findTrainInDirection(int departureStationId, int destinationStationId, Date departureDate) {
         List<Train> resultTrains;
-        try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()){
+        try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {
             resultTrains = trainDao.getTrainInDirection(departureStationId, destinationStationId);
         }
 
         int dayOfYear = TimeDateUtil.getDayOfYearOfDate(departureDate);
-        resultTrains = resultTrains.stream().filter(train -> dayOfYear%train.getFrequency() == 0)
+        resultTrains = resultTrains.stream().filter(train -> dayOfYear % train.getFrequency() == 0)
                 .collect(Collectors.toList());
 
         LOG.info(String.format("Search for trains between %d -> %d on %s; Found %d result(s)",
