@@ -25,6 +25,10 @@ public class CommandFactory {
         commandMap.put("user/saveTicket", new SaveTicketCommand());
         commandMap.put("user/returnTicket", new ReturnTicketCommand());
 
+        commandMap.put("admin/users", new UserListPageCommand());
+        commandMap.put("admin/promoteToAdmin", new PromoteToAdminCommand());
+        commandMap.put("admin/removePassenger", new RemoveUserCommand());
+        commandMap.put("admin/updatePassenger", new UpdatePassengerCommand());
     }
 
     private static class SingletonDaoFactory {

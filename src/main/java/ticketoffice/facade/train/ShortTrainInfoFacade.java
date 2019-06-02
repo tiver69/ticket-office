@@ -54,7 +54,7 @@ public class ShortTrainInfoFacade {
                     TimeDateUtil.getTimeDiff(shortTrainInfoDto.getDepartureTime(), shortTrainInfoDto.getArrivalTime()));
 
             shortTrainInfoDto.setCoachTypePlacesInfoDtoList(
-                    coachTypePlacesInfoFacade.getTrainPlacesInformation(train.getId(), departureDate));
+                    coachTypePlacesInfoFacade.getTrainPlacesInformation(train.getId(), departureStationId, destinationStationId, departureDate));
 
             shortTrainInfoDtoList.add(shortTrainInfoDto);
         });

@@ -21,7 +21,7 @@
 <body onload="loadRequest()">
     <h1><fmt:message key="booking.train.message" /></h1>
 
-    <button type="button" onclick="window.location.href='/user/home'" >
+    <button type="button" onclick="window.location.href='findTrain?departureStation=${pageContext.request.getParameter("departureStationHidden")}&destinationStation=${pageContext.request.getParameter("destinationStationHidden")}&departureDate=${pageContext.request.getParameter("departureDateHidden")}'" >
         <fmt:message key="booking.ticket.button.return"/>
     </button>
 
