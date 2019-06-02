@@ -65,6 +65,20 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>CoachDisplayFilter</filter-name>
+        <filter-class>ticketoffice.filter.CoachDisplayFilter</filter-class>
+        <init-param>
+            <param-name>currentCoach</param-name>
+            <param-value>1</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CoachDisplayFilter</filter-name>
+        <url-pattern>/page/user/trainDetail</url-pattern>
+    </filter-mapping>
+
     <error-page>
         <error-code>401</error-code>
         <location>/jsp/error/401.jsp</location>

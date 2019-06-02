@@ -1,14 +1,10 @@
 package ticketoffice.persistence.dao;
 
+import ticketoffice.model.TrainCoach;
+import ticketoffice.model.TrainStation;
 import ticketoffice.persistence.ConnectionPool;
-import ticketoffice.persistence.dao.impl.jdbc.PassengerDaoImpl;
-import ticketoffice.persistence.dao.impl.jdbc.PassengerRoleDaoImpl;
-import ticketoffice.persistence.dao.impl.jdbc.TicketDaoImpl;
-import ticketoffice.persistence.dao.impl.jdbc.TrainDaoImpl;
-import ticketoffice.persistence.dao.interfaces.PassengerDao;
-import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
-import ticketoffice.persistence.dao.interfaces.TicketDao;
-import ticketoffice.persistence.dao.interfaces.TrainDao;
+import ticketoffice.persistence.dao.impl.jdbc.*;
+import ticketoffice.persistence.dao.interfaces.*;
 
 public class DaoFactory {
 
@@ -41,5 +37,27 @@ public class DaoFactory {
     public PassengerRoleDao getPassengerRoleDao(){
         return new PassengerRoleDaoImpl(
                 ConnectionPool.getInstance().getConnection());
+    }
+
+    public StationDao getStationDao(){
+        return new StationDaoImpl(
+                ConnectionPool.getInstance().getConnection());
+    }
+
+    public TrainStationDao getTrainStationDao(){
+        return new TrainStationDaoImpl(
+                ConnectionPool.getInstance().getConnection());
+    }
+
+    public TrainCoachDao getTrainCoachDao(){
+        return new TrainCoachDaoImpl(
+                ConnectionPool.getInstance().getConnection()
+        );
+    }
+
+    public CoachTypeDao getCoachTypeDao(){
+        return new CoachTypeDaoImpl(
+                ConnectionPool.getInstance().getConnection()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package ticketoffice.service;
 
+import org.apache.log4j.Logger;
 import ticketoffice.model.PassengerRole;
 import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.DaoFactory;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class PassengerRoleService {
 
+    private static Logger LOG = Logger.getLogger(PassengerRoleService.class);
+
     public List<Role> getRolesByPassengerId(int passengerId) {
         List<Role> roleList = new ArrayList<>();
         try (PassengerRoleDao passengerRoleDao = DaoFactory.getInstance().getPassengerRoleDao()) {
@@ -19,6 +22,7 @@ public class PassengerRoleService {
                 roleList.add(passengerRole.getRole());
             });
         }
+        LOG.info(String.format("Load %s role(s) for user#%d", roleList.toString(), passengerId));
         return roleList;
     }
 }

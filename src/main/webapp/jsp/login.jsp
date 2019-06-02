@@ -12,7 +12,7 @@
 </head>
 <body>
     <div align="center">
-    <form action="signin" method="post">
+    <form action="signin" method="get">
     <fmt:message key="registration.username"/>: <input type="text" name="login" required="required"></input>
     <fmt:message key="registration.password"/>: <input type="password" name="password" required="required"></input>
     <br/>

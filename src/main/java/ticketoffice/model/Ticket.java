@@ -1,14 +1,14 @@
 package ticketoffice.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Date;
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ticket {
 
     private int id;
@@ -18,20 +18,7 @@ public class Ticket {
     private Date date;
     private TrainCoach trainCoach;
     private int place;
-
-    public Ticket() {
-    }
-
-    public Ticket(int id, Passenger passenger, Station departureStation,
-                  Station destinationStation, Date date, TrainCoach trainCoach, int place) {
-        this.id = id;
-        this.passenger = passenger;
-        this.departureStation = departureStation;
-        this.destinationStation = destinationStation;
-        this.date = date;
-        this.trainCoach = trainCoach;
-        this.place = place;
-    }
+    private int price;
 
     @Override
     public boolean equals(Object obj) {
