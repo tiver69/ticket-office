@@ -46,4 +46,18 @@ public class TicketService {
                     .ifPresent(ticket::setDestinationStation);
         }
     }
+
+    public boolean checkIfTicketAvailableForRoot(int departureStationId, int destinationStationId, Ticket ticket) {
+        fillTicket(ticket);
+        int trainId = ticket.getTrainCoach().getTrain().getId();
+        int ticketDepartureOrder = trainStationService.getTrainStationOrder(ticket.getDepartureStation().getId(), trainId);
+        int ticketDestinationOrder = trainStationService.getTrainStationOrder(ticket.getDestinationStation().getId(), trainId);
+        int requestDepartureOrder = trainStationService.getTrainStationOrder(departureStationId, trainId);
+        int requestDestinationOrder = trainStationService.getTrainStationOrder(destinationStationId, trainId);
+        LOG.debug(String.format("Search for ticket formula: (%d-%d)*(%d-%d)>0",requestDepartureOrder,ticketDestinationOrder,
+                requestDestinationOrder,ticketDepartureOrder));
+
+        return ((requestDestinationOrder - ticketDepartureOrder)
+                * (requestDepartureOrder - ticketDestinationOrder) >= 0);
+    }
 }

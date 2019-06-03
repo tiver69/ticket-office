@@ -28,28 +28,26 @@ public class TrainStationService {
         }
     }
 
-    public Time getArrivalTime(int destinationStationId, int requestTrainId){
+    public Time getArrivalTime(int destinationStationId, int requestTrainId) {
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             Optional<TrainStation> destination = trainStationDao.getByTrainIdAndStationId(
                     destinationStationId, requestTrainId);
             if (destination.isPresent()) {
                 return destination.get().getArrivalTime();
-            }
-            else {
+            } else {
                 LOG.error("TrainStation doesn't exist");
                 throw new IllegalArgumentException("TrainStation doesn't exist"); //change exception
             }
         }
     }
 
-    public Time getDepartureTime(int destinationStationId, int requestTrainId){
+    public Time getDepartureTime(int destinationStationId, int requestTrainId) {
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             Optional<TrainStation> destination = trainStationDao.getByTrainIdAndStationId(
                     destinationStationId, requestTrainId);
             if (destination.isPresent()) {
                 return destination.get().getDepartureTime();
-            }
-            else {
+            } else {
                 LOG.error("TrainStation doesn't exist");
                 throw new IllegalArgumentException("TrainStation doesn't exist"); //change exception
             }
@@ -76,5 +74,14 @@ public class TrainStationService {
                 fullRoot.size(), departureStationId, departureStationOrder,
                 destinationStationId, destinationStationOrder));
         return fullRoot;
+    }
+
+    public int getTrainStationOrder(int stationId, int trainId) {
+        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
+            Optional<TrainStation> trainStation = trainStationDao.getByTrainIdAndStationId(stationId, trainId);
+            if (trainStation.isPresent()) {
+                return trainStation.get().getOrder();
+            } else throw new IllegalArgumentException("Train-Station doesn't exist");//change exception
+        }
     }
 }

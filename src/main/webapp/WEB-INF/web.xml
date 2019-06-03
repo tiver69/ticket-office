@@ -66,6 +66,16 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>AdminFunctionalFilter</filter-name>
+        <filter-class>ticketoffice.filter.AdminFunctionalFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AdminFunctionalFilter</filter-name>
+        <url-pattern>/page/user/home</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>CoachDisplayFilter</filter-name>
         <filter-class>ticketoffice.filter.CoachDisplayFilter</filter-class>
         <init-param>
@@ -77,6 +87,17 @@
     <filter-mapping>
         <filter-name>CoachDisplayFilter</filter-name>
         <url-pattern>/page/user/trainDetail</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>UpdatePassengerFilter</filter-name>
+        <filter-class>ticketoffice.filter.UpdatePassengerFilter</filter-class>
+
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UpdatePassengerFilter</filter-name>
+        <url-pattern>/page/admin/updatePassenger</url-pattern>
     </filter-mapping>
 
     <error-page>

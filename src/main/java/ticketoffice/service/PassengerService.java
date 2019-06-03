@@ -37,4 +37,16 @@ public class PassengerService {
         LOG.info("Fail to authenticate " + login);
         return Optional.empty();
     }
+
+    public Passenger loadPassenger(int passengerId){
+        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()){
+            Optional<Passenger> passenger = passengerDao.getById(passengerId);
+            if (passenger.isPresent()){
+                return passenger.get();
+            }
+            else {
+                throw new IllegalArgumentException("Passenger doesn't exist"); //change exception
+            }
+        }
+    }
 }

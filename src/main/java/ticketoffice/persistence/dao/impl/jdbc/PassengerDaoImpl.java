@@ -91,8 +91,6 @@ public class PassengerDaoImpl extends AbstractDaoImpl<Passenger> implements Pass
             }
             Passenger newPassenger = getByLogin(passenger.getLogin()).get();
             PassengerRole passengerRole = new PassengerRole(0, newPassenger, Role.USER);
-//            passengerRole.setPassenger(newPassenger);
-//            passengerRole.setRole(Role.USER);
             PassengerRoleDao passengerRoleDao = new PassengerRoleDaoImpl(connection);
 
             if (passengerRoleDao.create(passengerRole) != 1) {

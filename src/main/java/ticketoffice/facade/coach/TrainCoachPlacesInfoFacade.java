@@ -6,6 +6,7 @@ import ticketoffice.model.TrainCoach;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 import ticketoffice.persistence.dao.interfaces.TrainCoachDao;
+import ticketoffice.service.TicketService;
 import ticketoffice.service.TrainCoachService;
 import ticketoffice.service.utils.TrainCoachUtil;
 
@@ -17,14 +18,19 @@ public class TrainCoachPlacesInfoFacade {
 
     private static Logger LOG = Logger.getLogger(TrainCoachPlacesInfoFacade.class);
     private TrainCoachService trainCoachService = new TrainCoachService();
+    private TicketService ticketService = new TicketService();
 
-    private TrainCoachPlacesInfoDto getTrainCoachPlacesInformation(TrainCoach trainCoach, Date departureDate) {
+
+    private TrainCoachPlacesInfoDto getTrainCoachPlacesInformation(TrainCoach trainCoach, int departureStationId,
+                                                                   int destinationStationId, Date departureDate) {
         TrainCoachPlacesInfoDto trainCoachPlacesInfoDto = new TrainCoachPlacesInfoDto();
         trainCoachPlacesInfoDto.setTrainCoach(trainCoach);
 
         List<Integer> placeList = new ArrayList<>();
-        try(TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()){
+        try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
             ticketDao.getTicketsByCoachIdAndDate(trainCoach.getId(), departureDate)
+                    .stream().filter(ticket ->
+                    !ticketService.checkIfTicketAvailableForRoot(departureStationId, destinationStationId, ticket))
                     .forEach(ticket -> {
                         placeList.add(ticket.getPlace());
                     });
@@ -37,7 +43,8 @@ public class TrainCoachPlacesInfoFacade {
     }
 
 
-    public List<TrainCoachPlacesInfoDto> getTrainCoachPlacesInformation(int trainId, Date departureDate) {
+    public List<TrainCoachPlacesInfoDto> getTrainCoachPlacesInformation(int trainId, int departureStationId,
+                                                                        int destinationStationId, Date departureDate) {
 
         List<TrainCoach> trainCoachList;
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
@@ -50,7 +57,8 @@ public class TrainCoachPlacesInfoFacade {
         List<TrainCoachPlacesInfoDto> trainCoachPlacesInfoDtoList = new ArrayList<>();
         trainCoachList.forEach(trainCoach -> {
             trainCoachPlacesInfoDtoList.add(
-                    getTrainCoachPlacesInformation(trainCoach, departureDate));
+                    getTrainCoachPlacesInformation(trainCoach,
+                            departureStationId, destinationStationId, departureDate));
         });
         TrainCoachUtil.sortByCoachNumber(trainCoachPlacesInfoDtoList);
 

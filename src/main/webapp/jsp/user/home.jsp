@@ -18,9 +18,16 @@
      <h1><fmt:message key="home.greeting" />,
      <c:out value="${user.getPassenger().getFirstName()}"/> <c:out value="${user.getPassenger().getLastName()}"/>
      <c:out value="${user.getRoles()}"/></h1>
+     <c:choose>
+          <c:when test="${adminFunctional}">
+            <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/admin/users'" >
+             <fmt:message key="user.home.admin"/>
+            </button>
+          </c:when>
+     </c:choose>
      <button type="button" onclick="location.href='${pageContext.request.contextPath}/page/user/logout'" >
          <fmt:message key="user.home.logout"/>
-     </button>
+     </button><br/><br/>
 
      <form action="findTrain" method="get">
               <fmt:message key="home.booking.departure"/>

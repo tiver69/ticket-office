@@ -55,7 +55,7 @@
         <input type="submit" value=<fmt:message key="home.booking"/> />
      </form>
 
-     <button type="button" onclick="history.go(-1)" >
+     <button type="button" onclick="window.location.href='home'" >
          <fmt:message key="booking.ticket.button.return"/>
      </button>
 
