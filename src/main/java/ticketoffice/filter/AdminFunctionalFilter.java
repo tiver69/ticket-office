@@ -16,9 +16,11 @@ public class AdminFunctionalFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        UserDto user = (UserDto)httpRequest.getSession().getAttribute("user");
-        boolean adminFunctional =  user.getRoles().contains(Role.ADMIN);
-        servletRequest.setAttribute("adminFunctional", adminFunctional);
+        if (httpRequest.getSession().getAttribute("user") != null) {
+            UserDto user = (UserDto) httpRequest.getSession().getAttribute("user");
+            boolean adminFunctional = user.getRoles().contains(Role.ADMIN);
+            servletRequest.setAttribute("adminFunctional", adminFunctional);
+        }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

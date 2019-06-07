@@ -23,6 +23,13 @@
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
 
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.html</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>ticketoffice.filter.EncodingFilter</filter-class>
@@ -72,21 +79,7 @@
 
     <filter-mapping>
         <filter-name>AdminFunctionalFilter</filter-name>
-        <url-pattern>/page/user/home</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>CoachDisplayFilter</filter-name>
-        <filter-class>ticketoffice.filter.CoachDisplayFilter</filter-class>
-        <init-param>
-            <param-name>currentCoach</param-name>
-            <param-value>1</param-value>
-        </init-param>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>CoachDisplayFilter</filter-name>
-        <url-pattern>/page/user/trainDetail</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -98,6 +91,19 @@
     <filter-mapping>
         <filter-name>UpdatePassengerFilter</filter-name>
         <url-pattern>/page/admin/updatePassenger</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>PagesDisplayFilter</filter-name>
+        <filter-class>ticketoffice.filter.PagesDisplayFilter</filter-class>
+
+    </filter>
+
+    <filter-mapping>
+        <filter-name>PagesDisplayFilter</filter-name>
+        <url-pattern>/page/user/home</url-pattern>
+        <url-pattern>/page/admin/users</url-pattern>
+        <url-pattern>/page/user/trainDetail</url-pattern>
     </filter-mapping>
 
     <error-page>

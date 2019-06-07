@@ -18,7 +18,7 @@ public class TrainDetailsCommand implements Command {
         int selectedTrainId = Integer.parseInt(request.getParameter("selectedTrainId"));
         int departureStation = Integer.parseInt(request.getParameter("departureStationHidden"));
         int destinationStation = Integer.parseInt(request.getParameter("destinationStationHidden"));
-        int currentCoach = (int) request.getAttribute("currentCoach");
+        int currentPage = (int) request.getAttribute("currentPage");
         Date date = Date.valueOf(request.getParameter("departureDateHidden"));
 
         LOG.info(String.format("Detail information request for train #%d on %s",
@@ -26,10 +26,12 @@ public class TrainDetailsCommand implements Command {
 
         FullTrainInfoDto fullTrainInfoDto =
                 fullTrainInfoFacade.getRequestTrainInformation(departureStation, destinationStation, date, selectedTrainId);
+        request.setAttribute("pages",
+                (int) Math.ceil(fullTrainInfoDto.getTrainCoachPlacesInfoDtoList().size()));
         fullTrainInfoDto.setTrainCoachPlacesInfoDtoList(
                 fullTrainInfoDto.getTrainCoachPlacesInfoDtoList().stream()
                         .filter((trainCoachPlacesInfoDto) ->
-                                trainCoachPlacesInfoDto.getTrainCoach().getNumber() == currentCoach
+                                trainCoachPlacesInfoDto.getTrainCoach().getNumber() == currentPage
                         ).collect(Collectors.toList()));
         request.setAttribute("trainInformation", fullTrainInfoDto);
         return "user/booking/train";

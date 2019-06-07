@@ -13,12 +13,12 @@ public class LocalizationFilter implements Filter {
     private static final String LOCALE = "locale";
     private static final String BUNDLE = "bundle";
     private String defaultBundle;
-    private String locale;
+    private String defaultLocale;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         defaultBundle = filterConfig.getInitParameter(BUNDLE);
-        locale = filterConfig.getInitParameter(LOCALE);
+        defaultLocale = filterConfig.getInitParameter(LOCALE);
     }
 
     @Override
@@ -26,17 +26,18 @@ public class LocalizationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         String localeParameter = servletRequest.getParameter(LOCALE);
 
-        locale = localeParameter != null
-                ? localeParameter
-                : httpRequest.getSession().getAttribute(LOCALE) != null
-                ? (String) httpRequest.getSession().getAttribute(LOCALE)
-                : this.locale;
+        if (localeParameter != null) {
+            httpRequest.getSession().setAttribute(LOCALE, localeParameter);
+            LOG.info("Set locale to " + localeParameter);
+        } else if (httpRequest.getSession().getAttribute(LOCALE) == null) {
+            httpRequest.getSession().setAttribute(LOCALE, defaultLocale);
+            LOG.info("Set locale to default " + defaultLocale);
+        }
 
+        if (httpRequest.getSession().getAttribute(BUNDLE) == null) {
+            httpRequest.getSession().setAttribute(BUNDLE, defaultBundle);
+        }
 
-        httpRequest.getSession().setAttribute(LOCALE, locale);
-        httpRequest.getSession().setAttribute(BUNDLE, defaultBundle);
-
-        LOG.info("Set locale to " + locale);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
