@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="/WEB-INF/coachView.tld" prefix="mytags"%>
 
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="${bundle}"/>
@@ -104,38 +105,30 @@
         <hr/>
         <!-- coache places section -->
 
-        <c:set var="placePerLine" value="${trainCoach.getTrainCoach().getCoachType().getPlaces() / 4}"/>
+        <mytags:setCoachViewParameters number="${trainCoach.getTrainCoach().getCoachType().getId()}"/>
+        <c:set var="placePerLine" value="${trainCoach.getTrainCoach().getCoachType().getPlaces() / (rightSideRow + leftSideRow)}"/>
         <div class="wagon-floors">
             <div class="floor floor-1">
+                <c:forEach begin="0" end="${leftSideRow-1}" var="leftRow">
                 <div class="row">
-                    <c:forEach begin="1" end="${placePerLine}" var="i">
+                    <c:forEach begin="${leftRow*placePerLine+1}" end="${placePerLine*(leftRow+1)}" var="i">
                     <c:choose>
                          <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
-                            <div class="col place disable"><c:out value="${i}"/></div>
+                            <div class="col place disable" title="<fmt:message key='booking.train.place.occupied'/>"><c:out value="${i}"/></div>
                          </c:when>
                          <c:otherwise>
-                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}"><c:out value="${i}"/></a>
+                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}" title="<fmt:message key='booking.train.place.free'/>"><c:out value="${i}"/></a>
                          </c:otherwise>
                      </c:choose>
                     </c:forEach>
                 </div>
-                <div class="row">
-                    <c:forEach begin="${placePerLine+1}" end="${placePerLine*2}" var="i">
-                    <c:choose>
-                         <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
-                            <div class="col place disable"><c:out value="${i}"/></div>
-                         </c:when>
-                         <c:otherwise>
-                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}"><c:out value="${i}"/></a>
-                         </c:otherwise>
-                     </c:choose>
-                    </c:forEach>
-                </div>
+                </c:forEach>
                 <div class="row">                
-                    <div class="col">.</div>
+                    <div class="col place" style="background-color: #7971ea50; cursor: default;" title="<fmt:message key='booking.train.pass'/>" ></div>
                 </div>
+                <c:forEach begin="${leftSideRow}" end="${leftSideRow+rightSideRow-1}" var="rightRow">
                 <div class="row">
-                    <c:forEach begin="${placePerLine*2+1}" end="${placePerLine*3}" var="i">
+                    <c:forEach begin="${rightRow*placePerLine+1}" end="${placePerLine*(rightRow+1)}" var="i">
                     <c:choose>
                          <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
                             <div class="col place disable"><c:out value="${i}"/></div>
@@ -146,18 +139,7 @@
                      </c:choose>
                     </c:forEach>
                 </div>
-                <div class="row">
-                    <c:forEach begin="${placePerLine*3+1}" end="${trainCoach.getTrainCoach().getCoachType().getPlaces()}" var="i">
-                    <c:choose>
-                         <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
-                            <div class="col place disable"><c:out value="${i}"/></div>
-                         </c:when>
-                         <c:otherwise>
-                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}"><c:out value="${i}"/></a>
-                         </c:otherwise>
-                     </c:choose>
-                    </c:forEach>
-                </div>
+                </c:forEach>
             </div>
         </div>
 

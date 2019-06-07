@@ -575,6 +575,7 @@ form {
     padding: 10px 30px; }
     @media (max-width: 1199.98px) {
       .form-search-wrap .btn {
+            margin-bottom: 10px;
         width: 100% !important;
         display: block; } }
 

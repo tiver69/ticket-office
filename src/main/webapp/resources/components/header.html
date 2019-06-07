@@ -43,29 +43,29 @@
         <ul class="site-nav-wrap">
           <li id="menu-home"><a href="home"><span><fmt:message key="app.header.home"/></span></a></li>
 
- <c:choose>
-                  <c:when test="${adminFunctional}">
-                    <li id="menu-admin">
-                      <a href="${pageContext.request.contextPath}/page/admin/users">
-                        <span>
-                          <fmt:message key="user.home.admin"/>
-                        </span>
-                      </a>
-                    </li>
-                  </c:when>
-                </c:choose>
+          <c:choose>
+           <c:when test="${adminFunctional}">
+             <li id="menu-admin">
+               <a href="${pageContext.request.contextPath}/page/admin/users">
+                 <span>
+                   <fmt:message key="user.home.admin"/>
+                 </span>
+               </a>
+             </li>
+           </c:when>
+          </c:choose>
 
-              <c:choose>
-                <c:when test="${not empty user}">
-                  <li>
-                    <a href="${pageContext.request.contextPath}/page/user/logout">
-                    <span>
-                      <fmt:message key="user.home.logout"/>
-                    </span>
-                    </a>
-                  </li>
-                </c:when>
-                </c:choose>
+          <c:choose>
+            <c:when test="${not empty user}">
+              <li>
+                <a href="${pageContext.request.contextPath}/page/user/logout">
+                <span>
+                  <fmt:message key="user.home.logout"/>
+                </span>
+                </a>
+              </li>
+            </c:when>
+          </c:choose>
 
           <li class="w-50"><a href="?locale=en${saveRequest}"><span class="icon-language2"></span>  en</a></li>
           <li class="w-50"><a href="?locale=ru${saveRequest}"><span class="icon-language2"></span>  ru</a></li>
