@@ -15,21 +15,68 @@
         var departureStationId = ${pageContext.request.getParameter("departureStation")};
         var destinationStationId = ${pageContext.request.getParameter("destinationStation")};
         document.getElementById('departureStationSelectItem').value = departureStationId;
-            document.getElementById('departureHidden').value = departureStationId;
+        onDepartureChange(document.getElementById('departureStationSelectItem'));
+
         document.getElementById('destinationStationSelectItem').value = destinationStationId;
-        document.getElementById('destinationHidden').value = destinationStationId;
+        onDestinationChange(document.getElementById('destinationStationSelectItem'));
+
+        document.getElementById("departureDateItem").min = getCurrentDate();
       }
+
       function onDestinationChange(sel)
       {
-        document.getElementById('destinationHidden').value = sel.value;
+        document.getElementById('destinationHidden').value = sel.value;        
+        var departureOptions = document.getElementById('departureStationSelectItem').options;
+        for (var i=0, iLen=departureOptions.length; i<iLen; i++) {
+            var opt = departureOptions[i];
+            if (opt.value == document.getElementById('destinationHidden').value) {
+                opt.hidden = true;
+            }
+            else {
+                opt.hidden = false;
+            }
+        }
       }
+
       function onDepartureChange(sel)
       {
         document.getElementById('departureHidden').value = sel.value;
+        var destinationOptions = document.getElementById('destinationStationSelectItem').options;
+        for (var i=0, iLen=destinationOptions.length; i<iLen; i++) {
+            var opt = destinationOptions[i];
+            if (opt.value == document.getElementById('departureHidden').value) {
+                opt.hidden = true;
+            }
+            else {
+                opt.hidden = false;
+            }
+        }
       }
+
       function onDateChange(sel)
       {
         document.getElementById('dateHidden').value = sel.value;
+      }
+
+      function swapStation(){
+        var destinationStationId = document.getElementById('destinationHidden').value;
+        var departureStationId = document.getElementById('departureHidden').value;
+
+        document.getElementById('departureStationSelectItem').value = destinationStationId;
+        onDepartureChange(document.getElementById('departureStationSelectItem'));
+
+        document.getElementById('destinationStationSelectItem').value = departureStationId;
+        onDestinationChange(document.getElementById('destinationStationSelectItem'));
+      }
+
+      function getCurrentDate() {
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        if (month < 10) month = "0" + month.toString();
+        var day = today.getDate();
+        if (day < 10) day = "0" + day.toString();
+
+        return today.getFullYear() + "-" + month + "-"+ day;
       }
     </script>
 </head>
@@ -46,11 +93,11 @@
         <div class="row align-items-center justify-content-center text-center">
 
           <div class="col index-booking-form">
-            <div class="form-search-wrap p-2">
-                <form action="findTrain" method="get">
+            <div class="form-search-wrap p-2" style="overflow-x: auto;">
+                <form action="findTrain" method="get" style="min-width: 900px;">
                 <div class="row align-items-center">
 
-                    <div class="w-25 p-3 no-sm-border border-right">     
+                    <div class="p-3 no-sm-border border-right" style="width: 23%;">     
                         <div class="select-wrap">     
                             <span class="icon-map-marker"></span>          
                             <span class="icon"><span class="icon-angle-down"></span></span>
@@ -62,8 +109,13 @@
                         </div>
                     </div>
 
+                    <div class="p-3 no-sm-border" style="width: 4%;">
+                        <a href="javascript:void(0);" onclick="swapStation()">
+                            <span class="icon-exchange"></span>
+                        </a>
+                    </div> 
 
-                    <div class="w-25 p-3 no-sm-border border-right">     
+                    <div class="p-3 no-sm-border border-left border-right" style="width: 23%;">     
                         <div class="select-wrap">               
                             <span class="icon-map-marker"></span>
                             <span class="icon"><span class="icon-angle-down"></span></span>

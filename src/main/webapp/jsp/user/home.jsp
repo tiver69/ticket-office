@@ -13,13 +13,75 @@
       function confirmReturn(form) {
           return confirm("<fmt:message key='user.home.message.confirm'/>");
       }
+      function onLoadHomePage(){
+        loadMenuColor();
+        document.getElementById("destinationStationSelect").value = 1;
+        onDestinationChange();
+        document.getElementById("departureStationSelect").value = 2;
+        onDepartureChange();
+        
+        document.getElementById("dateInput").min = getCurrentDate();
+      }
+
+      function onDestinationChange()
+      {       
+        var departureOptions = document.getElementById('departureStationSelect').options;
+        for (var i=0, iLen=departureOptions.length; i<iLen; i++) {
+            var opt = departureOptions[i];
+            if (opt.value == document.getElementById('destinationStationSelect').value) {
+                opt.hidden = true;
+            }
+            else {
+                opt.hidden = false;
+            }
+        }
+      }
+
+      function onDepartureChange()
+      {
+        var destinationOptions = document.getElementById('destinationStationSelect').options;
+        for (var i=0, iLen=destinationOptions.length; i<iLen; i++) {
+            var opt = destinationOptions[i];
+            if (opt.value == document.getElementById('departureStationSelect').value) {
+                opt.hidden = true;
+            }
+            else {
+                opt.hidden = false;
+            }
+        }
+      }
+
+      function swapStation(){
+        var destinationStationId = document.getElementById('destinationStationSelect').value;
+        var departureStationId = document.getElementById('departureStationSelect').value;
+
+        document.getElementById('departureStationSelect').value = destinationStationId;
+        onDepartureChange(document.getElementById('departureStationSelect'));
+
+        document.getElementById('destinationStationSelect').value = departureStationId;
+        onDestinationChange(document.getElementById('destinationStationSelect'));
+      }
+
       function loadMenuColor() {
-        document.getElementById("menu-home").classList.add("active");
+        var el = document.getElementsByClassName("menu-home");
+          for (var i=0, iLen=el.length; i<iLen; i++) {
+            el[i].classList.add("active");
+        }        
+      }
+
+      function getCurrentDate() {
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        if (month < 10) month = "0" + month.toString();
+        var day = today.getDate();
+        if (day < 10) day = "0" + day.toString();
+
+        return today.getFullYear() + "-" + month + "-"+ day;
       }
   </script>
 </head>
 
-<body onload="loadMenuColor()">
+<body onload="onLoadHomePage()">
 <div class="site-wrap">
 
     <c:import url="/resources/components/header.html"/>
@@ -180,7 +242,11 @@
             <div class="mb-5">
               <h3 class="h5 text-black mb-3">
                 <fmt:message key="home.booking.message"/>
+                <a href="javascript:void(0);" onclick="swapStation()" style="float: right;">
+                  <span class="icon-exchange"></span>
+                </a>
               </h3>
+
 
               <form action="findTrain" method="get">
                 <span class="icon-room"></span>
@@ -188,7 +254,7 @@
                 <div class="form-group">
                   <div class="select-wrap">
                       <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                      <select class="form-control" name="departureStation">
+                      <select class="form-control" name="departureStation" id="departureStationSelect" onchange="onDepartureChange()">
                         <c:forEach items="${stations}" var="station">
                           <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
                         </c:forEach>
@@ -201,7 +267,7 @@
                 <div class="form-group">
                   <div class="select-wrap">
                       <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                      <select class="form-control" name="destinationStation">
+                      <select class="form-control" name="destinationStation" id="destinationStationSelect" onchange="onDestinationChange()">
                         <c:forEach items="${stations}" var="station">
                           <option value="${station.getId()}"><c:out value="${station.getName()}" /></option>
                         </c:forEach>
@@ -210,7 +276,7 @@
                 </div>
 
                 <div class="form-group">
-                  <fmt:message key="home.booking.date"/>: <input type="date" name="departureDate" required="required" class="form-control" />
+                  <fmt:message key="home.booking.date"/>: <input type="date" name="departureDate" required="required" class="form-control" id="dateInput" />
                 </div>
 
                 <div class="form-group">

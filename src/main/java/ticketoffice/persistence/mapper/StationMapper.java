@@ -11,6 +11,7 @@ import ticketoffice.persistence.dao.interfaces.TicketDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class StationMapper implements Mapper<Station> {
 
@@ -21,13 +22,14 @@ public class StationMapper implements Mapper<Station> {
     }
 
     @Override
-    public Station extractItem(ResultSet resultSet) throws SQLException {
-        Station station = new Station();
-        while (resultSet.next()) {
+    public Optional<Station> extractItem(ResultSet resultSet) throws SQLException {
+        Station station = null;
+        if (resultSet.first()) {
+            station = new Station();
             station.setId(resultSet.getInt("id"));
             station.setName(resultSet.getString("name"));
         }
-        return station;
+        return Optional.ofNullable(station);
     }
 
     @Override
@@ -35,10 +37,7 @@ public class StationMapper implements Mapper<Station> {
         ArrayList<Station> stationList = new ArrayList<>();
         while (resultSet.next()) {
             stationDao.getById(resultSet.getInt("id"))
-                    .map(stationList::add);
-//            Ticket ticket
-//                    = ticketDao.getById(resultSet.getInt("id")).get();
-//            ticketList.add(ticket);
+                    .ifPresent(stationList::add);
         }
         return stationList;
     }

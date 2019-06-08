@@ -6,18 +6,20 @@ import ticketoffice.persistence.dao.interfaces.PassengerDao;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RemoveUserCommand  implements Command {
+public class RemoveUserCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(RemoveUserCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
 
-        int passengerId = Integer.parseInt(request.getParameter("passengerId"));
-        LOG.info(String.format("Request for removing user#%d", passengerId));
-
-        try(PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()){
+        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()) {
+            int passengerId = Integer.parseInt(request.getParameter("passengerId"));
+            LOG.info(String.format("Request for removing user#%d", passengerId));
             passengerDao.delete(passengerId);
+        } catch (IllegalArgumentException e) {
+            LOG.error("Illegal arguments for /removePassenger request");
+            return ("error/400");
         }
 
         return "redirect/admin/users";

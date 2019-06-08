@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import ticketoffice.model.Ticket;
 import ticketoffice.model.TrainStation;
 import ticketoffice.persistence.dao.DaoFactory;
-import ticketoffice.persistence.dao.interfaces.StationDao;
-import ticketoffice.persistence.dao.interfaces.TrainCoachDao;
+import ticketoffice.persistence.dao.interfaces.TicketDao;
+import ticketoffice.service.utils.StationService;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ public class TicketService {
 
     private static Logger LOG = Logger.getLogger(TicketService.class);
     private TrainCoachService trainCoachService = new TrainCoachService();
+    private StationService stationService = new StationService();
     private TrainStationService trainStationService = new TrainStationService();
 
     public int countTicketPrice(Ticket ticket) {
@@ -32,18 +33,20 @@ public class TicketService {
     }
 
     public void fillTicket(Ticket ticket) {
+        ticket.setTrainCoach(trainCoachService.getTrainCoach(ticket.getTrainCoach().getId()));
+        ticket.setDepartureStation(stationService.getStation(ticket.getDepartureStation().getId()));
+        ticket.setDestinationStation(stationService.getStation(ticket.getDestinationStation().getId()));
+    }
 
-        try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
-            trainCoachDao.getById(ticket.getTrainCoach().getId())
-                    .ifPresent(ticket::setTrainCoach);
-            trainCoachService.fillTrainCoachType(ticket.getTrainCoach());
-            trainCoachService.fillTrainCoachTrain(ticket.getTrainCoach());
-        }
-        try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
-            stationDao.getById(ticket.getDepartureStation().getId())
-                    .ifPresent(ticket::setDepartureStation);
-            stationDao.getById(ticket.getDestinationStation().getId())
-                    .ifPresent(ticket::setDestinationStation);
+    public boolean checkIfPlaceUnavailableForTicket(Ticket ticket) {
+        try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
+            return ticketDao.getTicketsByCoachIdAndDate(ticket.getTrainCoach().getId(), ticket.getDate())
+                    .stream().filter(foundTicket ->
+                            foundTicket.getPlace() == ticket.getPlace())
+                    .anyMatch(foundTicket ->
+                            !checkIfTicketAvailableForRoot(
+                                    ticket.getDepartureStation().getId(), ticket.getDestinationStation().getId(),
+                                    foundTicket));
         }
     }
 
@@ -54,8 +57,8 @@ public class TicketService {
         int ticketDestinationOrder = trainStationService.getTrainStationOrder(ticket.getDestinationStation().getId(), trainId);
         int requestDepartureOrder = trainStationService.getTrainStationOrder(departureStationId, trainId);
         int requestDestinationOrder = trainStationService.getTrainStationOrder(destinationStationId, trainId);
-        LOG.debug(String.format("Search for ticket formula: (%d-%d)*(%d-%d)>0",requestDepartureOrder,ticketDestinationOrder,
-                requestDestinationOrder,ticketDepartureOrder));
+        LOG.debug(String.format("Search for ticket formula: (%d-%d)*(%d-%d)>0", requestDepartureOrder, ticketDestinationOrder,
+                requestDestinationOrder, ticketDepartureOrder));
 
         return ((requestDestinationOrder - ticketDepartureOrder)
                 * (requestDepartureOrder - ticketDestinationOrder) >= 0);

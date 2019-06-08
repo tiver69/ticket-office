@@ -41,11 +41,11 @@
       </div>
       <div class="site-mobile-menu-body">
         <ul class="site-nav-wrap">
-          <li id="menu-home"><a href="home"><span><fmt:message key="app.header.home"/></span></a></li>
+          <li class="menu-home"><a href="home"><span><fmt:message key="app.header.home"/></span></a></li>
 
           <c:choose>
            <c:when test="${adminFunctional}">
-             <li id="menu-admin">
+             <li class="menu-admin">
                <a href="${pageContext.request.contextPath}/page/admin/users">
                  <span>
                    <fmt:message key="user.home.admin"/>
@@ -89,7 +89,7 @@
           <div class="col-12 col-md-10 d-none d-xl-block">
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li id="menu-home">
+                <li class="menu-home">
                   <a href="home">
                   <span>
                     <fmt:message key="app.header.home"/>
@@ -99,7 +99,7 @@
 
                 <c:choose>
                   <c:when test="${adminFunctional}">
-                    <li id="menu-admin">
+                    <li class="menu-admin">
                       <a href="${pageContext.request.contextPath}/page/admin/users">
                         <span>
                           <fmt:message key="user.home.admin"/>

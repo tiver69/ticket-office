@@ -2,6 +2,7 @@ package ticketoffice.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
+import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.model.Passenger;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
@@ -12,6 +13,17 @@ public class PassengerService {
 
     private static Logger LOG = Logger.getLogger(PassengerService.class);
 
+    public Passenger getPassenger(int passengerId) {
+        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()) {
+            Optional<Passenger> passenger = passengerDao.getById(passengerId);
+            if (passenger.isPresent())
+                return passenger.get();
+        }
+
+        LOG.error(String.format("Passenger with id#%d doesn't exist", passengerId));
+        throw new ValidateFailException("passenger");
+    }
+    
     public boolean registerPassenger(Passenger passenger) {
         try (PassengerDao passengerDaoImpl = DaoFactory.getInstance().getPassengerDao()) {
             boolean status = passengerDaoImpl.createUser(passenger) == 1;
@@ -36,17 +48,5 @@ public class PassengerService {
         }
         LOG.info("Fail to authenticate " + login);
         return Optional.empty();
-    }
-
-    public Passenger loadPassenger(int passengerId){
-        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()){
-            Optional<Passenger> passenger = passengerDao.getById(passengerId);
-            if (passenger.isPresent()){
-                return passenger.get();
-            }
-            else {
-                throw new IllegalArgumentException("Passenger doesn't exist"); //change exception
-            }
-        }
     }
 }

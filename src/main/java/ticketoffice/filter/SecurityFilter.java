@@ -24,6 +24,7 @@ public class SecurityFilter implements Filter {
         GUEST_PATTERN.add("signup");
         GUEST_PATTERN.add("login");
         GUEST_PATTERN.add("signin");
+        GUEST_PATTERN.add("home");
     }
 
     @Override
@@ -32,7 +33,7 @@ public class SecurityFilter implements Filter {
         UserDto user = (UserDto) httpRequest.getSession().getAttribute("user");
         Role requiredRole = getRequiredRole(httpRequest);
 
-        if(requiredRole == null){
+        if (requiredRole == null) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -49,6 +50,7 @@ public class SecurityFilter implements Filter {
 
         LOG.error("Unauthorized request was blocked");
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
@@ -64,7 +66,7 @@ public class SecurityFilter implements Filter {
         return
                 action.startsWith(USER_PATTERN) ? Role.USER :
                         action.startsWith(ADMIN_PATTERN) ? Role.ADMIN :
-                                GUEST_PATTERN.contains(action)? Role.GUEST :
-                null;
+                                GUEST_PATTERN.contains(action) ? Role.GUEST :
+                                        null;
     }
 }

@@ -9,13 +9,10 @@ import java.io.IOException;
 public class PagesDisplayFilter implements Filter {
 
     private static Logger LOG = Logger.getLogger(PagesDisplayFilter.class);
-    //    private int currentCoachDefault;
     private static final String CURRENT_PAGE = "currentPage";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-//        currentCoachDefault = Integer.parseInt(
-//                filterConfig.getInitParameter(CURRENT_COACH));
     }
 
     @Override
@@ -25,6 +22,7 @@ public class PagesDisplayFilter implements Filter {
         int currentPage = servletRequest.getParameter(CURRENT_PAGE) == null ?
                 1 :
                 Integer.parseInt(servletRequest.getParameter(CURRENT_PAGE));
+        currentPage = currentPage <= 0 ? 1 : currentPage;
 
         LOG.info(String.format("Request for %d-%d items of information: ", (currentPage - 1) * 5,
                 (currentPage - 1) * 5 + 5));

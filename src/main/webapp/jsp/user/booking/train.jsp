@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <title>Booking Page</title>
+    <title>Booking</title>
     <c:import url="/resources/components/links.html"/>
 </head>
 

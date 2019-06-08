@@ -9,7 +9,7 @@
 <html>
 <head>
     <c:import url="/resources/components/links.html"/>
-    <title>Unknown</title>
+    <title>Error</title>
 </head>
 <body>
 <div class="site-wrap">
@@ -20,17 +20,23 @@
     <div class="col-ticket">
 	    <hr/>
 	    <h1>
-	        <fmt:message key="404.message" />
+        	<fmt:message key="400.message" />
+                 <c:choose>
+                      <c:when test="${errorCode ne null}">
+                        <p><fmt:message key="400.message.${errorCode}" /></p>
+                      </c:when>
+                 </c:choose>
+            
 	    </h1>
 	    <hr/>
 	    <button type="button" class="btn btn-primary float-right" onclick="history.go(-1)" >
-            <fmt:message key="booking.ticket.button.return"/>
-        </button>
+        <fmt:message key="booking.ticket.button.return"/>
+      </button>
     </div>
     </div>
     </div>
     </div>
-    
+
 </div>
 </body>
 </html>

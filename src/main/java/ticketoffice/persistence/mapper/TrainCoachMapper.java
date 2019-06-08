@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TrainCoachMapper implements Mapper<TrainCoach> {
 
@@ -20,12 +21,12 @@ public class TrainCoachMapper implements Mapper<TrainCoach> {
     }
 
     @Override
-    public TrainCoach extractItem(ResultSet resultSet) throws SQLException {
-        TrainCoach trainCoach = new TrainCoach();
+    public Optional<TrainCoach> extractItem(ResultSet resultSet) throws SQLException {
+        TrainCoach trainCoach = null;
         Train train = new Train();
         CoachType coachType = new CoachType();
-
-        while (resultSet.next()) {
+        if (resultSet.first()) {
+            trainCoach = new TrainCoach();
             trainCoach.setId(resultSet.getInt("id"));
             train.setId(resultSet.getInt("train_id"));
             trainCoach.setTrain(train);
@@ -33,7 +34,7 @@ public class TrainCoachMapper implements Mapper<TrainCoach> {
             trainCoach.setCoachType(coachType);
             trainCoach.setNumber(resultSet.getInt("number"));
         }
-        return trainCoach;
+        return Optional.ofNullable(trainCoach);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class TrainCoachMapper implements Mapper<TrainCoach> {
         ArrayList<TrainCoach> trainCoachList = new ArrayList<>();
         while (resultSet.next()) {
             trainCoachDao.getById(resultSet.getInt("id"))
-                    .map(trainCoachList::add);
+                    .ifPresent(trainCoachList::add);
         }
         return trainCoachList;
     }

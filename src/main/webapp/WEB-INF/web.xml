@@ -96,7 +96,6 @@
     <filter>
         <filter-name>PagesDisplayFilter</filter-name>
         <filter-class>ticketoffice.filter.PagesDisplayFilter</filter-class>
-
     </filter>
 
     <filter-mapping>
@@ -105,6 +104,11 @@
         <url-pattern>/page/admin/users</url-pattern>
         <url-pattern>/page/user/trainDetail</url-pattern>
     </filter-mapping>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/jsp/error/400.jsp</location>
+    </error-page>
 
     <error-page>
         <error-code>401</error-code>

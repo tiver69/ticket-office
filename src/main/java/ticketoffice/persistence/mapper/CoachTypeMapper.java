@@ -11,6 +11,7 @@ import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class CoachTypeMapper  implements Mapper<CoachType> {
 
@@ -21,15 +22,16 @@ public class CoachTypeMapper  implements Mapper<CoachType> {
     }
 
     @Override
-    public CoachType extractItem(ResultSet resultSet) throws SQLException {
+    public Optional<CoachType> extractItem(ResultSet resultSet) throws SQLException {
         CoachType coachType = new CoachType();
-        while (resultSet.next()) {
+        if (resultSet.first()) {
             coachType.setId(resultSet.getInt("id"));
             coachType.setName(resultSet.getString("name"));
             coachType.setPlaces(resultSet.getInt("places"));
             coachType.setMarkup(resultSet.getInt("markup"));
         }
-        return coachType;
+        else coachType = null;
+        return Optional.ofNullable(coachType);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class CoachTypeMapper  implements Mapper<CoachType> {
         ArrayList<CoachType> coachTypeList = new ArrayList<>();
         while (resultSet.next()) {
             coachTypeDao.getById(resultSet.getInt("id"))
-                    .map(coachTypeList::add);
+                    .ifPresent(coachTypeList::add);
         }
         return coachTypeList;
     }

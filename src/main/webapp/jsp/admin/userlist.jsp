@@ -30,7 +30,10 @@
             return confirm("<fmt:message key='admin.userlist.remove.confirm'/>");
         }
         function loadMenuColor() {
-        document.getElementById("menu-admin").classList.add("active");
+        var el = document.getElementsByClassName("menu-admin");
+          for (var i=0, iLen=el.length; i<iLen; i++) {
+            el[i].classList.add("active");
+        }  
       }
     </script>
 </head>
@@ -174,13 +177,13 @@
                     <input type="hidden" name="passengerId" value="${passenger.getPassenger().getId()}" />
 
                 <h3>
-                    <input type="text" class="user-list update form h3" name="passengerFirstName" value="${passenger.getPassenger().getFirstName()}" />
-                    <input type="text" class="user-list update form h3" name="passengerLastName" value="${passenger.getPassenger().getLastName()}" />
+                    <input type="text" class="user-list update form h3" name="passengerFirstName" value="${passenger.getPassenger().getFirstName()}" required="required" />
+                    <input type="text" class="user-list update form h3" name="passengerLastName" value="${passenger.getPassenger().getLastName()}" required="required" />
                 </h3>
                 
                 <p>
                     <span class="icon-user"></span>                  
-                    <input type="text" class="user-list update form" name="passengerLogin" value="${passenger.getPassenger().getLogin()}" />
+                    <input type="text" class="user-list update form" name="passengerLogin" value="${passenger.getPassenger().getLogin()}" required="required"/>
                 </p>
                 </form>
                 

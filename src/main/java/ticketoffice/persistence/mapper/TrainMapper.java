@@ -7,6 +7,7 @@ import ticketoffice.persistence.dao.interfaces.TrainDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TrainMapper implements Mapper<Train> {
 
@@ -17,14 +18,15 @@ public class TrainMapper implements Mapper<Train> {
     }
 
     @Override
-    public Train extractItem(ResultSet resultSet) throws SQLException {
-        Train train = new Train();
-        while (resultSet.next()) {
+    public Optional<Train> extractItem(ResultSet resultSet) throws SQLException {
+        Train train = null;
+        if (resultSet.first()) {
+            train = new Train();
             train.setId(resultSet.getInt("id"));
             train.setFrequency(resultSet.getInt("frequency"));
             train.setMarkup(resultSet.getInt("markup"));
         }
-        return train;
+        return Optional.ofNullable(train);
     }
 
     @Override
@@ -32,10 +34,7 @@ public class TrainMapper implements Mapper<Train> {
         ArrayList<Train> trainList = new ArrayList<>();
         while (resultSet.next()) {
             trainDao.getById(resultSet.getInt("id"))
-                    .map(trainList::add);
-//            Train train
-//                    = trainDao.getById(resultSet.getInt("id"));
-//            trainList.add(train);
+                    .ifPresent(trainList::add);
         }
         return trainList;
     }

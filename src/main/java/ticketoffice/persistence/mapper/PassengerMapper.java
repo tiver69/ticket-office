@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class PassengerMapper implements Mapper<Passenger> {
 
@@ -19,16 +20,17 @@ public class PassengerMapper implements Mapper<Passenger> {
     }
 
     @Override
-    public Passenger extractItem(ResultSet resultSet) throws SQLException {
-        Passenger passenger = new Passenger();
-        while (resultSet.next()) {
+    public Optional<Passenger> extractItem(ResultSet resultSet) throws SQLException {
+        Passenger passenger = null;
+        if (resultSet.first()) {
+            passenger = new Passenger();
             passenger.setId(resultSet.getInt("id"));
             passenger.setLastName(resultSet.getString("last_name"));
             passenger.setFirstName(resultSet.getString("first_name"));
             passenger.setLogin(resultSet.getString("login"));
             passenger.setPassword(resultSet.getString("password"));
         }
-        return passenger;
+        return Optional.ofNullable(passenger);
     }
 
     @Override
@@ -36,10 +38,7 @@ public class PassengerMapper implements Mapper<Passenger> {
         ArrayList<Passenger> trainList = new ArrayList<>();
         while (resultSet.next()) {
             passengerDao.getById(resultSet.getInt("id"))
-                    .map(trainList::add);
-//            Passenger passenger
-//                    = passengerDao.getById(resultSet.getInt("id"));
-//            trainList.add(passenger);
+                    .ifPresent(trainList::add);
         }
         return trainList;
     }
