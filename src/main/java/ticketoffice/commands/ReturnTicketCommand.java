@@ -12,13 +12,15 @@ public class ReturnTicketCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
-        int ticketId = Integer.parseInt(request.getParameter("ticketId"));
-        LOG.info("Request for returning ticket#" + ticketId);
-
-        try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()){
+        try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
+            int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+            LOG.info("Request for returning ticket#" + ticketId);
             ticketDao.delete(ticketId);
+        } catch (IllegalArgumentException e) {
+            LOG.error("Illegal arguments for /returnTicket request");
+            return ("error/400");
         }
+
         return "redirect/user/home";
     }
 }

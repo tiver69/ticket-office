@@ -16,10 +16,10 @@ public class TicketInfoFacade {
 
     public TicketInfoDto loadTicketInfo(Ticket ticket) {
         int trainId = ticket.getTrainCoach().getTrain().getId();
-        Time depatrureTime = trainStationService.getDepartureTime(
-                ticket.getDepartureStation().getId(), trainId);
-        Time arrivalTime = trainStationService.getArrivalTime(
-                ticket.getDestinationStation().getId(), trainId);
+        Time depatrureTime = trainStationService.getTrainStation(
+                ticket.getDepartureStation().getId(), trainId).getDepartureTime();
+        Time arrivalTime = trainStationService.getTrainStation(
+                ticket.getDestinationStation().getId(), trainId).getArrivalTime();
         Time duration = TimeDateUtil.getTimeDiff(depatrureTime, arrivalTime);
 
         Timestamp departureDateTime = new Timestamp(ticket.getDate().getTime()

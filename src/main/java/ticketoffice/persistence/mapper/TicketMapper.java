@@ -10,10 +10,12 @@ import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TicketMapper implements Mapper<Ticket> {
 
@@ -26,13 +28,14 @@ public class TicketMapper implements Mapper<Ticket> {
     }
 
     @Override
-    public Ticket extractItem(ResultSet resultSet) throws SQLException {
-        Ticket ticket = new Ticket();
+    public Optional<Ticket> extractItem(ResultSet resultSet) throws SQLException {
+        Ticket ticket = null;
         Passenger passenger = new Passenger();
         Station departureStation = new Station();
         Station destinationStation = new Station();
         TrainCoach trainCoach = new TrainCoach();
-        while (resultSet.next()) {
+        if (resultSet.first()) {
+            ticket = new Ticket();
             ticket.setId(resultSet.getInt("id"));
             passenger.setId(resultSet.getInt("passenger_id"));
             ticket.setPassenger(passenger);
@@ -46,7 +49,7 @@ public class TicketMapper implements Mapper<Ticket> {
             ticket.setPlace(resultSet.getInt("place"));
             ticket.setPrice(resultSet.getInt("price"));
         }
-        return ticket;
+        return Optional.ofNullable(ticket);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class TicketMapper implements Mapper<Ticket> {
         ArrayList<Ticket> ticketList = new ArrayList<>();
         while (resultSet.next()) {
             ticketDao.getById(resultSet.getInt("id"))
-                    .map(ticketList::add);
+                    .ifPresent(ticketList::add);
         }
         return ticketList;
     }

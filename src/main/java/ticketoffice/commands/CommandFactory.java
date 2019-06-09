@@ -11,7 +11,7 @@ public class CommandFactory {
 
     private CommandFactory() {
         commandMap = new HashMap<>();
-        commandMap.put("main", new MainPageCommand());
+        commandMap.put("home", new MainPageCommand());
         commandMap.put("registration", new RegistrationPageCommand());
         commandMap.put("signup", new SignUpCommand());
         commandMap.put("login", new LoginPageCommand());
@@ -25,6 +25,7 @@ public class CommandFactory {
         commandMap.put("user/saveTicket", new SaveTicketCommand());
         commandMap.put("user/returnTicket", new ReturnTicketCommand());
 
+        commandMap.put("admin/home", new AdminMainPageCommand());
         commandMap.put("admin/users", new UserListPageCommand());
         commandMap.put("admin/promoteToAdmin", new PromoteToAdminCommand());
         commandMap.put("admin/removePassenger", new RemoveUserCommand());

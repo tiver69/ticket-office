@@ -1,31 +1,46 @@
 package ticketoffice.commands;
 
 import org.apache.log4j.Logger;
+import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.facade.train.ShortTrainInfoFacade;
 import ticketoffice.model.Station;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.StationDao;
+import ticketoffice.validator.DateValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FindTrainCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(FindTrainCommand.class);
     private ShortTrainInfoFacade shortTrainInfoFacade = new ShortTrainInfoFacade();
+    private DateValidator dateValidator = new DateValidator();
+
+    private List<Station> stationList;
+    private int departureStation;
+    private int destinationStation;
+    private Date date;
 
     @Override
     public String execute(HttpServletRequest request) {
 
-        List<Station> stationList;
-        try(StationDao stationDao = DaoFactory.getInstance().getStationDao()){
+        try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
             stationList = stationDao.getAll();
-        }
+            departureStation = Integer.parseInt(request.getParameter("departureStation"));
+            destinationStation = Integer.parseInt(request.getParameter("destinationStation"));
+            date = Date.valueOf(request.getParameter("departureDate"));
 
-        int departureStation = Integer.parseInt(request.getParameter("departureStation"));
-        int destinationStation = Integer.parseInt(request.getParameter("destinationStation"));
-        Date date = Date.valueOf(request.getParameter("departureDate"));
+            validateRequest();
+        } catch (ValidateFailException e) {
+            request.setAttribute("errorCode", e.getErrorKeyMessage());
+            return ("error/400");
+        } catch (IllegalArgumentException e) {
+            LOG.error("Illegal arguments in search parameters for /findTrain request");
+            return ("error/400");
+        }
 
         LOG.info(String.format("Search request for trains between %d -> %d on %s",
                 departureStation, destinationStation, date.toString()));
@@ -33,7 +48,16 @@ public class FindTrainCommand implements Command {
         request.setAttribute("stations", stationList);
         request.setAttribute("trainsInformation",
                 shortTrainInfoFacade.getRequestTrainInformation(departureStation, destinationStation, date));
+
         return "user/booking";
+    }
+
+    private void validateRequest() throws ValidateFailException {
+        int count = stationList.stream().filter(station ->
+                station.getId() == departureStation || station.getId() == destinationStation)
+                .collect(Collectors.toList()).size();
+        if (count != 2) throw new ValidateFailException("station");
+        dateValidator.validatePastDate(date);
     }
 
 }

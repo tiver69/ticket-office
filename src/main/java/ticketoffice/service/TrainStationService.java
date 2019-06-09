@@ -1,13 +1,13 @@
 package ticketoffice.service;
 
 import org.apache.log4j.Logger;
+import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.model.TrainStation;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.StationDao;
 import ticketoffice.persistence.dao.interfaces.TrainDao;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +15,19 @@ import java.util.stream.Collectors;
 public class TrainStationService {
 
     private static Logger LOG = Logger.getLogger(TrainStationService.class);
+
+    public TrainStation getTrainStation(int stationId, int trainId) throws ValidateFailException {
+        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
+            Optional<TrainStation> trainStation = trainStationDao.getByTrainIdAndStationId(
+                    stationId, trainId);
+            if (trainStation.isPresent())
+                return trainStation.get();
+        }
+
+        LOG.error(String.format("Station #%d int train #%d root doesn't exist",
+                stationId, trainId));
+        throw new ValidateFailException("root");
+    }
 
     public void fillTrainStation(TrainStation trainStation) {
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
@@ -25,32 +38,6 @@ public class TrainStationService {
         try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {
             trainDao.getById(trainStation.getTrain().getId())
                     .ifPresent(trainStation::setTrain);
-        }
-    }
-
-    public Time getArrivalTime(int destinationStationId, int requestTrainId) {
-        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
-            Optional<TrainStation> destination = trainStationDao.getByTrainIdAndStationId(
-                    destinationStationId, requestTrainId);
-            if (destination.isPresent()) {
-                return destination.get().getArrivalTime();
-            } else {
-                LOG.error("TrainStation doesn't exist");
-                throw new IllegalArgumentException("TrainStation doesn't exist"); //change exception
-            }
-        }
-    }
-
-    public Time getDepartureTime(int destinationStationId, int requestTrainId) {
-        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
-            Optional<TrainStation> destination = trainStationDao.getByTrainIdAndStationId(
-                    destinationStationId, requestTrainId);
-            if (destination.isPresent()) {
-                return destination.get().getDepartureTime();
-            } else {
-                LOG.error("TrainStation doesn't exist");
-                throw new IllegalArgumentException("TrainStation doesn't exist"); //change exception
-            }
         }
     }
 
@@ -77,11 +64,6 @@ public class TrainStationService {
     }
 
     public int getTrainStationOrder(int stationId, int trainId) {
-        try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
-            Optional<TrainStation> trainStation = trainStationDao.getByTrainIdAndStationId(stationId, trainId);
-            if (trainStation.isPresent()) {
-                return trainStation.get().getOrder();
-            } else throw new IllegalArgumentException("Train-Station doesn't exist");//change exception
-        }
+        return getTrainStation(stationId, trainId).getOrder();
     }
 }

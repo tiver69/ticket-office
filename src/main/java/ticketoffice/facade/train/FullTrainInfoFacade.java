@@ -5,18 +5,18 @@ import ticketoffice.dto.train.FullTrainInfoDto;
 import ticketoffice.facade.coach.TrainCoachPlacesInfoFacade;
 import ticketoffice.model.Train;
 import ticketoffice.persistence.dao.DaoFactory;
-import ticketoffice.persistence.dao.interfaces.TrainDao;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
+import ticketoffice.service.TrainService;
 import ticketoffice.service.TrainStationService;
 import ticketoffice.service.utils.TimeDateUtil;
 
 import java.sql.Date;
-import java.util.Optional;
 
 public class FullTrainInfoFacade {
 
     private static Logger LOG = Logger.getLogger(FullTrainInfoFacade.class);
 
+    private TrainService trainService = new TrainService();
     private TrainStationService trainStationService = new TrainStationService();
     private TrainCoachPlacesInfoFacade trainCoachPlacesInfoFacade = new TrainCoachPlacesInfoFacade();
 
@@ -24,21 +24,13 @@ public class FullTrainInfoFacade {
             (int departureStationId, int destinationStationId, Date departureDate, int requestTrainId) {
 
         FullTrainInfoDto fullTrainInfoDto = new FullTrainInfoDto();
-        Train requestTrain;
-        try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {
-            Optional<Train> trainOptional = trainDao.getById(requestTrainId);
-            if (trainOptional.isPresent()) {
-                requestTrain = trainOptional.get();
-            } else {
-                String message = "Train " + requestTrainId + " doesn't exist";
-                LOG.error(message);
-                throw new IllegalArgumentException(message); //change exception
-            }
-        }
-        fullTrainInfoDto.setTrain(requestTrain);
+        fullTrainInfoDto.setTrain(
+                trainService.getTrain(requestTrainId));
 
-        fullTrainInfoDto.setDepartureTime(trainStationService.getDepartureTime(departureStationId, requestTrainId));
-        fullTrainInfoDto.setArrivalTime(trainStationService.getArrivalTime(destinationStationId, requestTrainId));
+        fullTrainInfoDto.setDepartureTime(trainStationService.
+                getTrainStation(departureStationId, requestTrainId).getDepartureTime());
+        fullTrainInfoDto.setArrivalTime(trainStationService.
+                getTrainStation(destinationStationId, requestTrainId).getArrivalTime());
 
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             trainStationDao.getByTrainIdAndOrder(requestTrainId, 0)

@@ -15,14 +15,15 @@ public class SaveTicketCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
+            Ticket ticket = ticketMapper.extractItemFromRequest(request);
+            ticket.setPrice(Integer.parseInt(request.getParameter("price")));
 
-        Ticket ticket = ticketMapper.extractItemFromRequest(request);
-        ticket.setPrice(Integer.parseInt(request.getParameter("price")));
-
-        LOG.info("Book ticket " + ticket + " for passenger");
-
-        try(TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()){
+            LOG.info("Book ticket " + ticket + " for passenger");
             ticketDao.create(ticket);
+        } catch (IllegalArgumentException e) {
+            LOG.error("Illegal arguments for /saveTicket request");
+            return ("error/400");
         }
 
         return "redirect/user/home";

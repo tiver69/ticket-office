@@ -7,26 +7,73 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; utf-8"> <title>Ticket</title>
+    <c:import url="/resources/components/links.html"/>
+    <title>Ticket</title>
 </head>
 <body>
-     <h1><fmt:message key="booking.ticket.message" /></h1>
-    <fmt:message key="registration.first.name"/> = <c:out value="${ticket.getTicket().getPassenger().getFirstName()}"/><br/>
-    <fmt:message key="registration.last.name"/> = <c:out value="${ticket.getTicket().getPassenger().getLastName()}"/><br/>
-    <fmt:message key="ticket.coach"/> - ${pageContext.request.getParameter("currentCoach")}<br/>
-    <fmt:message key="ticket.place"/> - ${pageContext.request.getParameter("selectedPlace")}<br/>
-    <fmt:message key="ticket.price"/> - <c:out value="${ticket.getTicket().getPrice()}"/><br/>
-    <fmt:message key="home.booking.departure"/> - <c:out value="${ticket.getTicket().getDepartureStation().getName()}"/><br/>
-    <fmt:message key="home.booking.destination"/> - <c:out value="${ticket.getTicket().getDestinationStation().getName()}"/><br/>
-    <fmt:message key="ticket.train"/> - <c:out value="${ticket.getTicket().getTrainCoach().getTrain().getId()}"/><br/>
-    <fmt:message key="booking.th4"/> - <c:out value="${ticket.getDepartureDateTime()}"/><br/>
-    <fmt:message key="booking.th5"/> - <c:out value="${ticket.getArrivalDateTime()}"/><br/>
+<div class="site-wrap">
 
-     <button type="button" onclick="history.go(-1)" >
-         <fmt:message key="booking.ticket.button.return"/>
-     </button>
-    <form action="saveTicket?${pageContext.request.getQueryString()}&price=${ticket.getTicket().getPrice()}" method="post">
-        <input type="submit" value=<fmt:message key="booking.ticket.button"/> />
-    </form>
+    <c:import url="/resources/components/header.html"/>
+    <hr/>
+
+    <!-- header -->
+
+    <div class="site-blocks-cover overlay ticket" style="background-image: url());" data-stellar-background-ratio="0.5">
+    <div class="container">
+    <div class="row align-items-center justify-content-center text-center ticket">
+    <div class="col-ticket">
+        <div class="listing-horizontal d-block d-md-flex form-search-wrap ticket">
+
+            <div class="img d-block" style="background-image: url('/ticket-office/resources/images/active-background.png')">
+              <span class="category">
+                    <fmt:message key="ticket.coach"/> - <c:out value="${ticket.getTicket().getTrainCoach().getNumber()}"/><br/>
+                    <fmt:message key="ticket.place"/> - <c:out value="${ticket.getTicket().getPlace()}"/><br/>
+                    <fmt:message key="ticket.price"/> - <c:out value="${ticket.getTicket().getPrice()}"/>₴<br/>
+              </span>
+            </div>
+
+            <div class="lh-content" style="text-align: left;">
+            <h3>
+                <c:out value="${ticket.getTicket().getDepartureStation().getName()}"/>
+                 -
+                <c:out value="${ticket.getTicket().getDestinationStation().getName()}"/>
+            </h3>
+            
+            <p>
+              <span class="icon-train"></span>
+              <fmt:message key="ticket.train"/> #<c:out value="${ticket.getTicket().getTrainCoach().getTrain().getId()}"/>
+            </p>
+
+            <p>
+              <span class="icon-clock-o"></span>
+              <fmt:message key="booking.th4"/> - <c:out value="${ticket.getDepartureDateTime()}"/>
+            </p>
+
+            <p>
+              <span class="icon-clock-o"></span>
+              <fmt:message key="booking.th5"/> - <c:out value="${ticket.getArrivalDateTime()}"/>
+            </p>
+
+            <h3>
+                <c:out value="${ticket.getTicket().getPassenger().getLastName()}"/>
+                <c:out value="${ticket.getTicket().getPassenger().getFirstName()}"/>
+            </h3>
+
+            <button type="button" class="btn btn-primary" onclick="history.go(-1)" >
+                <fmt:message key="booking.ticket.button.return"/>
+            </button>
+
+            <button type="button" class="btn btn-primary" method="post" onclick="window.location.href='saveTicket?${pageContext.request.getQueryString()}&price=${ticket.getTicket().getPrice()}'" >
+                <fmt:message key="booking.ticket.button"/>
+            </button>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+<hr/>
+</div>
 </body>
 </html>

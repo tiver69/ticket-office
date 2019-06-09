@@ -35,13 +35,19 @@ public class DispatcherServlet extends HttpServlet {
         Command command = CommandFactory.getInstance().getCommand(action);
         String page = command.execute(request);
 
-        if (page.startsWith("redirect/")){
-            String redirectUrl = request.getContextPath()+ "/page/" + page.replace("redirect/", "");
+        if (page.startsWith("error")) {
+            int errorCode = Integer.parseInt(page.substring(page.length() - 3));
+            response.setStatus(errorCode);
+            response.sendError(errorCode);
+            return;
+        }
+
+        if (page.startsWith("redirect/")) {
+            String redirectUrl = request.getContextPath() + "/page/" + page.replace("redirect/", "");
             LOG.info("Redirect to " + redirectUrl
                     + " page after /" + action + " request");
             response.sendRedirect(redirectUrl);
-        }
-        else {
+        } else {
             LOG.info("Forward to " + page + ".jsp page after /" + action + " request");
             request.getRequestDispatcher(String.format(JSP_PATH, page))
                     .forward(request, response);

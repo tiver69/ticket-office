@@ -7,6 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 public class NotFoundPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        return "/error/404";
+        return "error/404";
     }
 }

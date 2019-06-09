@@ -24,6 +24,6 @@ public class SignInCommand implements Command {
             return "redirect/user/home";
         }
 
-        return "login";
+        return "redirect/login";
     }
 }

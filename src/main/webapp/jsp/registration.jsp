@@ -7,20 +7,66 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; utf-8">
     <title>Registration</title>
+    <c:import url="/resources/components/links.html"/>
 </head>
 <body>
-    <div align="center">
-    <form action="signup" method="post">
-    <fmt:message key="registration.first.name"/>: <input type="text" name="firstName" required="required"></input>
-    <fmt:message key="registration.last.name"/>: <input type="text" name="lastName" required="required"></input>
-    <br/>
-    <fmt:message key="registration.username"/>: <input type="text" name="login" required="required"></input>
-    <fmt:message key="registration.password"/>: <input type="password" name="password" required="required"></input>
-    <br/>
-    <input type="submit" value=<fmt:message key="registration.button"/> />
-    </form>
+<div class="site-wrap">
+
+    <c:import url="/resources/components/header.html"/>
+
+    <div class="site-blocks-cover overlay" style="background-image: url(/ticket-office/resources/images/backgroung.png);" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-md-5">
+            <div class="form-search-wrap p-2">
+
+                <form action="signup" method="post">
+                <div class="row align-items-center">
+
+                <div class="w-50 p-3 no-sm-border border-right"> 
+                    <div class="wrap-icon"> 
+                      <span class="icon icon-info"></span>
+                      <input type="text" class="form-control" placeholder='<fmt:message key="registration.first.name"/>'
+                            name="firstName" required="required"></input>
+                    </div>
+                    </div>
+                    
+                    <div class="w-50 p-3 no-sm-borde"> 
+                    <div class="wrap-icon">
+                      <span class="icon icon-info"></span>
+                      <input type="text" class="form-control" placeholder='<fmt:message key="registration.last.name"/>'
+                            name="lastName" required="required"></input>
+                    </div>
+                    </div>
+
+                  <div class="w-50 p-3 no-sm-border border-right">     
+                  <div class="wrap-icon">               
+                    <span class="icon icon-user"></span>
+                    <input placeholder='<fmt:message key="registration.username"/>' type="text"  class="form-control"
+                        name="login" required="required" />
+                    </div>
+                  </div>
+
+                  <div class="w-50 p-3 no-sm-border">
+                    <div class="wrap-icon">
+                      <span class="icon icon-lock"></span>
+                      <input type="password" name="password" required="required" class="form-control" placeholder='<fmt:message key="registration.password"/>' />
+                    </div>                    
+                  </div>
+
+                  <div class="w-100 p-3 ml-auto text-center">
+                    <input type="submit" class="btn btn-primary" value='<fmt:message key="registration.button"/>'>
+                  </div>
+                  
+                </div>
+              </form>
+
+            </div>
+        </div>
+        </div>
+      </div>
     </div>
+</div>  
 </body>
 </html>

@@ -39,11 +39,11 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     }
 
     public Optional<T> getById(String sql, PreparedParameters parameters) {
-        Optional<T> item = Optional.empty();
+        Optional item = Optional.empty();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             parameters.setParameters(statement);
             ResultSet resultSet = statement.executeQuery();
-            item = Optional.of ((T) mapper.extractItem(resultSet));
+            item = mapper.extractItem(resultSet);
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             e.printStackTrace();

@@ -15,7 +15,7 @@ public class LogOutCommand implements Command {
 
         request.getSession().removeAttribute("user");
         request.getSession().invalidate();
-        return "redirect/main";
+        return "redirect/home";
     }
 
 }

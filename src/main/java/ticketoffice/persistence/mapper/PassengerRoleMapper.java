@@ -6,9 +6,11 @@ import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 
+import javax.swing.text.html.Option;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class PassengerRoleMapper implements Mapper<PassengerRole> {
 
@@ -19,17 +21,18 @@ public class PassengerRoleMapper implements Mapper<PassengerRole> {
     }
 
     @Override
-    public PassengerRole extractItem(ResultSet resultSet) throws SQLException {
-        PassengerRole passengerRole = new PassengerRole();
+    public Optional<PassengerRole> extractItem(ResultSet resultSet) throws SQLException {
+        PassengerRole passengerRole = null;
         Passenger passenger = new Passenger();
-        while (resultSet.next()) {
+        if (resultSet.first()) {
+            passengerRole = new PassengerRole();
             passengerRole.setId(resultSet.getInt("id"));
             passenger.setId(resultSet.getInt("passenger_id"));
             passengerRole.setPassenger(passenger);
             passengerRole.setRole(
                     Role.valueOf(resultSet.getString("role")));
         }
-        return passengerRole;
+        return Optional.ofNullable(passengerRole);
     }
 
     @Override
@@ -37,10 +40,7 @@ public class PassengerRoleMapper implements Mapper<PassengerRole> {
         ArrayList<PassengerRole> passengerRoleList = new ArrayList<>();
         while (resultSet.next()) {
             passengerRoleDao.getById(resultSet.getInt("id"))
-                    .map(passengerRoleList::add);
-//            PassengerRole passengerRole
-//                    = passengerRoleDao.getById(resultSet.getInt("id"));
-//            passengerRoleList.add(passengerRole);
+                    .ifPresent(passengerRoleList::add);
         }
         return passengerRoleList;
     }
