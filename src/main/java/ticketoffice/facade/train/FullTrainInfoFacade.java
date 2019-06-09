@@ -3,7 +3,6 @@ package ticketoffice.facade.train;
 import org.apache.log4j.Logger;
 import ticketoffice.dto.train.FullTrainInfoDto;
 import ticketoffice.facade.coach.TrainCoachPlacesInfoFacade;
-import ticketoffice.model.Train;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
 import ticketoffice.service.TrainService;
@@ -20,9 +19,9 @@ public class FullTrainInfoFacade {
     private TrainStationService trainStationService = new TrainStationService();
     private TrainCoachPlacesInfoFacade trainCoachPlacesInfoFacade = new TrainCoachPlacesInfoFacade();
 
-    public FullTrainInfoDto getRequestTrainInformation
-            (int departureStationId, int destinationStationId, Date departureDate, int requestTrainId) {
-
+    public FullTrainInfoDto
+    getRequestTrainInformation(int departureStationId, int destinationStationId,
+                               Date departureDate, int requestTrainId, String locale) {
         FullTrainInfoDto fullTrainInfoDto = new FullTrainInfoDto();
         fullTrainInfoDto.setTrain(
                 trainService.getTrain(requestTrainId));
@@ -35,12 +34,12 @@ public class FullTrainInfoFacade {
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             trainStationDao.getByTrainIdAndOrder(requestTrainId, 0)
                     .ifPresent(trainStation -> {
-                        trainStationService.fillTrainStation(trainStation);
+                        trainStationService.fillTrainStation(trainStation, locale);
                         fullTrainInfoDto.setFirstRootStation(trainStation.getStation());
                     });
             trainStationDao.getLastRootByTrainId(requestTrainId)
                     .ifPresent(trainStation -> {
-                        trainStationService.fillTrainStation(trainStation);
+                        trainStationService.fillTrainStation(trainStation, locale);
                         fullTrainInfoDto.setLastRootStation(trainStation.getStation());
                     });
         }
@@ -50,8 +49,9 @@ public class FullTrainInfoFacade {
 
         fullTrainInfoDto.setTrainCoachPlacesInfoDtoList(
                 trainCoachPlacesInfoFacade.getTrainCoachPlacesInformation(requestTrainId, departureStationId,
-                        destinationStationId, departureDate));
+                        destinationStationId, departureDate, locale));
 
+        LOG.info(String.format("Prepare information about train #%d", requestTrainId));
         return fullTrainInfoDto;
     }
 }

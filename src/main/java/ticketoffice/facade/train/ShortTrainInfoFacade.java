@@ -22,7 +22,7 @@ public class ShortTrainInfoFacade {
     private CoachTypePlacesInfoFacade coachTypePlacesInfoFacade = new CoachTypePlacesInfoFacade();
 
     public List<ShortTrainInfoDto> getRequestTrainInformation
-            (int departureStationId, int destinationStationId, Date departureDate) {
+            (int departureStationId, int destinationStationId, Date departureDate, String locale) {
 
         List<ShortTrainInfoDto> shortTrainInfoDtoList = new ArrayList<>();
         List<Train> requestTrainList =
@@ -40,12 +40,12 @@ public class ShortTrainInfoFacade {
 
                 trainStationDao.getByTrainIdAndOrder(train.getId(), 0)
                         .ifPresent(trainStation -> {
-                            trainStationService.fillTrainStation(trainStation);
+                            trainStationService.fillTrainStation(trainStation, locale);
                             shortTrainInfoDto.setFirstRootStation(trainStation.getStation());
                         });
                 trainStationDao.getLastRootByTrainId(train.getId())
                         .ifPresent(trainStation -> {
-                            trainStationService.fillTrainStation(trainStation);
+                            trainStationService.fillTrainStation(trainStation, locale);
                             shortTrainInfoDto.setLastRootStation(trainStation.getStation());
                         });
             }
@@ -54,7 +54,7 @@ public class ShortTrainInfoFacade {
                     TimeDateUtil.getTimeDiff(shortTrainInfoDto.getDepartureTime(), shortTrainInfoDto.getArrivalTime()));
 
             shortTrainInfoDto.setCoachTypePlacesInfoDtoList(
-                    coachTypePlacesInfoFacade.getTrainPlacesInformation(train.getId(), departureStationId, destinationStationId, departureDate));
+                    coachTypePlacesInfoFacade.getTrainPlacesInformation(train.getId(), departureStationId, destinationStationId, departureDate, locale));
 
             shortTrainInfoDtoList.add(shortTrainInfoDto);
         });

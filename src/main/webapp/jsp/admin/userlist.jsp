@@ -11,13 +11,13 @@
     <title>Home Page</title>
     <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/userlist.js"></script>
     <script type="text/javascript">
-        function confirmPromote(form) {
+        function confirmPromote() {
             return confirm("<fmt:message key='admin.userlist.promote.confirm'/>");
         }
-        function confirmUpdate(form) {
+        function confirmUpdate() {
             return confirm("<fmt:message key='admin.userlist.update.confirm'/>");
         }
-        function confirmDelete(form) {
+        function confirmDelete() {
             return confirm("<fmt:message key='admin.userlist.remove.confirm'/>"); 
         }
     </script>
@@ -65,14 +65,14 @@
                   <c:when test="${!passenger.getRoles().contains('ADMIN')}">
                     <div class="img d-block" style="background-image: url('/ticket-office/resources/images/user-display-background.png'); background-position: center;">
                       <span class="category">
-                        USER
+                        <fmt:message key="admin.userlist.user"/>
                       </span>
                     </div>
                   </c:when>
                   <c:otherwise>
                     <div class="img d-block" style="background-image: url('/ticket-office/resources/images/user-display-background.png'); background-position: center;">
                       <span class="category" style="background-color: #531aec;">
-                        ADMIN
+                        <fmt:message key="admin.userlist.admin"/>
                       </span>
                     </div>
                   </c:otherwise>
@@ -82,19 +82,19 @@
                        <a href="javascript:void(0);" class="bookmark user update" 
                             onclick="setCurrentUpdate(${passenger.getPassenger().getId()})">
                             <span class="icon-cog">
-                                <fmt:message key="booking.ticket.edit.button"/>
+                                <fmt:message key="admin.userlist.edit.button"/>
                             </span>
                         </a>
                  <c:choose>
                       <c:when test="${!passenger.getRoles().contains('ADMIN')}">
                         <a href="promoteToAdmin?passengerId=${passenger.getPassenger().getId()}" class="bookmark user promote" 
-                            onclick="return confirmPromote(this);" method="post" >
+                            onclick="return confirmPromote();" method="post" >
                             <span class="icon-star">
                                 <fmt:message key="admin.userlist.promote.button"/>
                             </span>
                         </a>
                         <a href="removePassenger?passengerId=${passenger.getPassenger().getId()}" class="bookmark user remove" 
-                            onclick="return confirmDelete(this);" method="delete" >
+                            onclick="return confirmDelete();" method="delete" >
                             <span class="icon-remove">
                                 <fmt:message key="admin.userlist.remove.button"/>
                             </span>
@@ -156,20 +156,20 @@
                     </span>
                 </a>
 
-                <form action="updatePassenger" method="put" onsubmit="return confirmUpdate(this);">
-                    <input class="btn bookmark update user" type="submit"
-                    value='<fmt:message key="admin.userlist.update.button"/>' />
-                    <input type="hidden" name="passengerId" value="${passenger.getPassenger().getId()}" />
+                <form action="updatePassenger" method="post" onsubmit="return confirmUpdate();">
+                  <input class="btn bookmark update user" type="submit"
+                      value='<fmt:message key="admin.userlist.update.button"/>' />
+                  <input type="hidden" name="passengerId" value="${passenger.getPassenger().getId()}" />
 
-                <h3>
-                    <input type="text" class="user-list update form h3" name="passengerFirstName" value="${passenger.getPassenger().getFirstName()}" required="required" />
-                    <input type="text" class="user-list update form h3" name="passengerLastName" value="${passenger.getPassenger().getLastName()}" required="required" />
-                </h3>
-                
-                <p>
-                    <span class="icon-user"></span>                  
-                    <input type="text" class="user-list update form" name="passengerLogin" value="${passenger.getPassenger().getLogin()}" required="required"/>
-                </p>
+                  <h3>
+                      <input type="text" class="user-list update form h3" name="passengerFirstName" value="${passenger.getPassenger().getFirstName()}" required="required" />
+                      <input type="text" class="user-list update form h3" name="passengerLastName" value="${passenger.getPassenger().getLastName()}" required="required" />
+                  </h3>
+                  
+                  <p>
+                      <span class="icon-user"></span>                  
+                      <input type="text" class="user-list update form" name="passengerLogin" value="${passenger.getPassenger().getLogin()}" required="required"/>
+                  </p>
                 </form>
                 
                 <p>

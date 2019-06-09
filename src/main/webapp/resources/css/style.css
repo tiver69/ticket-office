@@ -529,7 +529,7 @@ form {
       .site-blocks-cover h1 {
         font-size: 2rem; } }
   .site-blocks-cover p {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255);
     font-size: 1.2rem;
     line-height: 1.5; }
   .site-blocks-cover .intro-text {
@@ -748,13 +748,16 @@ form {
           color: #fff; }
 
 /* ADDS */
+.site-wrap > .container{
+  margin-bottom: 5vh;
+}
+
 .index-home-message {
   background-color: #ffffff50;
   position:absolute;
   left:0;
   right:0;
   padding: 30px;
-  text-shadow: 1px 1px black;
 }
 
 .index-home-message.user{

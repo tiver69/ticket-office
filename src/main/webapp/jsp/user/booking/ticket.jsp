@@ -46,12 +46,12 @@
 
             <p>
               <span class="icon-clock-o"></span>
-              <fmt:message key="booking.th4"/> - <c:out value="${ticket.getDepartureDateTime()}"/>
+              <fmt:message key="booking.departure"/> - <c:out value="${ticket.getDepartureDateTime()}"/>
             </p>
 
             <p>
               <span class="icon-clock-o"></span>
-              <fmt:message key="booking.th5"/> - <c:out value="${ticket.getArrivalDateTime()}"/>
+              <fmt:message key="booking.arrival"/> - <c:out value="${ticket.getArrivalDateTime()}"/>
             </p>
 
             <h3>
@@ -60,11 +60,11 @@
             </h3>
 
             <button type="button" class="btn btn-primary" onclick="history.go(-1)" >
-                <fmt:message key="booking.ticket.button.return"/>
+                <fmt:message key="booking.ticket.return.button"/>
             </button>
 
             <button type="button" class="btn btn-primary" method="post" onclick="window.location.href='saveTicket?${pageContext.request.getQueryString()}&price=${ticket.getTicket().getPrice()}'" >
-                <fmt:message key="booking.ticket.button"/>
+                <fmt:message key="booking.ticket.confirm.button"/>
             </button>
         </div>
     </div>

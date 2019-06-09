@@ -1,21 +1,22 @@
 package ticketoffice.persistence.mapper;
 
 import ticketoffice.model.CoachType;
-import ticketoffice.model.Passenger;
-import ticketoffice.model.PassengerRole;
-import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.CoachTypeDao;
-import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class CoachTypeMapper  implements Mapper<CoachType> {
+public class CoachTypeMapper implements Mapper<CoachType> {
 
     private CoachTypeDao coachTypeDao;
+    private String locale;
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
     public void setDao(AbstractDao passengerDao) {
         this.coachTypeDao = (CoachTypeDao) passengerDao;
@@ -26,11 +27,10 @@ public class CoachTypeMapper  implements Mapper<CoachType> {
         CoachType coachType = new CoachType();
         if (resultSet.first()) {
             coachType.setId(resultSet.getInt("id"));
-            coachType.setName(resultSet.getString("name"));
+            coachType.setName(resultSet.getString("name_" + locale));
             coachType.setPlaces(resultSet.getInt("places"));
             coachType.setMarkup(resultSet.getInt("markup"));
-        }
-        else coachType = null;
+        } else coachType = null;
         return Optional.ofNullable(coachType);
     }
 

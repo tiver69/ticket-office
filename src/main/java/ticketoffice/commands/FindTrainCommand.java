@@ -27,7 +27,9 @@ public class FindTrainCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
+        String locale = (String) request.getSession().getAttribute("locale");
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
+            stationDao.setLocale(locale);
             stationList = stationDao.getAll();
             departureStation = Integer.parseInt(request.getParameter("departureStation"));
             destinationStation = Integer.parseInt(request.getParameter("destinationStation"));
@@ -47,7 +49,7 @@ public class FindTrainCommand implements Command {
 
         request.setAttribute("stations", stationList);
         request.setAttribute("trainsInformation",
-                shortTrainInfoFacade.getRequestTrainInformation(departureStation, destinationStation, date));
+                shortTrainInfoFacade.getRequestTrainInformation(departureStation, destinationStation, date, locale));
 
         return "user/booking";
     }
@@ -57,7 +59,6 @@ public class FindTrainCommand implements Command {
                 station.getId() == departureStation || station.getId() == destinationStation)
                 .collect(Collectors.toList()).size();
         if (count != 2) throw new ValidateFailException("station");
-        dateValidator.validatePastDate(date);
+        dateValidator.validateDate(date);
     }
-
 }

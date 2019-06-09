@@ -1,12 +1,8 @@
 package ticketoffice.persistence.mapper;
 
-import ticketoffice.model.Passenger;
 import ticketoffice.model.Station;
-import ticketoffice.model.Ticket;
-import ticketoffice.model.TrainCoach;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.StationDao;
-import ticketoffice.persistence.dao.interfaces.TicketDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +12,11 @@ import java.util.Optional;
 public class StationMapper implements Mapper<Station> {
 
     private StationDao stationDao;
+    private String locale;
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
     public void setDao(AbstractDao abstractDao) {
         this.stationDao = (StationDao) abstractDao;
@@ -27,7 +28,7 @@ public class StationMapper implements Mapper<Station> {
         if (resultSet.first()) {
             station = new Station();
             station.setId(resultSet.getInt("id"));
-            station.setName(resultSet.getString("name"));
+            station.setName(resultSet.getString("name_" + locale));
         }
         return Optional.ofNullable(station);
     }

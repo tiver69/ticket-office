@@ -24,8 +24,9 @@ public class TrainDetailsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        FullTrainInfoDto fullTrainInfoDto;
 
+        String locale = (String) request.getSession().getAttribute("locale");
+        FullTrainInfoDto fullTrainInfoDto;
         try {
             selectedTrainId = Integer.parseInt(request.getParameter("selectedTrainId"));
             departureStation = Integer.parseInt(request.getParameter("departureStationHidden"));
@@ -36,7 +37,7 @@ public class TrainDetailsCommand implements Command {
             validateRequest();
             fullTrainInfoDto =
                     fullTrainInfoFacade.getRequestTrainInformation(
-                            departureStation, destinationStation, date, selectedTrainId);
+                            departureStation, destinationStation, date, selectedTrainId, locale);
         } catch (ValidateFailException e) {
             request.setAttribute("errorCode", e.getErrorKeyMessage());
             return ("error/400");
@@ -66,6 +67,6 @@ public class TrainDetailsCommand implements Command {
     }
 
     private void validateRequest() throws ValidateFailException {
-        dateValidator.validatePastDate(date);
+        dateValidator.validateDate(date);
     }
 }

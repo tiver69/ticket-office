@@ -14,11 +14,11 @@ public class TrainCoachService {
     private static Logger LOG = Logger.getLogger(TrainCoachService.class);
     private CoachTypeService coachTypeService = new CoachTypeService();
 
-    public TrainCoach getTrainCoach(int trainCoachId) throws ValidateFailException {
+    public TrainCoach getTrainCoach(int trainCoachId, String locale) throws ValidateFailException {
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
             Optional<TrainCoach> trainCoach = trainCoachDao.getById(trainCoachId);
             if (trainCoach.isPresent()) {
-                fillTrainCoachType(trainCoach.get());
+                fillTrainCoachType(trainCoach.get(), locale);
                 return trainCoach.get();
             }
         }
@@ -27,8 +27,8 @@ public class TrainCoachService {
         throw new ValidateFailException("coach");
     }
 
-    public void fillTrainCoachType(TrainCoach trainCoach) {
-        trainCoach.setCoachType(coachTypeService.getCoachType(trainCoach.getCoachType().getId()));
+    public void fillTrainCoachType(TrainCoach trainCoach, String locale) {
+        trainCoach.setCoachType(coachTypeService.getCoachType(trainCoach.getCoachType().getId(), locale));
         LOG.debug(String.format("Fill trainCoach#%d with %s(#%d) type", trainCoach.getId(),
                 trainCoach.getCoachType().getName(), trainCoach.getCoachType().getId()));
     }

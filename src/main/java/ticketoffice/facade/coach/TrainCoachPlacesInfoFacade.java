@@ -21,11 +21,11 @@ public class TrainCoachPlacesInfoFacade {
     private TicketService ticketService = new TicketService();
 
 
-    private TrainCoachPlacesInfoDto getTrainCoachPlacesInformation(TrainCoach trainCoach, int departureStationId,
-                                                                   int destinationStationId, Date departureDate) {
+    private TrainCoachPlacesInfoDto
+    getTrainCoachPlacesInformation(TrainCoach trainCoach, int departureStationId,
+                                   int destinationStationId, Date departureDate) {
         TrainCoachPlacesInfoDto trainCoachPlacesInfoDto = new TrainCoachPlacesInfoDto();
         trainCoachPlacesInfoDto.setTrainCoach(trainCoach);
-
         List<Integer> placeList = new ArrayList<>();
         try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
             ticketDao.getTicketsByCoachIdAndDate(trainCoach.getId(), departureDate)
@@ -43,14 +43,14 @@ public class TrainCoachPlacesInfoFacade {
     }
 
 
-    public List<TrainCoachPlacesInfoDto> getTrainCoachPlacesInformation(int trainId, int departureStationId,
-                                                                        int destinationStationId, Date departureDate) {
-
+    public List<TrainCoachPlacesInfoDto>
+    getTrainCoachPlacesInformation(int trainId, int departureStationId, int destinationStationId,
+                                   Date departureDate, String locale) {
         List<TrainCoach> trainCoachList;
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
             trainCoachList = trainCoachDao.getByTrainId(trainId);
             trainCoachList.forEach(trainCoach -> {
-                trainCoachService.fillTrainCoachType(trainCoach);
+                trainCoachService.fillTrainCoachType(trainCoach, locale);
             });
         }
 

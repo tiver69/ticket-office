@@ -2,11 +2,8 @@ package ticketoffice.persistence.dao.impl.jdbc;
 
 import org.apache.log4j.Logger;
 import ticketoffice.model.CoachType;
-import ticketoffice.model.TrainCoach;
 import ticketoffice.persistence.dao.interfaces.CoachTypeDao;
-import ticketoffice.persistence.dao.interfaces.TrainCoachDao;
 import ticketoffice.persistence.mapper.CoachTypeMapper;
-import ticketoffice.persistence.mapper.TrainCoachMapper;
 
 import java.sql.Connection;
 import java.util.List;
@@ -14,16 +11,27 @@ import java.util.Optional;
 
 public class CoachTypeDaoImpl extends AbstractDaoImpl<CoachType> implements CoachTypeDao {
 
-    private String INSERT = "INSERT INTO coach_types (id, name, places, markup) VALUES (?,?,?,?)";
+    private String locale = "ru";
+
+    private String INSERT = "INSERT INTO coach_types (id, name_en, name_ru, places, markup) VALUES (?,?,?,?,?)";
     private String GET_BY_ID = "SELECT * FROM coach_types WHERE id = ?";
     private String GET_ALL = "SELECT * FROM coach_types";
     private String DELETE = "DELETE FROM coach_types WHERE id=?";
-    private String UPDATE = "UPDATE coach_types SET name=?, places=?, " +
+    private String UPDATE = "UPDATE coach_types SET name_" + locale + "=?, places=?, " +
             "markup=? WHERE id=?";
 
     public CoachTypeDaoImpl(Connection connection) {
         super(connection, new CoachTypeMapper());
+        setLocale(locale);
         LOG = Logger.getLogger(CoachTypeDaoImpl.class);
+    }
+
+    @Override
+    public void setLocale(String locale) {
+        this.locale = locale;
+        CoachTypeMapper coachTypeMapper = new CoachTypeMapper();
+        coachTypeMapper.setLocale(locale);
+        super.setMapper(coachTypeMapper);
     }
 
     @Override
@@ -31,8 +39,9 @@ public class CoachTypeDaoImpl extends AbstractDaoImpl<CoachType> implements Coac
         return create(INSERT, statement -> {
             statement.setInt(1, coachType.getId());
             statement.setString(2, coachType.getName());
-            statement.setInt(3, coachType.getPlaces());
-            statement.setInt(4, coachType.getMarkup());
+            statement.setString(3, coachType.getName());
+            statement.setInt(4, coachType.getPlaces());
+            statement.setInt(5, coachType.getMarkup());
         });
     }
 

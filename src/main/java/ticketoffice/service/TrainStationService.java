@@ -29,8 +29,9 @@ public class TrainStationService {
         throw new ValidateFailException("root");
     }
 
-    public void fillTrainStation(TrainStation trainStation) {
+    public void fillTrainStation(TrainStation trainStation, String locale) {
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
+            stationDao.setLocale(locale);
             stationDao.getById(trainStation.getStation().getId())
                     .ifPresent(trainStation::setStation);
         }
