@@ -9,6 +9,8 @@
 <head>
     <title>Booking Page</title>
     <c:import url="/resources/components/links.html"/>
+    <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/booking.js"></script>
+    <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/current-date.js"></script>
     <script type="text/javascript">
       function loadRequest()
       {
@@ -21,62 +23,6 @@
         onDestinationChange(document.getElementById('destinationStationSelectItem'));
 
         document.getElementById("departureDateItem").min = getCurrentDate();
-      }
-
-      function onDestinationChange(sel)
-      {
-        document.getElementById('destinationHidden').value = sel.value;        
-        var departureOptions = document.getElementById('departureStationSelectItem').options;
-        for (var i=0, iLen=departureOptions.length; i<iLen; i++) {
-            var opt = departureOptions[i];
-            if (opt.value == document.getElementById('destinationHidden').value) {
-                opt.hidden = true;
-            }
-            else {
-                opt.hidden = false;
-            }
-        }
-      }
-
-      function onDepartureChange(sel)
-      {
-        document.getElementById('departureHidden').value = sel.value;
-        var destinationOptions = document.getElementById('destinationStationSelectItem').options;
-        for (var i=0, iLen=destinationOptions.length; i<iLen; i++) {
-            var opt = destinationOptions[i];
-            if (opt.value == document.getElementById('departureHidden').value) {
-                opt.hidden = true;
-            }
-            else {
-                opt.hidden = false;
-            }
-        }
-      }
-
-      function onDateChange(sel)
-      {
-        document.getElementById('dateHidden').value = sel.value;
-      }
-
-      function swapStation(){
-        var destinationStationId = document.getElementById('destinationHidden').value;
-        var departureStationId = document.getElementById('departureHidden').value;
-
-        document.getElementById('departureStationSelectItem').value = destinationStationId;
-        onDepartureChange(document.getElementById('departureStationSelectItem'));
-
-        document.getElementById('destinationStationSelectItem').value = departureStationId;
-        onDestinationChange(document.getElementById('destinationStationSelectItem'));
-      }
-
-      function getCurrentDate() {
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        if (month < 10) month = "0" + month.toString();
-        var day = today.getDate();
-        if (day < 10) day = "0" + day.toString();
-
-        return today.getFullYear() + "-" + month + "-"+ day;
       }
     </script>
 </head>

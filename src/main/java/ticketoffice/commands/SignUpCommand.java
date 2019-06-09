@@ -25,7 +25,7 @@ public class SignUpCommand implements Command {
                     passenger.getFirstName(),
                     passenger.getLastName(),
                     passenger.getLogin()));
-            passengerValidator.validatePassengerInfo(passenger.getFirstName(),
+            passengerValidator.validateNewPassengerInfo(passenger.getFirstName(),
                     passenger.getLastName(), passenger.getLogin());
 
             if (passengerService.registerPassenger(passenger))

@@ -25,7 +25,7 @@ public class UpdatePassengerFilter implements Filter {
         boolean updateSuccessStatus = httpRequest.getAttribute("updateSuccess") == null ?
                 false : (boolean) httpRequest.getAttribute("updateSuccess");
 
-        if (passengerId == user.getPassenger ().getId() && updateSuccessStatus) {
+        if (passengerId == user.getPassenger().getId() && updateSuccessStatus) {
             user.getPassenger().setFirstName(httpRequest.getParameter("passengerFirstName"));
             user.getPassenger().setLastName(httpRequest.getParameter("passengerLastName"));
             user.getPassenger().setLogin(httpRequest.getParameter("passengerLogin"));

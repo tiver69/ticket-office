@@ -9,6 +9,7 @@
 <head>
     <c:import url="/resources/components/links.html"/>
     <title>Home Page</title>
+    <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/userlist.js"></script>
     <script type="text/javascript">
         function confirmPromote(form) {
             return confirm("<fmt:message key='admin.userlist.promote.confirm'/>");
@@ -16,28 +17,12 @@
         function confirmUpdate(form) {
             return confirm("<fmt:message key='admin.userlist.update.confirm'/>");
         }
-        function setCurrentUpdate(currentUpdatedId) {
-            var id =  "currentUpdate"+currentUpdatedId;
-            document.getElementById(id).style.display='inherit';
-            document.getElementById("currentUpdateInfo"+currentUpdatedId).style.display='none';
-        }
-        function unsetCurrentUpdate(currentUpdatedId) {
-            var id =  "currentUpdate"+currentUpdatedId;
-            document.getElementById(id).style.display='none';
-            document.getElementById("currentUpdateInfo"+currentUpdatedId).style.display='inherit';
-        }
         function confirmDelete(form) {
-            return confirm("<fmt:message key='admin.userlist.remove.confirm'/>");
+            return confirm("<fmt:message key='admin.userlist.remove.confirm'/>"); 
         }
-        function loadMenuColor() {
-        var el = document.getElementsByClassName("menu-admin");
-          for (var i=0, iLen=el.length; i<iLen; i++) {
-            el[i].classList.add("active");
-        }  
-      }
     </script>
 </head>
-<body onload="loadMenuColor()">
+<body onload="loadMenuColor('menu-admin')">
 <div class="site-wrap">
 
     <c:import url="/resources/components/header.html"/>

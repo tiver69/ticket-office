@@ -30,6 +30,8 @@ public class UpdatePassengerCommand implements Command {
             Passenger passenger = passengerService.getPassenger(passengerId);
             passenger.setFirstName(firstName);
             passenger.setLastName(lastName);
+            if (!passenger.getLogin().equals(login))
+                passengerValidator.validateNewPassengerLogin(login);
             passenger.setLogin(login);
 
             request.setAttribute("updateSuccess", passengerDao.update(passenger));

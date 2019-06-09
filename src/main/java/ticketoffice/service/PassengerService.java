@@ -23,7 +23,7 @@ public class PassengerService {
         LOG.error(String.format("Passenger with id#%d doesn't exist", passengerId));
         throw new ValidateFailException("passenger");
     }
-    
+
     public boolean registerPassenger(Passenger passenger) {
         try (PassengerDao passengerDaoImpl = DaoFactory.getInstance().getPassengerDao()) {
             boolean status = passengerDaoImpl.createUser(passenger) == 1;

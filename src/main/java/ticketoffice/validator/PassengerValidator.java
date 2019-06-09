@@ -6,7 +6,6 @@ import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.model.Passenger;
 import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.PassengerDao;
-import ticketoffice.service.PassengerService;
 
 import java.util.Optional;
 
@@ -14,17 +13,9 @@ public class PassengerValidator {
 
     private static Logger LOG = Logger.getLogger(FindTrainCommand.class);
 
-    public void validatePassengerInfo(String firstName, String lastName, String login){
+    public void validatePassengerInfo(String firstName, String lastName, String login) {
         String loginPattern = "[a-z0-9_-]{3,16}";
         String namePattern = "[A-Z][A-Za-z-]*";
-
-        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()) {
-            Optional<Passenger> passenger = passengerDao.getByLogin(login);
-            if (passenger.isPresent()) {
-                LOG.error(String.format("Passenger with login %s already exist", login));
-                throw new ValidateFailException("passenger.exist");
-            }
-        }
 
         if (!login.matches(loginPattern)
                 || !firstName.matches(namePattern)
@@ -33,5 +24,20 @@ public class PassengerValidator {
                     lastName, firstName, login));
             throw new ValidateFailException("passenger.info");
         }
+    }
+
+    public void validateNewPassengerLogin(String login) {
+        try (PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()) {
+            Optional<Passenger> passenger = passengerDao.getByLogin(login);
+            if (passenger.isPresent()) {
+                LOG.error(String.format("Passenger with login %s already exist", login));
+                throw new ValidateFailException("passenger.exist");
+            }
+        }
+    }
+
+    public void validateNewPassengerInfo(String firstName, String lastName, String login) {
+        validatePassengerInfo(firstName, lastName, login);
+        validateNewPassengerLogin(login);
     }
 }

@@ -32,15 +32,4 @@ public class TrainCoachService {
         LOG.debug(String.format("Fill trainCoach#%d with %s(#%d) type", trainCoach.getId(),
                 trainCoach.getCoachType().getName(), trainCoach.getCoachType().getId()));
     }
-
-    public void fillTrainCoachTrain(TrainCoach trainCoach) {
-        try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {
-            trainDao.getById(trainCoach.getTrain().getId())
-                    .ifPresent(
-                            trainCoach::setTrain
-                    );
-            LOG.debug(String.format("Fill trainCoach#%d with #%d train", trainCoach.getId(),
-                    trainCoach.getTrain().getId()));
-        }
-    }
 }

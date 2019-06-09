@@ -9,75 +9,12 @@
 <head>
   <title>Home Page</title>
   <c:import url="/resources/components/links.html"/>
+  <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/home.js"></script>
+  <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/current-date.js"></script>
   <script type="text/javascript">
-      function confirmReturn(form) {
-          return confirm("<fmt:message key='user.home.message.confirm'/>");
-      }
-      function onLoadHomePage(){
-        loadMenuColor();
-        document.getElementById("destinationStationSelect").value = 1;
-        onDestinationChange();
-        document.getElementById("departureStationSelect").value = 2;
-        onDepartureChange();
-        
-        document.getElementById("dateInput").min = getCurrentDate();
-      }
-
-      function onDestinationChange()
-      {       
-        var departureOptions = document.getElementById('departureStationSelect').options;
-        for (var i=0, iLen=departureOptions.length; i<iLen; i++) {
-            var opt = departureOptions[i];
-            if (opt.value == document.getElementById('destinationStationSelect').value) {
-                opt.hidden = true;
-            }
-            else {
-                opt.hidden = false;
-            }
-        }
-      }
-
-      function onDepartureChange()
-      {
-        var destinationOptions = document.getElementById('destinationStationSelect').options;
-        for (var i=0, iLen=destinationOptions.length; i<iLen; i++) {
-            var opt = destinationOptions[i];
-            if (opt.value == document.getElementById('departureStationSelect').value) {
-                opt.hidden = true;
-            }
-            else {
-                opt.hidden = false;
-            }
-        }
-      }
-
-      function swapStation(){
-        var destinationStationId = document.getElementById('destinationStationSelect').value;
-        var departureStationId = document.getElementById('departureStationSelect').value;
-
-        document.getElementById('departureStationSelect').value = destinationStationId;
-        onDepartureChange(document.getElementById('departureStationSelect'));
-
-        document.getElementById('destinationStationSelect').value = departureStationId;
-        onDestinationChange(document.getElementById('destinationStationSelect'));
-      }
-
-      function loadMenuColor() {
-        var el = document.getElementsByClassName("menu-home");
-          for (var i=0, iLen=el.length; i<iLen; i++) {
-            el[i].classList.add("active");
-        }        
-      }
-
-      function getCurrentDate() {
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        if (month < 10) month = "0" + month.toString();
-        var day = today.getDate();
-        if (day < 10) day = "0" + day.toString();
-
-        return today.getFullYear() + "-" + month + "-"+ day;
-      }
+    function confirmReturn() {
+      return confirm("<fmt:message key='user.home.message.confirm'/>");
+    }
   </script>
 </head>
 
@@ -181,7 +118,7 @@
                 <c:choose>
                 <c:when test="${displayType==0}">
                   <a href="returnTicket?ticketId=${ticket.getTicket().getId()}" class="bookmark" 
-                    onclick="return confirmReturn(this);" method="delete" >
+                    onclick="return confirmReturn();" method="delete" >
                       <span class="icon-hand-spock-o">
                         <fmt:message key="user.home.return"/>
                       </span>
