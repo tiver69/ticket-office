@@ -1,6 +1,7 @@
 package ticketoffice.model;
 
 import lombok.*;
+import ticketoffice.model.builders.TicketBuilder;
 
 import java.sql.Date;
 
@@ -19,6 +20,17 @@ public class Ticket {
     private TrainCoach trainCoach;
     private int place;
     private int price;
+
+    public Ticket(TicketBuilder ticketBuilder) {
+        this.id = ticketBuilder.getId();
+        this.passenger = ticketBuilder.getPassenger();
+        this.departureStation = ticketBuilder.getDepartureStation();
+        this.destinationStation = ticketBuilder.getDestinationStation();
+        this.date = ticketBuilder.getDate();
+        this.trainCoach = ticketBuilder.getTrainCoach();
+        this.place = ticketBuilder.getPlace();
+        this.price = ticketBuilder.getPrice();
+    }
 
     @Override
     public boolean equals(Object obj) {

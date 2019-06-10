@@ -1,4 +1,4 @@
-package ticketoffice.service.utils;
+package ticketoffice.service;
 
 import org.apache.log4j.Logger;
 import ticketoffice.exceptions.ValidateFailException;

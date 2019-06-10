@@ -10,6 +10,7 @@ import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.StationDao;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 import ticketoffice.service.TicketService;
+import ticketoffice.service.utils.TimeDateUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class UserMainPageCommand implements Command {
             List<Ticket> ticketList =
                     ticketDao.getTicketsByPassengerId(user.getPassenger().getId()).stream()
                             .filter(ticket ->
-                                    (ticket.getDate().compareTo(new Date(System.currentTimeMillis())) > 0)
+                                    (ticket.getDate().compareTo(TimeDateUtil.getTodayInFormat()) >= 0)
                                             == displayActive).collect(Collectors.toCollection(ArrayList::new));
             request.setAttribute("pages",
                     (int) Math.ceil(((double) ticketList.size()) / 5));

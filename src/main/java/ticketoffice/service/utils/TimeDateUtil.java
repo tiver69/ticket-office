@@ -1,26 +1,17 @@
 package ticketoffice.service.utils;
 
-import org.apache.log4j.Logger;
-import ticketoffice.facade.train.ShortTrainInfoFacade;
-
+import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class TimeDateUtil {
 
     public static long ONE_DAY = 24 * 60 * 60 * 1000;
     private static String DAY_NUM_IN_YEAR = "DD";
     private static String TIME_FORMAT = "HH:mm:ss";
+    private static String DATE_FORMAT = "YYYY-MM-dd";
     private static String GRINVICH_TIME_ZONE = "UTC";
     private static String KYIV_TIME_ZONE = "Etc/GMT-4";
 
@@ -46,5 +37,11 @@ public class TimeDateUtil {
     public static Date getThreeMonthLater(){
         Date today = new Date(System.currentTimeMillis());
         return new Date(today.getTime() + ONE_DAY * 90);
+    }
+
+    public static Date getTodayInFormat(){
+        String today = new SimpleDateFormat(DATE_FORMAT)
+                .format(new Date(System.currentTimeMillis()));
+        return Date.valueOf(today);
     }
 }
