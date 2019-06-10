@@ -24,7 +24,7 @@
 	    </h1>
 	    <hr/>
         <button type="button" class="btn btn-primary float-right" onclick="history.go(-1)">
-            <fmt:message key="booking.ticket.button.return" />
+            <fmt:message key="booking.ticket.return.button" />
         </button>
         <c:choose>
           <c:when test="${not empty user}">

@@ -32,11 +32,11 @@
                     <thead>
                         <tr class="row100 head">
                             <th><fmt:message key="booking.train.message" /></th>
-                            <th><fmt:message key="booking.th2"/></th>
+                            <th><fmt:message key="booking.direction"/></th>
                             <th> </th>
-                            <th><fmt:message key="booking.th4"/></th>
-                            <th><fmt:message key="booking.th5"/></th>
-                            <th><fmt:message key="booking.th6"/></th>
+                            <th><fmt:message key="booking.departure"/></th>
+                            <th><fmt:message key="booking.arrival"/></th>
+                            <th><fmt:message key="booking.duration"/></th>
                         </tr>
                     </thead>
 
@@ -58,7 +58,7 @@
                 </table> 
                 </div>       
                 <button type="button" class="btn btn-primary" style="float: right;" onclick="window.location.href='findTrain?departureStation=${pageContext.request.getParameter('departureStationHidden')}&destinationStation=${pageContext.request.getParameter('destinationStationHidden')}&departureDate=${pageContext.request.getParameter('departureDateHidden')}'" >
-                    <fmt:message key="booking.ticket.button.return"/>
+                    <fmt:message key="booking.ticket.return.button"/>
                 </button>
             </div>            
           </div>
@@ -131,10 +131,10 @@
                     <c:forEach begin="${rightRow*placePerLine+1}" end="${placePerLine*(rightRow+1)}" var="i">
                     <c:choose>
                          <c:when test="${trainCoach.getBookedPlaceList().contains(i)}">
-                            <div class="col place disable"><c:out value="${i}"/></div>
+                            <div class="col place disable" title="<fmt:message key='booking.train.place.occupied'/>"><c:out value="${i}"/></div>
                          </c:when>
                          <c:otherwise>
-                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}"><c:out value="${i}"/></a>
+                                <a class="col place" href="ticketDetail?${pageContext.request.getQueryString()}&selectedPlace=${i}&selectedCoach=${trainCoach.getTrainCoach().getId()}" title="<fmt:message key='booking.train.place.free'/>"><c:out value="${i}"/></a>
                          </c:otherwise>
                      </c:choose>
                     </c:forEach>

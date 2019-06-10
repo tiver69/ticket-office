@@ -12,8 +12,9 @@ public class StationService {
 
     private static Logger LOG = Logger.getLogger(StationService.class);
 
-    public Station getStation(int stationId) throws ValidateFailException {
+    public Station getStation(int stationId, String locale) throws ValidateFailException {
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
+            stationDao.setLocale(locale);
             Optional<Station> station = stationDao.getById(stationId);
             if (station.isPresent())
                 return station.get();

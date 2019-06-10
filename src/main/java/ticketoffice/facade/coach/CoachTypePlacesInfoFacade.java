@@ -23,8 +23,9 @@ public class CoachTypePlacesInfoFacade {
     private TrainCoachService trainCoachService = new TrainCoachService();
     private TicketService ticketService = new TicketService();
 
-    private CoachTypePlacesInfoDto getCoachTypePlacesInformation(List<TrainCoach> trainCoachList, int departureStationId,
-                                                                 int destinationStationId, Date departureDate) {
+    private CoachTypePlacesInfoDto
+    getCoachTypePlacesInformation(List<TrainCoach> trainCoachList, int departureStationId,
+                                  int destinationStationId, Date departureDate) {
         CoachTypePlacesInfoDto coachTypePlacesInfoDto = new CoachTypePlacesInfoDto();
         coachTypePlacesInfoDto.setCoachType(trainCoachList.get(0).getCoachType());
         coachTypePlacesInfoDto.setQuantity(trainCoachList.size());
@@ -37,7 +38,8 @@ public class CoachTypePlacesInfoFacade {
                             .mapToInt(trainCoach ->
                                     ticketDao.getTicketsByCoachIdAndDate(trainCoach.getId(), departureDate)
                                             .stream().filter(ticket ->
-                                            !ticketService.checkIfTicketAvailableForRoot(departureStationId, destinationStationId, ticket)
+                                            !ticketService.checkIfTicketAvailableForRoot(
+                                                    departureStationId, destinationStationId, ticket)
                                     ).toArray().length)
                             .sum();
             coachTypePlacesInfoDto.setAvailablePlaces(coachTypePlacesInfoDto.getTotalPlaces() - occupiedPlace);
@@ -50,14 +52,14 @@ public class CoachTypePlacesInfoFacade {
     }
 
 
-    public List<CoachTypePlacesInfoDto> getTrainPlacesInformation(int trainId, int departureStationId,
-                                                                  int destinationStationId, Date departureDate) {
-
+    public List<CoachTypePlacesInfoDto>
+    getTrainPlacesInformation(int trainId, int departureStationId, int destinationStationId,
+                              Date departureDate, String locale) {
         Map<CoachType, List<TrainCoach>> coachTypeMap;
         try (TrainCoachDao trainCoachDao = DaoFactory.getInstance().getTrainCoachDao()) {
             List<TrainCoach> trainCoachList = trainCoachDao.getByTrainId(trainId);
             trainCoachList.forEach(trainCoach -> {
-                trainCoachService.fillTrainCoachType(trainCoach);
+                trainCoachService.fillTrainCoachType(trainCoach, locale);
             });
             coachTypeMap = TrainCoachUtil.groupByCoachType(trainCoachList);
         }
@@ -65,7 +67,8 @@ public class CoachTypePlacesInfoFacade {
         List<CoachTypePlacesInfoDto> trainPlacesInfoList = new ArrayList<>();
         coachTypeMap.keySet().forEach(key -> {
             trainPlacesInfoList.add(
-                    getCoachTypePlacesInformation(coachTypeMap.get(key), departureStationId, destinationStationId, departureDate));
+                    getCoachTypePlacesInformation(coachTypeMap.get(key),
+                            departureStationId, destinationStationId, departureDate));
         });
 
         LOG.info(String.format("Prepare information about %d coach types in train#%d",

@@ -18,6 +18,10 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     public AbstractDaoImpl(Connection connection, Mapper mapper) {
         this.connection = connection;
+        setMapper(mapper);
+    }
+
+    protected void setMapper(Mapper mapper){
         mapper.setDao(this);
         this.mapper = mapper;
     }

@@ -22,9 +22,10 @@ public class TicketDetailsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
+        String locale = (String) request.getSession().getAttribute("locale");
         try {
             Ticket ticket = ticketMapper.extractItemFromRequest(request);
-            ticketService.fillTicket(ticket);
+            ticketService.fillTicket(ticket, locale);
             validateRequest(ticket);
             ticket.setPrice(ticketService.countTicketPrice(ticket));
             LOG.info("Ticket request: " + ticket.toString());
@@ -42,7 +43,7 @@ public class TicketDetailsCommand implements Command {
     }
 
     private void validateRequest(Ticket ticket) throws ValidateFailException {
-        dateValidator.validatePastDate(ticket.getDate());
+        dateValidator.validateDate(ticket.getDate());
         if (ticket.getPlace() <= 0 ||
                 ticket.getPlace() > ticket.getTrainCoach().getCoachType().getPlaces() ||
                 ticketService.checkIfPlaceUnavailableForTicket(ticket)) {

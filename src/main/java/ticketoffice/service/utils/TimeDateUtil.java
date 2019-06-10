@@ -18,21 +18,15 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeDateUtil {
 
-    private static Logger LOG = Logger.getLogger(ShortTrainInfoFacade.class);
-
-    private static String YEAR_FORMAT = "YYYY";
-    private static String FIRST_JANUARY = "-01-01";
+    public static long ONE_DAY = 24 * 60 * 60 * 1000;
+    private static String DAY_NUM_IN_YEAR = "DD";
     private static String TIME_FORMAT = "HH:mm:ss";
     private static String GRINVICH_TIME_ZONE = "UTC";
     private static String KYIV_TIME_ZONE = "Etc/GMT-4";
 
     public static int getDayOfYearOfDate(Date requestDate){
-        String firstDayOfOrderYear = new SimpleDateFormat(YEAR_FORMAT)
-                .format(requestDate)+FIRST_JANUARY;
-        Date firstDayOfOrderYearDate = Date.valueOf(firstDayOfOrderYear);
-        long diffDays = requestDate.getTime() - firstDayOfOrderYearDate.getTime();
-
-        return (int) TimeUnit.DAYS.convert(diffDays, TimeUnit.MILLISECONDS) + 1;
+        return Integer.parseInt(
+                new SimpleDateFormat(DAY_NUM_IN_YEAR).format(requestDate));
     }
 
     public static Time getTimeDiff(Time lesserTime, Time biggerTime){
@@ -47,5 +41,10 @@ public class TimeDateUtil {
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT);
         timeFormat.setTimeZone(TimeZone.getTimeZone(KYIV_TIME_ZONE));
         return Time.valueOf(timeFormat.format(time));
+    }
+
+    public static Date getThreeMonthLater(){
+        Date today = new Date(System.currentTimeMillis());
+        return new Date(today.getTime() + ONE_DAY * 90);
     }
 }

@@ -5,7 +5,9 @@ function onLoadHomePage(){
     document.getElementById("departureStationSelect").value = 2;
     onDepartureChange();
 
-    document.getElementById("dateInput").min = getCurrentDate();
+    document.getElementById("dateInput").value = getCurrentDate(0);
+    document.getElementById("dateInput").min = getCurrentDate(0);
+    document.getElementById("dateInput").max = getCurrentDate(3);
 }
 
 function onDestinationChange() {

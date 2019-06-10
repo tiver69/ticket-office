@@ -1,7 +1,6 @@
 package ticketoffice.validator;
 
 import org.apache.log4j.Logger;
-import ticketoffice.commands.FindTrainCommand;
 import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.model.Passenger;
 import ticketoffice.persistence.dao.DaoFactory;
@@ -11,17 +10,19 @@ import java.util.Optional;
 
 public class PassengerValidator {
 
-    private static Logger LOG = Logger.getLogger(FindTrainCommand.class);
+    private static Logger LOG = Logger.getLogger(PassengerValidator.class);
 
     public void validatePassengerInfo(String firstName, String lastName, String login) {
         String loginPattern = "[a-z0-9_-]{3,16}";
-        String namePattern = "[A-Z][A-Za-z-]*";
+        String namePattern = "[A-ZА-Я][A-Za-zА-Яа-я-]*";
 
         if (!login.matches(loginPattern)
                 || !firstName.matches(namePattern)
                 || !lastName.matches(namePattern)) {
-            LOG.error(String.format("Data %s %s %s doesn't match pattern for user",
-                    lastName, firstName, login));
+            LOG.error(String.format("Data %s(%b) %s(%b) %s(%b) doesn't match pattern for user",
+                    lastName, lastName.matches(namePattern),
+                    firstName, firstName.matches(namePattern),
+                    login, login.matches(loginPattern)));
             throw new ValidateFailException("passenger.info");
         }
     }

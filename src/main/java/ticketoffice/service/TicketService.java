@@ -32,10 +32,10 @@ public class TicketService {
         return rootPrise;
     }
 
-    public void fillTicket(Ticket ticket) {
-        ticket.setTrainCoach(trainCoachService.getTrainCoach(ticket.getTrainCoach().getId()));
-        ticket.setDepartureStation(stationService.getStation(ticket.getDepartureStation().getId()));
-        ticket.setDestinationStation(stationService.getStation(ticket.getDestinationStation().getId()));
+    public void fillTicket(Ticket ticket, String locale) {
+        ticket.setTrainCoach(trainCoachService.getTrainCoach(ticket.getTrainCoach().getId(), locale));
+        ticket.setDepartureStation(stationService.getStation(ticket.getDepartureStation().getId(), locale));
+        ticket.setDestinationStation(stationService.getStation(ticket.getDestinationStation().getId(), locale));
     }
 
     public boolean checkIfPlaceUnavailableForTicket(Ticket ticket) {
@@ -51,7 +51,7 @@ public class TicketService {
     }
 
     public boolean checkIfTicketAvailableForRoot(int departureStationId, int destinationStationId, Ticket ticket) {
-        fillTicket(ticket);
+        fillTicket(ticket, "ru");
         int trainId = ticket.getTrainCoach().getTrain().getId();
         int ticketDepartureOrder = trainStationService.getTrainStationOrder(ticket.getDepartureStation().getId(), trainId);
         int ticketDestinationOrder = trainStationService.getTrainStationOrder(ticket.getDestinationStation().getId(), trainId);

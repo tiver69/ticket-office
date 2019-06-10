@@ -22,7 +22,8 @@
         document.getElementById('destinationStationSelectItem').value = destinationStationId;
         onDestinationChange(document.getElementById('destinationStationSelectItem'));
 
-        document.getElementById("departureDateItem").min = getCurrentDate();
+        document.getElementById("departureDateItem").min = getCurrentDate(0);
+        document.getElementById("departureDateItem").max = getCurrentDate(3);
       }
     </script>
 </head>
@@ -83,7 +84,7 @@
                     </div>
 
                     <div class="w-25 p-3 no-sm-border">     
-                        <input type="submit" class="btn btn-primary" value='<fmt:message key="home.booking"/>' />
+                        <input type="submit" class="btn btn-primary" value='<fmt:message key="user.home.booking.button"/>' />
                     </div>
                  </div>
                  </form>             
@@ -119,12 +120,12 @@
                                 <thead>
                                     <tr class="row100 head">
                                         <th class="column100 column1" data-column="column1"><fmt:message key="booking.button"/></th>
-                                        <th class="column100 column2" data-column="column2"><fmt:message key="booking.th2"/></th>
+                                        <th class="column100 column2" data-column="column2"><fmt:message key="booking.direction"/></th>
                                         <th class="column100 column3" data-column="column3"> </th>
-                                        <th class="column100 column4" data-column="column4"><fmt:message key="booking.th4"/></th>
-                                        <th class="column100 column5" data-column="column5"><fmt:message key="booking.th5"/></th>
-                                        <th class="column100 column6" data-column="column6"><fmt:message key="booking.th6"/></th>
-                                        <th class="column100 column7" data-column="column7"><fmt:message key="booking.th7"/></th>
+                                        <th class="column100 column4" data-column="column4"><fmt:message key="booking.departure"/></th>
+                                        <th class="column100 column5" data-column="column5"><fmt:message key="booking.arrival"/></th>
+                                        <th class="column100 column6" data-column="column6"><fmt:message key="booking.duration"/></th>
+                                        <th class="column100 column7" data-column="column7"><fmt:message key="booking.seats"/></th>
                                     </tr>
                                 </thead>
                                 <tbody>

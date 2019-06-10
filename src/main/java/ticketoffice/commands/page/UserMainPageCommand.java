@@ -26,16 +26,18 @@ public class UserMainPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
+        String locale = (String) request.getSession().getAttribute("locale");
         List<Station> stationList;
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
+            stationDao.setLocale(locale);
             stationList = stationDao.getAll();
         }
 
+        UserDto user = (UserDto) request.getSession().getAttribute("user");
         boolean displayActive = request.getParameter("displayType") == null ?
                 true : Integer.parseInt(request.getParameter("displayType")) == 0;
         int currentPage = (int) request.getAttribute("currentPage") - 1;
 
-        UserDto user = (UserDto) request.getSession().getAttribute("user");
         List<TicketInfoDto> ticketInfoDtoList = new ArrayList<>();
         try (TicketDao ticketDao = DaoFactory.getInstance().getTicketDao()) {
             List<Ticket> ticketList =
@@ -50,7 +52,7 @@ public class UserMainPageCommand implements Command {
                     .skip(currentPage * 5)
                     .limit(5)
                     .forEach(ticket -> {
-                        ticketService.fillTicket(ticket);
+                        ticketService.fillTicket(ticket, locale);
                         ticketInfoDtoList.add(ticketInfoFacade.loadTicketInfo(ticket));
                     });
         }

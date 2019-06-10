@@ -24,21 +24,21 @@
                 <form action="signup" method="post">
                 <div class="row align-items-center">
 
-                <div class="w-50 p-3 no-sm-border border-right"> 
-                    <div class="wrap-icon"> 
-                      <span class="icon icon-info"></span>
-                      <input type="text" class="form-control" placeholder='<fmt:message key="registration.first.name"/>'
+                  <div class="w-50 p-3 no-sm-border border-right"> 
+                  <div class="wrap-icon"> 
+                    <span class="icon icon-info"></span>
+                    <input type="text" class="form-control" placeholder='<fmt:message key="registration.first.name"/>'
                             name="firstName" required="required"></input>
-                    </div>
-                    </div>
+                  </div>
+                  </div>
                     
-                    <div class="w-50 p-3 no-sm-borde"> 
-                    <div class="wrap-icon">
-                      <span class="icon icon-info"></span>
-                      <input type="text" class="form-control" placeholder='<fmt:message key="registration.last.name"/>'
+                  <div class="w-50 p-3 no-sm-border"> 
+                  <div class="wrap-icon">
+                    <span class="icon icon-info"></span>
+                    <input type="text" class="form-control" placeholder='<fmt:message key="registration.last.name"/>'
                             name="lastName" required="required"></input>
-                    </div>
-                    </div>
+                  </div>
+                  </div>
 
                   <div class="w-50 p-3 no-sm-border border-right">     
                   <div class="wrap-icon">               

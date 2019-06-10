@@ -13,7 +13,7 @@
   <script type="text/javascript" src="${contextPath}/ticket-office/resources/js/current-date.js"></script>
   <script type="text/javascript">
     function confirmReturn() {
-      return confirm("<fmt:message key='user.home.message.confirm'/>");
+      return confirm("<fmt:message key='user.home.return.confirm'/>");
     }
   </script>
 </head>
@@ -53,7 +53,7 @@
 
           <div class="col-lg-8">
             <h2 class="mb-5 text-primary">
-              <fmt:message key="home.message.ticket" />
+              <fmt:message key="user.home.message.ticket" />
             </h2>
 
 
@@ -139,12 +139,12 @@
                 
                 <p>
                   <span class="icon-clock-o"></span>                   
-                  <fmt:message key="booking.th4"/> - <c:out value="${ticket.getDepartureDateTime()}"/>
+                  <fmt:message key="booking.departure"/> - <c:out value="${ticket.getDepartureDateTime()}"/>
                 </p>
                 
                 <p>
                   <span class="icon-clock-o"></span>
-                  <fmt:message key="booking.th5"/> - <c:out value="${ticket.getArrivalDateTime()}"/><br/><br/>
+                  <fmt:message key="booking.arrival"/> - <c:out value="${ticket.getArrivalDateTime()}"/><br/><br/>
                 </p>                
 
               </div>
@@ -178,7 +178,7 @@
           <div class="col-lg-3 ml-auto">
             <div class="mb-5">
               <h3 class="h5 text-black mb-3">
-                <fmt:message key="home.booking.message"/>
+                <fmt:message key="user.home.booking.message"/>
                 <a href="javascript:void(0);" onclick="swapStation()" style="float: right;">
                   <span class="icon-exchange"></span>
                 </a>
@@ -187,7 +187,7 @@
 
               <form action="findTrain" method="get">
                 <span class="icon-room"></span>
-                <fmt:message key="home.booking.departure"/>
+                <fmt:message key="user.home.booking.departure"/>
                 <div class="form-group">
                   <div class="select-wrap">
                       <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
@@ -200,7 +200,7 @@
                 </div>
 
                 <span class="icon-room"></span>
-                <fmt:message key="home.booking.destination"/>
+                <fmt:message key="user.home.booking.destination"/>
                 <div class="form-group">
                   <div class="select-wrap">
                       <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
@@ -213,11 +213,11 @@
                 </div>
 
                 <div class="form-group">
-                  <fmt:message key="home.booking.date"/>: <input type="date" name="departureDate" required="required" class="form-control" id="dateInput" />
+                  <fmt:message key="user.home.booking.date"/>: <input type="date" name="departureDate" required="required" class="form-control" id="dateInput" />
                 </div>
 
                 <div class="form-group">
-                  <input type="submit" value='<fmt:message key="home.booking"/>' class="btn btn-primary"/>
+                  <input type="submit" value='<fmt:message key="user.home.booking.button"/>' class="btn btn-primary"/>
                 </div>
               </form>
             </div>
