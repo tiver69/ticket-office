@@ -13,7 +13,8 @@ import java.util.List;
 
 public class UserListPageCommand implements Command {
 
-    PassengerInfoFacade passengerInfoFacade = new PassengerInfoFacade();
+    private PassengerInfoFacade passengerInfoFacade = new PassengerInfoFacade();
+    private List<Passenger> passengerList;
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -22,7 +23,7 @@ public class UserListPageCommand implements Command {
         int currentPage = (int) request.getAttribute("currentPage") - 1;
 
         try(PassengerDao passengerDao = DaoFactory.getInstance().getPassengerDao()){
-            List<Passenger> passengerList = passengerDao.getAll();
+            passengerList = passengerDao.getAll();
             request.setAttribute("pages", (int) Math.ceil(((double) passengerList.size()) / 5));
             passengerList.stream()
                     .skip(currentPage * 5)
