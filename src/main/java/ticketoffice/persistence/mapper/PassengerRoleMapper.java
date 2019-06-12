@@ -6,12 +6,15 @@ import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.PassengerRoleDao;
 
-import javax.swing.text.html.Option;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for PassengerRole class, for extraction PassengerRole item from db result set.
+ * Fills only id-field for related Passenger value.
+ */
 public class PassengerRoleMapper implements Mapper<PassengerRole> {
 
     private PassengerRoleDao passengerRoleDao;

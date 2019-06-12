@@ -16,6 +16,10 @@ public class TrainStationService {
 
     private static Logger LOG = Logger.getLogger(TrainStationService.class);
 
+    /**
+     * @return extracted TrainStation with requested locale parameter from Optional value.
+     * @throws ValidateFailException in case item was not found.
+     */
     public TrainStation getTrainStation(int stationId, int trainId) throws ValidateFailException {
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
             Optional<TrainStation> trainStation = trainStationDao.getByTrainIdAndStationId(
@@ -29,6 +33,10 @@ public class TrainStationService {
         throw new ValidateFailException("root");
     }
 
+    /**
+     * Get all additional information for TrainStation fields and set extracted values to
+     * request trainStation parameter.
+     */
     public void fillTrainStation(TrainStation trainStation, String locale) {
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
             stationDao.setLocale(locale);
@@ -42,6 +50,10 @@ public class TrainStationService {
         }
     }
 
+    /**
+     * @return List of TrainStation items related to requested Train and with order value in range
+     * of departureStation and destinationStationId order.
+     */
     public List<TrainStation> getTrainStationRoot(int departureStationId, int destinationStationId, int trainId) {
         List<TrainStation> fullRoot;
         try (TrainStationDao trainStationDao = DaoFactory.getInstance().getTrainStationDao()) {
@@ -64,6 +76,9 @@ public class TrainStationService {
         return fullRoot;
     }
 
+    /**
+     * @return extracted trainStation Order.
+     */
     public int getTrainStationOrder(int stationId, int trainId) {
         return getTrainStation(stationId, trainId).getOrder();
     }

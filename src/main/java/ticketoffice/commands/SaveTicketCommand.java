@@ -8,6 +8,11 @@ import ticketoffice.persistence.mapper.TicketMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get all tickets values from request, creates single ticket value, creates new
+ * ticket record.
+ * Redirects to /user/home page if there was no errors.
+ */
 public class SaveTicketCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(SaveTicketCommand.class);

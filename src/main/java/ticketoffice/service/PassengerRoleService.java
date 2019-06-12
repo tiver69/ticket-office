@@ -1,6 +1,7 @@
 package ticketoffice.service;
 
 import org.apache.log4j.Logger;
+import ticketoffice.exceptions.ValidateFailException;
 import ticketoffice.model.PassengerRole;
 import ticketoffice.model.enums.Role;
 import ticketoffice.persistence.dao.DaoFactory;
@@ -13,6 +14,11 @@ public class PassengerRoleService {
 
     private static Logger LOG = Logger.getLogger(PassengerRoleService.class);
 
+    /**
+     * @param passengerId
+     * @return extracted Role from Optional value.
+     * @throws ValidateFailException in case no item was not found.
+     */
     public List<Role> getRolesByPassengerId(int passengerId) {
         List<Role> roleList = new ArrayList<>();
         try (PassengerRoleDao passengerRoleDao = DaoFactory.getInstance().getPassengerRoleDao()) {

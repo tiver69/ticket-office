@@ -9,12 +9,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for Train class, for extraction Train item from db result set
+ */
 public class TrainMapper implements Mapper<Train> {
 
     private TrainDao trainDao;
 
     public void setDao(AbstractDao trainDao) {
-        this.trainDao = (TrainDao)trainDao;
+        this.trainDao = (TrainDao) trainDao;
     }
 
     @Override

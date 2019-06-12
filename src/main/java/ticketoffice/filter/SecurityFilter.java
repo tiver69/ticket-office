@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Filter for all app pages, allowing to persist request to servlet or not:
+ * allows in case of current session user Roles contain role for requested page,
+ * deny and redirect to 401 error page in case there wasn't requested role.
+ */
 public class SecurityFilter implements Filter {
 
     private static Logger LOG = Logger.getLogger(SecurityFilter.class);

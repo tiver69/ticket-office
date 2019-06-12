@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Main app servlet, executing all mapping inside the app according to requested uri and result of
+ * executing requested-specific command.
+ */
 public class DispatcherServlet extends HttpServlet {
 
     private static Logger LOG = Logger.getLogger(DispatcherServlet.class);

@@ -7,6 +7,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
+/**
+ * Executed class for custom "setCoachViewParameters" tag, set "rightSideRow" and "leftSideRow" attributes
+ * to current page context according to input coach type number.
+ * On jsp page this attributes may be used to display requested number of places rows on right
+ * and lest side of corridor. In order to visualize place location difference between coach types.
+ */
 @Setter
 public class SetCoachViewParameters extends SimpleTagSupport {
 

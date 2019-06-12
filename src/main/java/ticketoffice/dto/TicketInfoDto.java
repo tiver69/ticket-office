@@ -7,6 +7,10 @@ import ticketoffice.model.Ticket;
 
 import java.sql.Timestamp;
 
+/**
+ * Entity for keeping information about ticket, information about
+ * arriving and departure date-time.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

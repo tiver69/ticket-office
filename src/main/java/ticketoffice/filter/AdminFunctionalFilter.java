@@ -7,6 +7,10 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Filter for all app pages, requesting current user roles, and setting "true" bool-attribute to request
+ * if current user has ADMIN role, and "false" if it does not.
+ */
 public class AdminFunctionalFilter implements Filter {
 
     @Override

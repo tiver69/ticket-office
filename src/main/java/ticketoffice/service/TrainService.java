@@ -16,6 +16,10 @@ public class TrainService {
 
     private static Logger LOG = Logger.getLogger(TrainService.class);
 
+    /**
+     * @return extracted Train with requested locale parameter from Optional value.
+     * @throws ValidateFailException in case item was not found.
+     */
     public Train getTrain(int trainId) throws ValidateFailException {
         try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {
             Optional<Train> train = trainDao.getById(trainId);
@@ -27,6 +31,12 @@ public class TrainService {
         throw new ValidateFailException("train");
     }
 
+    /**
+     * Extract all trains in requested direction(from departureStation to destinationStation) and check
+     * if found train travels in requested day, according to frequency value.
+     *
+     * @return List of available trains.
+     */
     public List<Train> findTrainInDirection(int departureStationId, int destinationStationId, Date departureDate) {
         List<Train> resultTrains;
         try (TrainDao trainDao = DaoFactory.getInstance().getTrainDao()) {

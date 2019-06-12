@@ -18,6 +18,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for Ticket class, for extraction Ticket item from db result set.
+ * Fills only id-field for related Passenger, Station, TrainCoach value.
+ */
 public class TicketMapper implements Mapper<Ticket> {
 
     private static Logger LOG = Logger.getLogger(TicketMapper.class);

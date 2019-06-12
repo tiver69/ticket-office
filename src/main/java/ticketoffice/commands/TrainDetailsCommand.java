@@ -10,6 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.stream.Collectors;
 
+/**
+ * Set request attribute "pages" with total number of pages available.
+ * Set request attribute "currentPage" with current number of page from request parameter.
+ * Get ID of selected Train, departure station, destination station and date from request,
+ * persist extraction information about train and set result to request attribute "trainInformation".
+ * Forward to user/booking/train page if there was no errors.
+ */
 public class TrainDetailsCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(TrainDetailsCommand.class);

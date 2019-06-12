@@ -21,7 +21,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
         setMapper(mapper);
     }
 
-    protected void setMapper(Mapper mapper){
+    protected void setMapper(Mapper mapper) {
         mapper.setDao(this);
         this.mapper = mapper;
     }
@@ -34,7 +34,6 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
             return 1;
         } catch (SQLIntegrityConstraintViolationException e) {
             LOG.error("Create item fails: " + e.getMessage());
-//            throw new IllegalArgumentException(e.getMessage());
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             e.printStackTrace();

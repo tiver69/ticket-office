@@ -8,6 +8,10 @@ import ticketoffice.dto.coach.TrainCoachPlacesInfoDto;
 
 import java.util.List;
 
+/**
+ * Child entity for keeping additional information (for /user/booking/train page)
+ * about all booked places in each coach of requested train
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -5,6 +5,9 @@ import ticketoffice.commands.page.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Return relevant command implementation according to request action.
+ */
 public class CommandFactory {
 
     private Map<String, Command> commandMap;

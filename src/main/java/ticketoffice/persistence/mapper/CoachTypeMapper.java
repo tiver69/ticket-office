@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for CoachType class, for extraction CoachType item from db result set
+ *
+ * @value locale - specify language for extraction string columns
+ */
 public class CoachTypeMapper implements Mapper<CoachType> {
 
     private CoachTypeDao coachTypeDao;

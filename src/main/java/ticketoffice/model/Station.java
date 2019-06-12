@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity for keeping Station information, contains station name
+ * for displaying on web page
+ */
 @Getter
 @Setter
 @ToString
@@ -24,7 +28,7 @@ public class Station {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Station)) return false;
-        Station otherStation = (Station)obj;
+        Station otherStation = (Station) obj;
         return id == otherStation.getId()
                 && name.equals(otherStation.getName());
     }

@@ -8,11 +8,15 @@ import java.util.*;
 
 public class TrainCoachUtil {
 
-    public static Map<CoachType, List<TrainCoach>> groupByCoachType(List<TrainCoach> trainCoachList){
+    /**
+     * @param trainCoachList
+     * @return Map of Train Coach list, grouped by Coach Type.
+     */
+    public static Map<CoachType, List<TrainCoach>> groupByCoachType(List<TrainCoach> trainCoachList) {
         Map<CoachType, List<TrainCoach>> grouped = new HashMap<>();
 
         trainCoachList.forEach(trainCoach -> {
-            if (!grouped.containsKey(trainCoach.getCoachType())){
+            if (!grouped.containsKey(trainCoach.getCoachType())) {
                 grouped.put(trainCoach.getCoachType(), new ArrayList<>());
             }
             grouped.get(trainCoach.getCoachType()).add(trainCoach);
@@ -20,9 +24,13 @@ public class TrainCoachUtil {
         return grouped;
     }
 
-    public static void sortByCoachNumber(List<TrainCoachPlacesInfoDto> trainCoachPlacesInfoDtoList){
+    /**
+     * Sort given List increasing number of Coach in Train.
+     *
+     * @param trainCoachPlacesInfoDtoList
+     */
+    public static void sortByCoachNumber(List<TrainCoachPlacesInfoDto> trainCoachPlacesInfoDtoList) {
         trainCoachPlacesInfoDtoList.sort(
                 Comparator.comparingInt(o -> o.getTrainCoach().getNumber()));
     }
-
 }

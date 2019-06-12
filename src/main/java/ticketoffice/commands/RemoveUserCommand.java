@@ -6,6 +6,10 @@ import ticketoffice.persistence.dao.interfaces.PassengerDao;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get ID of passenger for removing, persist request for remove user and all related data.
+ * Redirect to admin/users page to load new settings.
+ */
 public class RemoveUserCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(RemoveUserCommand.class);

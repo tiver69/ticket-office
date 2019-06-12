@@ -6,6 +6,10 @@ import ticketoffice.persistence.dao.interfaces.TicketDao;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get ID of ticket for returning, persist request for remove ticket.
+ * Redirect to user/home page to load new settings if there was no errors.
+ */
 public class ReturnTicketCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(ReturnTicketCommand.class);

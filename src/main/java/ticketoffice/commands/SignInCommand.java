@@ -7,6 +7,12 @@ import ticketoffice.facade.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Get all login/password values from request, check if user successfully authenticated. Set created useDto
+ * value to current session attribute "user".
+ * Redirects to /user/home page if there was no errors.
+ * Redirects to /login page if something went wrong.
+ */
 public class SignInCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(SignInCommand.class);

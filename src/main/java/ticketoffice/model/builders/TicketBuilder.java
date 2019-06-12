@@ -9,6 +9,11 @@ import ticketoffice.model.TrainCoach;
 
 import java.sql.Date;
 
+/**
+ * Builder for Ticket entity
+ *
+ * @see Ticket
+ */
 @Getter
 @NoArgsConstructor
 public class TicketBuilder {
@@ -62,7 +67,7 @@ public class TicketBuilder {
         return this;
     }
 
-    public Ticket build(){
+    public Ticket build() {
         return new Ticket(this);
     }
 }

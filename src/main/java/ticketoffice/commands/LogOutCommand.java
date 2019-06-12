@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Remove user attribute from current session and invalidate it.
+ * Redirect to home page.
+ */
 public class LogOutCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(LogOutCommand.class);

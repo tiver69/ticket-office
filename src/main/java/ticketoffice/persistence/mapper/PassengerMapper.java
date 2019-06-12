@@ -11,12 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for Passenger class, for extraction Passenger item from db result set
+ */
 public class PassengerMapper implements Mapper<Passenger> {
 
     private PassengerDao passengerDao;
 
     public void setDao(AbstractDao passengerDao) {
-        this.passengerDao = (PassengerDao)passengerDao;
+        this.passengerDao = (PassengerDao) passengerDao;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class PassengerMapper implements Mapper<Passenger> {
         return trainList;
     }
 
-    public Passenger extractItemFromRequest(HttpServletRequest request){
+    public Passenger extractItemFromRequest(HttpServletRequest request) {
         Passenger passenger = new Passenger();
 
         passenger.setFirstName(request.getParameter("firstName"));
@@ -51,7 +54,7 @@ public class PassengerMapper implements Mapper<Passenger> {
         passenger.setLogin(request.getParameter("login"));
         passenger.setPassword(
                 DigestUtils.md5Hex(
-                request.getParameter("password")));
+                        request.getParameter("password")));
 
         return passenger;
     }

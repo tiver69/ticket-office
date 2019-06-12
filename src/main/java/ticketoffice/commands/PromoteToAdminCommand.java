@@ -10,6 +10,10 @@ import ticketoffice.service.PassengerService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get ID of passenger for promoting, persist request for set new ADMIN role for requested user.
+ * Redirect to admin/users page to load new settings.
+ */
 public class PromoteToAdminCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(PromoteToAdminCommand.class);

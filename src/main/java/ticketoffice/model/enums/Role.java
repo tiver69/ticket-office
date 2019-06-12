@@ -1,5 +1,8 @@
 package ticketoffice.model.enums;
 
+/**
+ * Enum of available web-roles for users
+ */
 public enum Role {
     USER("user"),
     ADMIN("admin"),
