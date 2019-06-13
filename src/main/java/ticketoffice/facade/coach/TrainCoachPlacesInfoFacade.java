@@ -14,6 +14,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class for creating TrainCoachPlacesInfoDto objects for requested train
+ */
 public class TrainCoachPlacesInfoFacade {
 
     private static Logger LOG = Logger.getLogger(TrainCoachPlacesInfoFacade.class);
@@ -21,6 +24,15 @@ public class TrainCoachPlacesInfoFacade {
     private TicketService ticketService = new TicketService();
 
 
+    /**
+     * Creates list of numbers of booked places for requested train coach in specific date
+     *
+     * @param trainCoach           -   train coach item from db
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @return -    TrainCoachPlacesInfoDto item with all fields filled
+     */
     private TrainCoachPlacesInfoDto
     getTrainCoachPlacesInformation(TrainCoach trainCoach, int departureStationId,
                                    int destinationStationId, Date departureDate) {
@@ -43,6 +55,16 @@ public class TrainCoachPlacesInfoFacade {
     }
 
 
+    /**
+     * Creates list of TrainCoachPlacesInfoDto of requested train coaches in specific date
+     *
+     * @param trainId              -   requested train Id from db
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @param locale               -   current session locale parameter
+     * @return List of TrainCoachPlacesInfoDto related to each coach
+     */
     public List<TrainCoachPlacesInfoDto>
     getTrainCoachPlacesInformation(int trainId, int departureStationId, int destinationStationId,
                                    Date departureDate, String locale) {

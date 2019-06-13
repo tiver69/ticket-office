@@ -12,6 +12,10 @@ public class CoachTypeService {
 
     private static Logger LOG = Logger.getLogger(CoachTypeService.class);
 
+    /**
+     * @return extracted CoachType with requested locale parameter from Optional value.
+     * @throws ValidateFailException in case item was not found.
+     */
     public CoachType getCoachType(int coachTypeId, String locale) throws ValidateFailException {
         try (CoachTypeDao coachTypeDao = DaoFactory.getInstance().getCoachTypeDao()) {
             coachTypeDao.setLocale(locale);

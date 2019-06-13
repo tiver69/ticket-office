@@ -13,6 +13,12 @@ import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Set request attribute "stations" with list of all stations for dropdown check item at page.
+ * Get ID of departure station and destination station request, persist searching and set result to
+ * request attribute "trainsInformation".
+ * Forward to user/booking page if there was no errors.
+ */
 public class FindTrainCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(FindTrainCommand.class);

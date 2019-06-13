@@ -10,14 +10,24 @@ import ticketoffice.persistence.dao.DaoFactory;
 import ticketoffice.persistence.dao.interfaces.StationDao;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 import ticketoffice.service.TicketService;
+import ticketoffice.service.utils.TimeDateUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Set request attribute "pages" with total number of pages available.
+ * Set request attribute "currentPage" with current number of page from request parameter.
+ * Set request attribute "stations" with list of all stations for dropdown check item at page.
+ * Set request attribute "displayActive" with true/false value according
+ * to filtering ticket date(active/history).
+ * Get list of tickets (from current page*5 to currentPage*5+5) item of current user from session
+ * and set result list to request attribute "ticketList".
+ * Forward to user/home page if there was no errors.
+ */
 public class UserMainPageCommand implements Command {
 
     TicketService ticketService = new TicketService();
@@ -43,7 +53,7 @@ public class UserMainPageCommand implements Command {
             List<Ticket> ticketList =
                     ticketDao.getTicketsByPassengerId(user.getPassenger().getId()).stream()
                             .filter(ticket ->
-                                    (ticket.getDate().compareTo(new Date(System.currentTimeMillis())) > 0)
+                                    (ticket.getDate().compareTo(TimeDateUtil.getTodayInFormat()) >= 0)
                                             == displayActive).collect(Collectors.toCollection(ArrayList::new));
             request.setAttribute("pages",
                     (int) Math.ceil(((double) ticketList.size()) / 5));

@@ -17,12 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service class for creating CoachTypePlacesInfoDto objects for requested train
+ */
 public class CoachTypePlacesInfoFacade {
 
     private static Logger LOG = Logger.getLogger(CoachTypePlacesInfoFacade.class);
     private TrainCoachService trainCoachService = new TrainCoachService();
     private TicketService ticketService = new TicketService();
 
+    /**
+     * Counts statistic about coaches of coach type in requested train
+     *
+     * @param trainCoachList       -   list of train coaches item from of specific coach type
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @return -    CoachTypePlacesInfoDto item with all fields filled
+     */
     private CoachTypePlacesInfoDto
     getCoachTypePlacesInformation(List<TrainCoach> trainCoachList, int departureStationId,
                                   int destinationStationId, Date departureDate) {
@@ -52,6 +64,17 @@ public class CoachTypePlacesInfoFacade {
     }
 
 
+    /**
+     * Creates list of CoachTypePlacesInfoDto of requested train grouping coaches
+     * by type for counting common statistic
+     *
+     * @param trainId              -   requested train Id from db
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @param locale               -   current session locale parameter
+     * @return List of CoachTypePlacesInfoDto related to each coach type
+     */
     public List<CoachTypePlacesInfoDto>
     getTrainPlacesInformation(int trainId, int departureStationId, int destinationStationId,
                               Date departureDate, String locale) {

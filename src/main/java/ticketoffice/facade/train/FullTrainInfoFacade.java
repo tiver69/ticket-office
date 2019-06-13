@@ -11,6 +11,10 @@ import ticketoffice.service.utils.TimeDateUtil;
 
 import java.sql.Date;
 
+/**
+ * Service class for creating FullTrainInfoDto objects for each
+ * coach of requested train
+ */
 public class FullTrainInfoFacade {
 
     private static Logger LOG = Logger.getLogger(FullTrainInfoFacade.class);
@@ -19,6 +23,16 @@ public class FullTrainInfoFacade {
     private TrainStationService trainStationService = new TrainStationService();
     private TrainCoachPlacesInfoFacade trainCoachPlacesInfoFacade = new TrainCoachPlacesInfoFacade();
 
+    /**
+     * Load information about each coach in requested train
+     *
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @param requestTrainId       -   requested train Id from db
+     * @param locale               -   current session locale parameter
+     * @return FullTrainInfoDto item
+     */
     public FullTrainInfoDto
     getRequestTrainInformation(int departureStationId, int destinationStationId,
                                Date departureDate, int requestTrainId, String locale) {

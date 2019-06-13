@@ -9,9 +9,12 @@ import ticketoffice.persistence.dao.interfaces.TrainCoachDao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Mapper for TrainCoach class, for extraction TrainCoach item from db result set.
+ * Fills only id-field for related Train, CoachType values.
+ */
 public class TrainCoachMapper implements Mapper<TrainCoach> {
 
     private TrainCoachDao trainCoachDao;

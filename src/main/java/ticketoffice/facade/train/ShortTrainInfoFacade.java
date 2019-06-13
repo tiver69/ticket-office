@@ -14,6 +14,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class for creating ShortTrainInfoDto objects for each
+ * coach type of requested train
+ */
 public class ShortTrainInfoFacade {
 
     private static Logger LOG = Logger.getLogger(ShortTrainInfoFacade.class);
@@ -21,8 +25,17 @@ public class ShortTrainInfoFacade {
     private TrainStationService trainStationService = new TrainStationService();
     private CoachTypePlacesInfoFacade coachTypePlacesInfoFacade = new CoachTypePlacesInfoFacade();
 
+    /**
+     * Load information about each of coaches types in requested train
+     *
+     * @param departureStationId   -   db id of requested departure station
+     * @param destinationStationId -   db id of requested destination station
+     * @param departureDate        -   request value of date
+     * @param locale               -   current session locale parameter
+     * @return List of ShortTrainInfoDto items related to each coach type
+     */
     public List<ShortTrainInfoDto> getRequestTrainInformation
-            (int departureStationId, int destinationStationId, Date departureDate, String locale) {
+    (int departureStationId, int destinationStationId, Date departureDate, String locale) {
 
         List<ShortTrainInfoDto> shortTrainInfoDtoList = new ArrayList<>();
         List<Train> requestTrainList =

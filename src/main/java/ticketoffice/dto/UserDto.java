@@ -8,6 +8,9 @@ import ticketoffice.model.enums.Role;
 
 import java.util.List;
 
+/**
+ * Entity for keeping information about passenger and his roles
+ */
 @Setter
 @Getter
 @ToString

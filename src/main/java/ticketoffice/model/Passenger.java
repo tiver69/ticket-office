@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity for keeping Passenger information, contains string variables of
+ * last and first names, login and password(hash-value if entity was extracted from db)
+ */
 @Getter
 @Setter
 @ToString

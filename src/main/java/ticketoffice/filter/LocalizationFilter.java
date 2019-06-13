@@ -6,6 +6,12 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Filter for all app pages, setting locale and bundle variable to current session "locale"
+ * and "bundle" attribute:
+ * with parameter from command in case it was request from command for change,
+ * with default value parameter in case of null locale attribute in current session.
+ */
 public class LocalizationFilter implements Filter {
 
     private static Logger LOG = Logger.getLogger(LocalizationFilter.class);

@@ -1,9 +1,19 @@
 package ticketoffice.model;
 
 import lombok.*;
+import ticketoffice.model.builders.TicketBuilder;
 
 import java.sql.Date;
 
+/**
+ * Entity for keeping Ticket information, contains information:
+ * passenger  -   Passenger item as owner of ticket,
+ * departureStation/destinationStation    -   Station value of depatrure/destination,
+ * date    -   Date value of departure date,
+ * TrainCoach  -   TrainCoach item related to specific coach in train,
+ * place   -   int value of place number in coach,
+ * price   -   int value of ticket total price.
+ */
 @Getter
 @Setter
 @ToString
@@ -19,6 +29,17 @@ public class Ticket {
     private TrainCoach trainCoach;
     private int place;
     private int price;
+
+    public Ticket(TicketBuilder ticketBuilder) {
+        this.id = ticketBuilder.getId();
+        this.passenger = ticketBuilder.getPassenger();
+        this.departureStation = ticketBuilder.getDepartureStation();
+        this.destinationStation = ticketBuilder.getDestinationStation();
+        this.date = ticketBuilder.getDate();
+        this.trainCoach = ticketBuilder.getTrainCoach();
+        this.place = ticketBuilder.getPlace();
+        this.price = ticketBuilder.getPrice();
+    }
 
     @Override
     public boolean equals(Object obj) {

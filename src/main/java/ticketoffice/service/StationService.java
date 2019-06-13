@@ -1,4 +1,4 @@
-package ticketoffice.service.utils;
+package ticketoffice.service;
 
 import org.apache.log4j.Logger;
 import ticketoffice.exceptions.ValidateFailException;
@@ -12,6 +12,12 @@ public class StationService {
 
     private static Logger LOG = Logger.getLogger(StationService.class);
 
+    /**
+     * @param stationId
+     * @param locale
+     * @return extracted Station with requested locale parameter from Optional value.
+     * @throws ValidateFailException in case item was not found.
+     */
     public Station getStation(int stationId, String locale) throws ValidateFailException {
         try (StationDao stationDao = DaoFactory.getInstance().getStationDao()) {
             stationDao.setLocale(locale);

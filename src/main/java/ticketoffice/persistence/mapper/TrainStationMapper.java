@@ -1,6 +1,8 @@
 package ticketoffice.persistence.mapper;
 
-import ticketoffice.model.*;
+import ticketoffice.model.Station;
+import ticketoffice.model.Train;
+import ticketoffice.model.TrainStation;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.TrainStationDao;
 
@@ -9,6 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for TrainStation class, for extraction TrainStation item from db result set.
+ * Fills only id-field for related Train, Station values.
+ */
 public class TrainStationMapper implements Mapper<TrainStation> {
 
     private TrainStationDao trainStationDao;

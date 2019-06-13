@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Singleton class for keeping and managing connections to db
+ * between all DAO, requesting connection in the app
+ */
 public class ConnectionPool {
 
     private static Logger LOG = Logger.getLogger(ConnectionPool.class);

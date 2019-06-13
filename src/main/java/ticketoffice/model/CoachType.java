@@ -4,6 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity for keeping Coach Type information, contains:
+ * name -   name of coach type for displaying on web page,
+ * places   -   common number of places in coach type
+ * markup   -   markup (in %) for a ticket in this coach type
+ */
 @Getter
 @Setter
 @ToString

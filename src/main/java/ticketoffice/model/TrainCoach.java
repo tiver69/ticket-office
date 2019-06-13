@@ -4,6 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity for keeping information about unique Coach in each train, contains:
+ * train -   Train item of train related to coach,
+ * coachType   -   CoachType item specifying type of coach,
+ * number   -   int value specifying numbering coaches in train.
+ */
 @Getter
 @Setter
 @ToString
@@ -28,11 +34,11 @@ public class TrainCoach {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof TrainCoach)) return false;
-        TrainCoach otherTrainCoach = (TrainCoach)obj;
+        TrainCoach otherTrainCoach = (TrainCoach) obj;
         return id == otherTrainCoach.getId()
                 && train.equals(otherTrainCoach.getTrain())
                 && coachType.equals(otherTrainCoach.getCoachType())
-                && (number==otherTrainCoach.getNumber());
+                && (number == otherTrainCoach.getNumber());
     }
 
     @Override

@@ -11,6 +11,11 @@ import ticketoffice.validator.DateValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get all tickets values from request, create and validate single ticket value
+ * and set result to request attribute "ticket".
+ * Forward to user/booking/ticket if there was no errors.
+ */
 public class TicketDetailsCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(TicketDetailsCommand.class);

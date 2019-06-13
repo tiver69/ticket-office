@@ -10,6 +10,11 @@ import ticketoffice.validator.PassengerValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get all Passengers attributes from request, check if they are valid, send update request to db.
+ * Redirects to /admin/users page to load new settings.
+ * Forward to error page if validation fails.
+ */
 public class UpdatePassengerCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(PromoteToAdminCommand.class);

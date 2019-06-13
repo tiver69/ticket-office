@@ -7,6 +7,10 @@ import ticketoffice.dto.coach.CoachTypePlacesInfoDto;
 
 import java.util.List;
 
+/**
+ * Child entity for keeping additional information (for /user/booking page)
+ * about amount of places in each coach type
+ */
 @Getter
 @Setter
 @NoArgsConstructor

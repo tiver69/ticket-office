@@ -8,6 +8,11 @@ import ticketoffice.model.Passenger;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Entity for keeping passenger information (for /admin/userlist page) and statistic:
+ *  total amount of tickets for current passenger,
+ *  date of latest ticket.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

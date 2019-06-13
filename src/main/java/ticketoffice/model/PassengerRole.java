@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 import ticketoffice.model.enums.Role;
 
+/**
+ * Entity for keeping PassengerRole information, contains Passenger variable and Role item
+ */
 @Getter
 @Setter
 @ToString
@@ -26,9 +29,9 @@ public class PassengerRole {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof PassengerRole)) return false;
-        PassengerRole otherPassengerRole = (PassengerRole)obj;
+        PassengerRole otherPassengerRole = (PassengerRole) obj;
         return id == otherPassengerRole.getId()
-                && passenger.getId() == otherPassengerRole.getPassenger ().getId()
+                && passenger.getId() == otherPassengerRole.getPassenger().getId()
                 && role == otherPassengerRole.role;
     }
 

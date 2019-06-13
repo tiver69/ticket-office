@@ -6,6 +6,7 @@ import ticketoffice.model.Passenger;
 import ticketoffice.model.Station;
 import ticketoffice.model.Ticket;
 import ticketoffice.model.TrainCoach;
+import ticketoffice.model.builders.TicketBuilder;
 import ticketoffice.persistence.dao.interfaces.AbstractDao;
 import ticketoffice.persistence.dao.interfaces.TicketDao;
 
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Mapper for Ticket class, for extraction Ticket item from db result set.
+ * Fills only id-field for related Passenger, Station, TrainCoach value.
+ */
 public class TicketMapper implements Mapper<Ticket> {
 
     private static Logger LOG = Logger.getLogger(TicketMapper.class);
@@ -35,19 +40,21 @@ public class TicketMapper implements Mapper<Ticket> {
         Station destinationStation = new Station();
         TrainCoach trainCoach = new TrainCoach();
         if (resultSet.first()) {
-            ticket = new Ticket();
-            ticket.setId(resultSet.getInt("id"));
             passenger.setId(resultSet.getInt("passenger_id"));
-            ticket.setPassenger(passenger);
             departureStation.setId(resultSet.getInt("departure_station_id"));
-            ticket.setDepartureStation(departureStation);
             destinationStation.setId(resultSet.getInt("destination_station_id"));
-            ticket.setDestinationStation(destinationStation);
-            ticket.setDate(new Date(resultSet.getDate("departure_date").getTime() - HOUR_DIFFERENCE));
             trainCoach.setId(resultSet.getInt("coach_id"));
-            ticket.setTrainCoach(trainCoach);
-            ticket.setPlace(resultSet.getInt("place"));
-            ticket.setPrice(resultSet.getInt("price"));
+
+            TicketBuilder ticketBuilder = new TicketBuilder();
+            ticketBuilder.setId(resultSet.getInt("id"))
+                    .setPassenger(passenger)
+                    .setDepartureStation(departureStation)
+                    .setDestinationStation(destinationStation)
+                    .setDate(new Date(resultSet.getDate("departure_date").getTime() - HOUR_DIFFERENCE))
+                    .setTrainCoach(trainCoach)
+                    .setPlace(resultSet.getInt("place"))
+                    .setPrice(resultSet.getInt("price"));
+            ticket = ticketBuilder.build();
         }
         return Optional.ofNullable(ticket);
     }
@@ -63,8 +70,6 @@ public class TicketMapper implements Mapper<Ticket> {
     }
 
     public Ticket extractItemFromRequest(HttpServletRequest request) {
-        Ticket ticket = new Ticket();
-
         UserDto user = (UserDto) request.getSession().getAttribute("user");
         int departureStationId = Integer.parseInt(request.getParameter("departureStationHidden"));
         int destinationStationId = Integer.parseInt(request.getParameter("destinationStationHidden"));
@@ -73,18 +78,20 @@ public class TicketMapper implements Mapper<Ticket> {
         Date date = Date.valueOf(request.getParameter("departureDateHidden"));
 
         Station departureStation = new Station();
-        Station destinationStation = new Station();
-        TrainCoach trainCoach = new TrainCoach();
-
-        ticket.setPassenger(user.getPassenger());
         departureStation.setId(departureStationId);
-        ticket.setDepartureStation(departureStation);
+        Station destinationStation = new Station();
         destinationStation.setId(destinationStationId);
-        ticket.setDestinationStation(destinationStation);
-        ticket.setDate(date);
+        TrainCoach trainCoach = new TrainCoach();
         trainCoach.setId(selectedCoachId);
-        ticket.setTrainCoach(trainCoach);
-        ticket.setPlace(selectedPlace);
+
+        TicketBuilder ticketBuilder = new TicketBuilder();
+        ticketBuilder.setPassenger(user.getPassenger())
+                .setDepartureStation(departureStation)
+                .setDestinationStation(destinationStation)
+                .setDate(date)
+                .setTrainCoach(trainCoach)
+                .setPlace(selectedPlace);
+        Ticket ticket = ticketBuilder.build();
 
         LOG.debug(String.format("Detail information request for ticket #%s train, #%s coach(id=%d), #%d place",
                 request.getParameter("selectedTrainId"),

@@ -7,6 +7,10 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Filter for uri /updatePassenger, reloading information in current session if
+ * current user information was updated.
+ */
 public class UpdatePassengerFilter implements Filter {
 
     private static Logger LOG = Logger.getLogger(UpdatePassengerFilter.class);

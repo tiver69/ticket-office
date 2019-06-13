@@ -9,6 +9,12 @@ import ticketoffice.validator.PassengerValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Get all Passengers attributes from request, check if they are valid, send create request to db.
+ * Redirects to /login if there was no errors.
+ * Redirects to /registration page if something went wrong.
+ * Forward to error page if validation fails.
+ */
 public class SignUpCommand implements Command {
 
     private static Logger LOG = Logger.getLogger(SignUpCommand.class);

@@ -9,11 +9,21 @@ import ticketoffice.service.utils.TimeDateUtil;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+/**
+ * Service class for creating TicketInfoDto objects
+ */
 public class TicketInfoFacade {
 
     private static Logger LOG = Logger.getLogger(TicketInfoFacade.class);
     private TrainStationService trainStationService = new TrainStationService();
 
+    /**
+     * Load requested ticket information form bd, counts full date-time
+     * values of arrival&departure
+     *
+     * @param ticket -   ticket item from request, filled with basic info (id-fields).
+     * @return TicketInfoDto value
+     */
     public TicketInfoDto loadTicketInfo(Ticket ticket) {
         int trainId = ticket.getTrainCoach().getTrain().getId();
         Time depatrureTime = trainStationService.getTrainStation(

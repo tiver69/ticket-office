@@ -61,7 +61,7 @@ public class StationDaoImpl extends AbstractDaoImpl<Station> implements StationD
     public boolean update(Station station) {
         return update(UPDATE, statement -> {
             statement.setString(1, station.getName());
-            statement.setInt(7, station.getId());
+            statement.setInt(2, station.getId());
         });
     }
 

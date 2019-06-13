@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity for keeping Train information, contains:
+ * frequency   -   int value indicates day-break between each train
+ * markup   -   markup (in %) for a ticket in this train
+ */
 @Getter
 @Setter
 @ToString
@@ -25,7 +30,7 @@ public class Train {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Train)) return false;
-        Train otherTrain = (Train)obj;
+        Train otherTrain = (Train) obj;
         return id == otherTrain.getId()
                 && (frequency == otherTrain.getFrequency())
                 && (markup == otherTrain.getMarkup());

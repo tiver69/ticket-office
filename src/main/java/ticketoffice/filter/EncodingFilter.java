@@ -4,6 +4,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter for all app pages, setting character encoding and content types to response.
+ */
 public class EncodingFilter implements Filter {
 
     private static final String ENCODING_TYPE = "encoding_type";
