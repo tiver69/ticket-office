@@ -59,7 +59,7 @@ CREATE TABLE `passenger_roles` (
   UNIQUE KEY `idpassenger_roles_UNIQUE` (`id`),
   KEY `fk_passenger_roles_passengers1_idx` (`passenger_id`),
   CONSTRAINT `fk_passenger_roles_passengers1` FOREIGN KEY (`passenger_id`) REFERENCES `passengers` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1708 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1710 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `passenger_roles` (
 
 LOCK TABLES `passenger_roles` WRITE;
 /*!40000 ALTER TABLE `passenger_roles` DISABLE KEYS */;
-INSERT INTO `passenger_roles` VALUES (1,1,'USER'),(2,2,'USER'),(3,4,'USER'),(4,1,'ADMIN'),(31,31,'USER'),(32,2,'ADMIN'),(1705,1704,'USER'),(1706,1705,'USER'),(1707,1705,'ADMIN');
+INSERT INTO `passenger_roles` VALUES (1,1,'USER'),(2,2,'USER'),(3,4,'USER'),(4,1,'ADMIN'),(32,2,'ADMIN'),(1706,1705,'USER'),(1707,1705,'ADMIN'),(1709,1707,'USER');
 /*!40000 ALTER TABLE `passenger_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +87,7 @@ CREATE TABLE `passengers` (
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1708 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `passengers` (
 
 LOCK TABLES `passengers` WRITE;
 /*!40000 ALTER TABLE `passengers` DISABLE KEYS */;
-INSERT INTO `passengers` VALUES (1,'Кибко','Александра','tiver69','6c2a5c9ead1d7d6ba86c8764d5cad395'),(2,'Savina','Evgenia','shipper1232','6c2a5c9ead1d7d6ba86c8764d5cad395'),(4,'Protasov','Vladislav','protasov1','0102812fbd5f73aa18aa0bae2cd8f79f'),(31,'Костяев','Анатолий','artmole','b9974191c2e2806abb0ed0fe229ca0f6'),(1704,'Васильченко','Светлана','wasvet','60d589174ca2b89351a41d90a8c9c2cf'),(1705,'Онищенко','Елизавета','lemonycap','0102812fbd5f73aa18aa0bae2cd8f79f');
+INSERT INTO `passengers` VALUES (1,'Кибко','Александра','tiver69','6c2a5c9ead1d7d6ba86c8764d5cad395'),(2,'Savina','Evgenia','shipper1232','6c2a5c9ead1d7d6ba86c8764d5cad395'),(4,'Protasov','Vladislav','protasov1','0102812fbd5f73aa18aa0bae2cd8f79f'),(1705,'Онищенко','Елизавета','lemonycap','0102812fbd5f73aa18aa0bae2cd8f79f'),(1707,'Test','Test','test11','0102812fbd5f73aa18aa0bae2cd8f79f');
 /*!40000 ALTER TABLE `passengers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,11 +146,11 @@ CREATE TABLE `tickets` (
   KEY `fk_tickets_stations2_idx` (`destination_station_id`),
   KEY `fk_tickets_passangers1_idx` (`passenger_id`),
   KEY `fk_tickets_trains_has_coaches1_idx` (`coach_id`),
-  CONSTRAINT `fk_tickets_passangers1` FOREIGN KEY (`passenger_id`) REFERENCES `passengers` (`id`),
+  CONSTRAINT `fk_tickets_passangers1` FOREIGN KEY (`passenger_id`) REFERENCES `passengers` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_tickets_stations1` FOREIGN KEY (`departure_station_id`) REFERENCES `stations` (`id`),
   CONSTRAINT `fk_tickets_stations2` FOREIGN KEY (`destination_station_id`) REFERENCES `stations` (`id`),
   CONSTRAINT `fk_tickets_trains_has_coaches1` FOREIGN KEY (`coach_id`) REFERENCES `train_coaches` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1711 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1717 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-INSERT INTO `tickets` VALUES (4,1,2,1,'2019-05-31',20,17,472),(5,2,2,1,'2019-05-31',20,18,472),(6,1,2,3,'2019-05-31',20,19,67),(18,4,10,12,'2019-06-20',35,33,140),(24,1,1,3,'2019-05-15',45,4,164),(25,1,2,12,'2019-06-06',35,10,280),(26,1,2,1,'2019-06-12',20,16,472),(27,1,1,2,'2019-06-12',45,18,220),(28,1,1,2,'2019-06-12',45,20,220),(30,1,2,1,'2019-06-12',20,19,472),(31,1,2,8,'2019-06-12',20,9,405),(32,1,2,12,'2019-06-13',28,15,260),(33,1,13,2,'2019-06-19',48,25,115),(1704,1,2,1,'2019-06-11',38,13,210),(1705,1,2,1,'2019-06-11',38,9,210),(1706,1704,1,17,'2019-07-07',65,77,57),(1707,1704,12,1,'2019-07-23',66,69,115),(1708,1705,2,1,'2019-06-30',42,27,220),(1709,1705,1,2,'2019-08-31',50,24,220),(1710,1705,2,12,'2019-06-12',32,67,230);
+INSERT INTO `tickets` VALUES (4,1,2,1,'2019-05-31',20,17,472),(5,2,2,1,'2019-05-31',20,18,472),(6,1,2,3,'2019-05-31',20,19,67),(18,4,10,12,'2019-06-20',35,33,140),(24,1,1,3,'2019-05-15',45,4,164),(25,1,2,12,'2019-06-06',35,10,280),(26,1,2,1,'2019-06-12',20,16,472),(27,1,1,2,'2019-06-12',45,18,220),(28,1,1,2,'2019-06-12',45,20,220),(30,1,2,1,'2019-06-12',20,19,472),(31,1,2,8,'2019-06-12',20,9,405),(32,1,2,12,'2019-06-13',28,15,260),(33,1,13,2,'2019-06-19',48,25,115),(1704,1,2,1,'2019-06-11',38,13,210),(1705,1,2,1,'2019-06-11',38,9,210),(1708,1705,2,1,'2019-06-30',42,27,220),(1709,1705,1,2,'2019-08-31',50,24,220),(1710,1705,2,12,'2019-06-12',32,67,230),(1711,1,2,1,'2019-06-15',20,21,437),(1712,1,2,1,'2019-06-15',20,7,437),(1713,1,1,17,'2019-07-07',67,8,57),(1714,1,1,16,'2019-06-30',67,9,28),(1715,1,12,1,'2019-06-26',67,3,115),(1716,1707,2,1,'2019-06-14',37,12,210);
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-12 14:14:37
+-- Dump completed on 2019-06-14 13:58:33
